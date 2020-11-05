@@ -56,7 +56,7 @@ class LineBotController extends Controller
     {
         // JSON形式への変換
         $json =  json_encode($object, JSON_UNESCAPED_UNICODE);
-
+        error_log(json_encode($object, JSON_UNESCAPED_UNICODE));
         //curl実行
         $ch = curl_init("https://api.line.me/v2/bot/message/reply");
         curl_setopt($ch, CURLOPT_POST, true);
