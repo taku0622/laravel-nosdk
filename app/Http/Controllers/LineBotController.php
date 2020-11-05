@@ -65,7 +65,7 @@ class LineBotController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json; charser=UTF-8',
-            'Authorization: Bearer ' . getenv('CHANNEL_ACCESS_TOKEN')
+            'Authorization: Bearer ' . getenv('LINE_ACCESS_TOKEN')
         ));
         $result = curl_exec($ch);
         curl_close($ch);
