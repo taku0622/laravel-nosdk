@@ -20,11 +20,11 @@ class LineBotController extends Controller
             $events = json_decode($input)->events;
             foreach ($events as $event) {
                 // error_log(json_encode($event, JSON_UNESCAPED_UNICODE));
-                bot($event);
+                $this->bot($event);
             }
         }
     }
-    function bot($event)
+    public function bot($event)
     {
         // ユーザー入力を取得
         $text = $event->message->text;
