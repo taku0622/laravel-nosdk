@@ -30,41 +30,44 @@ class LineBotController extends Controller
         $text = $event->message->text;
         $userId = $event->source->userId;
         $replytoken = $event->replyToken;
-        reply($userId, $replytoken, $text);
+        error_log("text :" . $text);
+        error_log("userid :" . $userId);
+        error_log("replytoken :" . $replytoken);
+        // reply($userId, $replytoken, $text);
     }
-    function reply($userId, $replytoken, $text)
-    {
-        $messages =
-            [
-                "type" => "text",
-                "text" =>  $text . "だニャン🐾"
-            ];
-        $object = [
-            'replyToken' => $replytoken,
-            'messages' => [
-                $messages
-            ]
-        ];
-        post($object);
-    }
+    // function reply($userId, $replytoken, $text)
+    // {
+    //     $messages =
+    //         [
+    //             "type" => "text",
+    //             "text" =>  $text . "だニャン🐾"
+    //         ];
+    //     $object = [
+    //         'replyToken' => $replytoken,
+    //         'messages' => [
+    //             $messages
+    //         ]
+    //     ];
+    //     post($object);
+    // }
 
-    // LINEサーバへ送信実行関数
-    function post($object)
-    {
-        // JSON形式への変換
-        $json =  json_encode($object, JSON_UNESCAPED_UNICODE);
+    // // LINEサーバへ送信実行関数
+    // function post($object)
+    // {
+    //     // JSON形式への変換
+    //     $json =  json_encode($object, JSON_UNESCAPED_UNICODE);
 
-        //curl実行
-        $ch = curl_init("https://api.line.me/v2/bot/message/reply");
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json; charser=UTF-8',
-            'Authorization: Bearer ' . getenv('CHANNEL_ACCESS_TOKEN')
-        ));
-        $result = curl_exec($ch);
-        curl_close($ch);
-    }
+    //     //curl実行
+    //     $ch = curl_init("https://api.line.me/v2/bot/message/reply");
+    //     curl_setopt($ch, CURLOPT_POST, true);
+    //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //         'Content-Type: application/json; charser=UTF-8',
+    //         'Authorization: Bearer ' . getenv('CHANNEL_ACCESS_TOKEN')
+    //     ));
+    //     $result = curl_exec($ch);
+    //     curl_close($ch);
+    // }
 }
