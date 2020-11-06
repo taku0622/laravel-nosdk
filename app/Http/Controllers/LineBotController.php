@@ -19,7 +19,7 @@ class LineBotController extends Controller
         echo json_encode($input, JSON_UNESCAPED_UNICODE);
     }
 
-    public function response(Request $request)
+    public function parrot(Request $request)
     {
         error_log("hello...");
 
