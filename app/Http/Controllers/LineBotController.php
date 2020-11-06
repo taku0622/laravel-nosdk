@@ -10,6 +10,13 @@ class LineBotController extends Controller
     {
         return view('linebot.index');
     }
+    public function show(Request $request)
+    {
+        error_log("hello...from /push");
+        $input = file_get_contents('php://input');
+        error_log($input);
+        error_log(json_encode($input, JSON_UNESCAPED_UNICODE));
+    }
 
     public function response(Request $request)
     {
