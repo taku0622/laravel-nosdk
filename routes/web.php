@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LineBotController;
+use App\Http\Controllers\ResponseController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +22,5 @@ Route::get('/', function () {
 });
 
 Route::get('/hello', [LineBotController::class, 'index']);
+Route::get('/res', [ResponseController::class, 'index']);
 // Route::get('/hello', 'LineBotController@index');
