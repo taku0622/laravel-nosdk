@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LineBotController;
 use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\ResponseController;
+
 
 
 /*
@@ -17,9 +19,11 @@ use App\Http\Controllers\ResponseController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [ResponseController::class, 'response']);
+Route::post('/', [ResponseController::class, 'response']);
 
 Route::get('/hello', [LineBotController::class, 'index']);
 Route::get('/res', [ResponseController::class, 'index']);
