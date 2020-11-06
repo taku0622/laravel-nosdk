@@ -17,7 +17,7 @@ use App\Http\Controllers\ResponseController;
 |
 */
 
-Route::post('/', [ResponseController::class, 'response']);
+Route::post('/api', [ResponseController::class, 'response']);
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
