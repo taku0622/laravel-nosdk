@@ -21,8 +21,8 @@ use App\Http\Controllers\ResponseController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/api', [ResponseController::class, 'response']);
-Route::post('/api', [ResponseController::class, 'response']);
+Route::get('/', [ResponseController::class, 'response']);
+Route::post('/', [ResponseController::class, 'response']);
 Route::get('/hello', [LineBotController::class, 'index']);
 Route::get('/res', [ResponseController::class, 'index']);
 // Route::get('/hello', 'LineBotController@index');
