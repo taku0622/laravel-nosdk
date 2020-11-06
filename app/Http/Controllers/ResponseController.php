@@ -10,7 +10,7 @@ class ResponseController extends Controller
     {
         return view('index');
     }
-    public function response()
+    public function response(Request $request)
     {
         error_log("hello......");
         $input = file_get_contents('php://input');
