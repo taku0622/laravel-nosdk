@@ -12,6 +12,7 @@ class ResponseController extends Controller
     }
     public function response()
     {
+        error_log("hello......");
         $input = file_get_contents('php://input');
         error_log($input);
         $event = json_decode($input, true);
