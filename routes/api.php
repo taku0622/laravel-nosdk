@@ -20,9 +20,8 @@ use App\Http\Controllers\ResponseController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/', [ResponseController::class, 'response']);
-
 
 Route::post('/parrot', [LineBotController::class, 'parrot']);
 Route::post('/push', [LineBotController::class, 'show']);
+Route::post('/api', [ResponseController::class, 'response']);
 // Route::post('/parrot', 'LineBotController@parrot');
