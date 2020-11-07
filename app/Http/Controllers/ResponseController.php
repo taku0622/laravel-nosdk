@@ -16,9 +16,5 @@ class ResponseController extends Controller
         error_log('1' . gettype($request));
         error_log('2' . json_encode($request, JSON_UNESCAPED_UNICODE));
         error_log('3' . $request->getContent());
-        // $input = file_get_contents('php://input');
-        // error_log($input);
-        // $event = json_decode($input, true);
-        // echo json_encode($event, JSON_UNESCAPED_UNICODE);
     }
 }
