@@ -24,7 +24,6 @@ class LineBotController extends Controller
         error_log("hello...");
 
         $input = $request->getContent();
-        // $input = file_get_contents('php://input');
         if (!empty($input)) {
             $events = json_decode($input)->events;
             foreach ($events as $event) {
