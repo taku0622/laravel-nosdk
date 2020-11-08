@@ -6,10 +6,6 @@ use Illuminate\Http\Request;
 
 class ResponseController extends Controller
 {
-    public function index()
-    {
-        return view('index');
-    }
     public function response(Request $request)
     {
         error_log("hello......");
