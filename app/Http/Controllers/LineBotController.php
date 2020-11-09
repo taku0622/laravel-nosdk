@@ -36,6 +36,7 @@ class LineBotController extends Controller
     {
         $watson = new Watson();
         $Response = $watson->watson($userId, $text);
+        error_log($Response);
         $messages =
             [
                 "type" => "text",
