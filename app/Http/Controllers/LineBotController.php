@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Services\Watson;
+
 class LineBotController extends Controller
 {
     public function parrot(Request $request)
@@ -32,10 +34,12 @@ class LineBotController extends Controller
     }
     function reply($userId, $replytoken, $text)
     {
+        $watson = new Watson();
+        $Response = $watson->watson($userId, $text);
         $messages =
             [
                 "type" => "text",
-                "text" =>  $text . "だニャン🐾"
+                "text" =>  $Response
             ];
         $object = [
             'replyToken' => $replytoken,
