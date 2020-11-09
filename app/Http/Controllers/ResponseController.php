@@ -10,12 +10,14 @@ class ResponseController extends Controller
 {
     public function response(Request $request)
     {
-        error_log("hello......");
-        // error_log('1' . gettype($request));
-        // error_log('2' . json_encode($request, JSON_UNESCAPED_UNICODE));
-        error_log('3' . $request->getContent());
-        $events = $request->getContent();
-        error_log('4' . $events[0]);
-        // error_log('3' . $request->getContent());
+        $events = json_decode($request->getContent(), true);
+        foreach ($events as $event) {
+            error_log("################################## event is ##################################");
+            error_log(json_encode($event, JSON_UNESCAPED_UNICODE));
+            $usersId = $event["to"];
+            $type = $event["type"];
+            $text = $event["text"];
+            error_log("usersId: " . $usersId . "  type: " . $type . "  text: " . $text);
+        }
     }
 }
