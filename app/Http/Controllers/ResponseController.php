@@ -14,10 +14,10 @@ class ResponseController extends Controller
         foreach ($events as $event) {
             error_log("################################## event is ##################################");
             error_log(json_encode($event, JSON_UNESCAPED_UNICODE));
-            $usersId = $event["to"];
+            $usersId = $event["to"]; // array
             $type = $event["type"];
             $text = $event["text"];
-            error_log("usersId: " . $usersId . "  type: " . $type . "  text: " . $text);
+            error_log("usersId: " . implode(",", $usersId) . "  type: " . $type . "  text: " . $text);
         }
     }
 }
