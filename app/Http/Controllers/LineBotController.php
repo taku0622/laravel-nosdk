@@ -62,7 +62,7 @@ class LineBotController extends Controller
             'Content-Type: application/json; charser=UTF-8',
             'Authorization: Bearer ' . getenv('LINE_ACCESS_TOKEN')
         ));
-        curl_exec($ch);
+        $result = curl_exec($ch);
         curl_close($ch);
     }
 }
