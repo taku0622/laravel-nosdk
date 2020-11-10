@@ -46,7 +46,7 @@ class ResponseController extends Controller
                         "to" => [$userId],
                         "type" => "text",
                         "text" => $Response,
-                        "quickReply" => array("a", "i")
+                        "quickReply" => ["a", "i"]
                     ];
                     break;
             }
