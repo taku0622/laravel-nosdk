@@ -45,7 +45,6 @@ class ResponseController extends Controller
                     $message = [
                         "to" => [$userId],
                         "type" => "text",
-                        "altText" =>  $text,
                         "text" => $Response
                     ];
                     break;
