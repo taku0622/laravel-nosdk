@@ -31,16 +31,23 @@ class ResponseController extends Controller
                     $message = $this->newInfo($userId, $text);
                     break;
                 case "重要情報":
-                    $message = importantInfo($userId, $text);
+                    $message = $this->importantInfo($userId, $text);
                     break;
                 case "休講案内":
-                    $message = cancelInfo($userId, $text);
+                    $message = $this->cancelInfo($userId, $text);
                     break;
                 case "イベント":
-                    $message = eventInfo($userId, $text);
+                    $message = $this->eventInfo($userId, $text);
                     break;
                 default:
-                    $message = watson($userId, $text);
+                    $watson = new Watson();
+                    $Response = $watson->watson($userId, $text);
+                    $message = [
+                        "to" => [$userId],
+                        "type" => "text",
+                        "altText" =>  $text,
+                        "text" => $Response
+                    ];
                     break;
             }
             error_log(json_encode($message, JSON_UNESCAPED_UNICODE));
@@ -79,6 +86,111 @@ class ResponseController extends Controller
                 'title' => '【図書館】図書館アルバイトを募集します！＜八王子キャンパス＞',
                 'content' => 'お申し込みを お待ちしています。',
                 'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/12658/',
+                'label' => '詳細'
+            ]
+        ];
+        $message = [
+            "to" => [$userId],
+            "type" => "multiple",
+            "altText" =>  $text,
+            "contents" => $contents
+        ];
+        return $message;
+    }
+
+    public function importantInfo($userId, $text): array
+    {
+        $contents = [
+            [
+                'title' => '【2020年度後期　履修に関する掲示一覧(八王子キャンパス)',
+                'content' => '履修に関する掲示一覧(八王子キャンパス)',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/2018/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '2020年度後期 遠隔システム（Zoom）による相談受け付けについて',
+                'content' => '前期に引き続き後期も遠隔システム（Zoom）で相談を受け付けます。',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/93230/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '【八王子みなみ野駅】行きスクールバス発着所',
+                'content' => '【八王子みなみ野駅】行きスクールバス発着所を一時変更いたしますので、ご確認ください。',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/95242/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => 'オンライン大学祭の開催について',
+                'content' => '今年度は新型コロナウイルスの影響',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/95052/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '【追加募集】令和2年度日本学生支援',
+                'content' => '日本学生支援機構から給付型奨学金及び第二種奨学金',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/95044/',
+                'label' => '詳細'
+            ]
+        ];
+        $message = [
+            "to" => [$userId],
+            "type" => "multiple",
+            "altText" =>  $text,
+            "contents" => $contents
+        ];
+        return $message;
+    }
+
+    public function cancelInfo($userId, $text): array
+    {
+        $contents = [
+            [
+                'title' => '2020年10月22日 3時限　並列・分散処理',
+                'content' => 'コンピュータサイエンス学部',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '2020年10月27日 1,2,3時限　スポーツ実技Ⅳ',
+                'content' => 'コンディショニングエクササイズ　工学部(学科共通), メディア学部, コンピュータサイエンス学部, 応用生物学部',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '2020年11月06日 1時限　知的財産権',
+                'content' => '工学部(学科共通)',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+                'label' => '詳細'
+            ]
+        ];
+        $message = [
+            "to" => [$userId],
+            "type" => "multiple",
+            "altText" =>  $text,
+            "contents" => $contents
+        ];
+        return $message;
+    }
+
+    public function eventInfo($userId, $text): array
+    {
+        $contents = [
+            [
+                'title' => '『学内ミニ合同企業説明会』の開催について',
+                'content' => '【対象:2020年3月卒業･修了予定者】',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/76553/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => 'クリエイティブ業界学内合同企業セミナーのお知らせ',
+                'content' => '学内合同企業セミナーを実施します',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/35103/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '大林組グループ会社説明会』の開催について',
+                'content' => '対象:学部3年生および大学院修士1年生／学部不問】',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/53517/',
                 'label' => '詳細'
             ]
         ];
