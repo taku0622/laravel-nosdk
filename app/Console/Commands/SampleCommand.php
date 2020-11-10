@@ -11,7 +11,7 @@ class SampleCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:sample';
 
     /**
      * The console command description.
@@ -90,7 +90,7 @@ class SampleCommand extends Command
         );
         $context = stream_context_create($options);
         $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
-        // echo gettype($response);
+        echo gettype($response);
         echo $response;
 
         // return 0;
