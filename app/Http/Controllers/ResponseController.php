@@ -48,7 +48,7 @@ class ResponseController extends Controller
         }
     }
 
-    public function new_info($userId, $text): array
+    public function newInfo($userId, $text): array
     {
         $contents = [
             [
