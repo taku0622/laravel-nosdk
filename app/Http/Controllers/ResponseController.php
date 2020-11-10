@@ -50,6 +50,7 @@ class ResponseController extends Controller
                     break;
             }
             error_log(json_encode($message, JSON_UNESCAPED_UNICODE));
+            error_log(gettype(json_encode($message, JSON_UNESCAPED_UNICODE)));
             return json_encode($message, JSON_UNESCAPED_UNICODE);
         }
     }
