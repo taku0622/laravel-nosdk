@@ -47,7 +47,7 @@ class ResponseController extends Controller
                         "type" => "text",
                         "text" => $Response,
                         "quickReply" => [
-                            "texts" => ["履修登録", "証明書"]
+                            "texts" => []
                         ]
                     ];
                     break;
