@@ -52,11 +52,12 @@ class Watson
     // quickReplyにするか決める
     if (count($outputArray) > 2) { //要素が2個以上の時クイックリプライとする
       $quickReply = array_slice($outputArray, 1);
+      $replyArray = [$outputArray[0], $quickReply];
     } else {
       $quickReply = NULL;
+      $replyArray = [$outputText, $quickReply];
     }
-    $replyArray = [$outputArray[0], $quickReply];
-    error_log(json_encode($replyArray, JSON_UNESCAPED_UNICODE));
+    // error_log(json_encode($replyArray, JSON_UNESCAPED_UNICODE));
     return $replyArray;
   }
   // データベースから会話データを取得
