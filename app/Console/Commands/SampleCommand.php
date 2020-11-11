@@ -91,7 +91,7 @@ class SampleCommand extends Command
         error_log(json_encode($data, JSON_UNESCAPED_UNICODE));
 
         $context = stream_context_create($options);
-        $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
+        $response = file_get_contents('https://tut-php-api.herokuapp.com/api/v1/messages/reply', false, $context);
         echo gettype($response);
         echo $response;
 
