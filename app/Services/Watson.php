@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class Watson
 {
-  public function watson($userId, $text)
+  public function watson($userId, $text): array
   {
     $data = array('input' => array("text" => $text));
     // 前回までの会話のデータがデータベースに保存されていれば
@@ -47,9 +47,17 @@ class Watson
 
     // Conversationからの返答を取得
     $outputText = $json['output']['text'][count($json['output']['text']) - 1];
-    $outputText2 = explode('\n', $outputText);
-    error_log("output" . json_encode($outputText2, JSON_UNESCAPED_UNICODE));
-    return $outputText;
+    // 返答の文字列を配列に
+    $outputArray = explode("\n", $outputText);
+    // quickReplyにするか決める
+    if (count($outputArray) > 2) { //要素が2個以上の時クイックリプライとする
+      $quickReply = array_slice($outputArray, 1);
+    } else {
+      $quickReply = NULL;
+    }
+    $replyArray = [$outputArray[0], $quickReply];
+    error_log(json_encode($replyArray, JSON_UNESCAPED_UNICODE));
+    return $replyArray;
   }
   // データベースから会話データを取得
   public function getLastConversationData($userId)
