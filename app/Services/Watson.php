@@ -47,8 +47,8 @@ class Watson
 
     // Conversationからの返答を取得
     $outputText = $json['output']['text'][count($json['output']['text']) - 1];
-    // $outputText2 = $json['output']['text2'][count($json['output']['text2']) - 1];
-    // error_log($outputText2);
+    $outputText2 = $json['output'];
+    error_log(json_encode($outputText2, JSON_UNESCAPED_UNICODE));
     return $outputText;
   }
   // データベースから会話データを取得
