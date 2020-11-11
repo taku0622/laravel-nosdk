@@ -19,4 +19,4 @@ Route::get('/', function () {
   return view('welcome');
 });
 # response接続 
-Route::post('/api/v1/messages/reply', [ResponseController::class, 'response']);
+// Route::post('/api/v1/messages/reply', [ResponseController::class, 'response']);
