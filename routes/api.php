@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/', [ResponseController::class, 'response']);
+// Route::post('/', [ResponseController::class, 'response']);
 // Route::get('/v1/settings/:id?type=js', [ResponseController::class, 'response']);
 
 Route::post('/parrot', [LineBotController::class, 'parrot']);
