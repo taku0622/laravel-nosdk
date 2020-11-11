@@ -207,7 +207,7 @@ class ResponseController extends Controller
         ];
         return $message;
     }
-    public function re(Request $request)
+    public function res(Request $request)
     {
         $events = json_decode($request->getContent(), true);
         foreach ($events as $event) {
