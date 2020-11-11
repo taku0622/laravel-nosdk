@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LineBotController;
+use App\Http\Controllers\ResponseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-// Route::post('/', [ResponseController::class, 'response']);
+Route::post('/', [ResponseController::class, 'response']);
 
 Route::post('/parrot', [LineBotController::class, 'parrot']);

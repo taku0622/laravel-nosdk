@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\ResponseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +18,4 @@ Route::get('/', function () {
   return view('welcome');
 });
 # response接続 
-Route::post('/api', [ResponseController::class, 'response']);
+// Route::post('/api', [ResponseController::class, 'response']);
