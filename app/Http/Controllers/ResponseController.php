@@ -255,7 +255,7 @@ class ResponseController extends Controller
             error_log(json_encode($message, JSON_UNESCAPED_UNICODE));
             error_log(gettype(json_encode($message, JSON_UNESCAPED_UNICODE)));
             return json_encode($message, JSON_UNESCAPED_UNICODE);
-        // return "ok";
-        // echo json_encode($message, JSON_UNESCAPED_UNICODE);
+            // echo json_encode($message, JSON_UNESCAPED_UNICODE);
+        }
     }
 }
