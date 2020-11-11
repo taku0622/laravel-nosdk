@@ -209,9 +209,6 @@ class ResponseController extends Controller
     }
     public function res(Request $request)
     {
-        error_log("################################## request is ##################################");
-        error_log($request->getContent());
-
         $events = json_decode($request->getContent(), true);
         foreach ($events as $event) {
             error_log("################################## event is ##################################");
