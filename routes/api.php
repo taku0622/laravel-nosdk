@@ -24,6 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // https://tut-php-api.herokuapp.com/api
 Route::post('/', [ResponseController::class, 'response']);
 // https://tut-php-api.herokuapp.com/api/v1/messages/reply
-// Route::post('/v1/messages/reply', [ResponseController::class, 'response']);
+Route::post('/v1/messages/reply', [ResponseController::class, 'res']);
 // Route::get('/v1/settings/:id?type=js', [ResponseController::class, 'response']);
 Route::post('/parrot', [LineBotController::class, 'parrot']);

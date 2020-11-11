@@ -207,4 +207,55 @@ class ResponseController extends Controller
         ];
         return $message;
     }
+    public function res(Request $request)
+    {
+        $events = json_decode($request->getContent(), true);
+        foreach ($events as $event) {
+            error_log("################################## event is ##################################");
+            error_log(json_encode($event, JSON_UNESCAPED_UNICODE));
+            // $usersId = $event["to"]; // array
+            $userId = $event["to"][0]; // string
+            $type = $event["type"];
+            $text = $event["text"];
+            error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text);
+
+            // foreach ($usersId as $userId) {
+            //     error_log("################################## user is ##################################");
+            //     error_log("userId: " . implode(",", $userId) . "  type: " . $type . "  text: " . $text);
+            // }
+
+            // 送信のデータの作成
+            switch ($text) {
+                case "新着情報":
+                    $message = $this->newInfo($userId, $text);
+                    break;
+                case "重要情報":
+                    $message = $this->importantInfo($userId, $text);
+                    break;
+                case "休講案内":
+                    $message = $this->cancelInfo($userId, $text);
+                    break;
+                case "イベント":
+                    $message = $this->eventInfo($userId, $text);
+                    break;
+                default:
+                    $watson = new Watson();
+                    $Response = $watson->watson($userId, $text);
+                    $message = [
+                        "to" => [$userId],
+                        "type" => "text",
+                        "text" => $Response[0],
+                        "quickReply" => [
+                            "texts" => $Response[1]
+                        ]
+                    ];
+                    break;
+            }
+            $message = array($message);
+            error_log(json_encode($message, JSON_UNESCAPED_UNICODE));
+            error_log(gettype(json_encode($message, JSON_UNESCAPED_UNICODE)));
+            return json_encode($message, JSON_UNESCAPED_UNICODE);
+            // echo json_encode($message, JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
