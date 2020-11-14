@@ -21,6 +21,7 @@ class ResponseController extends Controller
             $text = $event["text"];
             if ($type == "follow") {
                 $message = $this->followEvent($userId);
+                error_log(json_encode($message, JSON_UNESCAPED_UNICODE));
                 return json_encode($message, JSON_UNESCAPED_UNICODE);
             }
             error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text);
