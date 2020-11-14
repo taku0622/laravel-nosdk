@@ -11,6 +11,7 @@ class ResponseController extends Controller
     public function response(Request $request)
     {
         $events = json_decode($request->getContent(), true);
+        error_log("request is" . $request->getContent());
         foreach ($events as $event) {
             error_log("################################## event is ##################################");
             error_log(json_encode($event, JSON_UNESCAPED_UNICODE));
