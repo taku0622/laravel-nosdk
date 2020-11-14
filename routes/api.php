@@ -29,6 +29,6 @@ Route::post('/v4/m/reply', [ResponseController::class, 'res']);
 // Route::get('/v1/settings/:id?type=js', [ResponseController::class, 'response']);
 Route::post('/parrot', [LineBotController::class, 'parrot']);
 
-// Route::post('v1/messages/reply', function () {
+// Route::get('/v1/settings/{id?}', function () {
 //     return 'PHP Framework Laravel Routing!!';
 // });

@@ -37,9 +37,8 @@ class SampleCommand extends Command
      */
     public function handle()
     {
-        $userId = [
-            "U6e0f4008a090ff5b5bef0323cae3428e"
-        ];
+        // php artisan command:sample
+        $userId = "U6e0f4008a090ff5b5bef0323cae3428e";
         $contents = [
             [
                 'title' => '【図書館】リクエストの結果報告＜八王子キャンパス＞',
