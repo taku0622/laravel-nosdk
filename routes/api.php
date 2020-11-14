@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LineBotController;
 use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::post('/v4/m/reply', [ResponseController::class, 'res']);
 // Route::get('/v1/settings/:id?type=js', [ResponseController::class, 'response']);
 Route::post('/parrot', [LineBotController::class, 'parrot']);
 
+
+Route::get('/v1/settings/{id?}', [SettingController::class, 'index']);
 // Route::get('/v1/settings/{id?}', function () {
 //     return 'PHP Framework Laravel Routing!!';
 // });
