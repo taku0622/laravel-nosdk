@@ -18,12 +18,13 @@ class ResponseController extends Controller
             // $usersId = $event["to"]; // array
             $userId = $event["to"][0]; // string
             $type = $event["type"];
-            $text = $event["text"];
             if ($type == "follow") {
                 $message = $this->followEvent($userId);
                 error_log("follow event:" . json_encode($message, JSON_UNESCAPED_UNICODE));
                 return json_encode($message, JSON_UNESCAPED_UNICODE);
             }
+            $text = $event["text"];
+
             error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text);
 
             // foreach ($usersId as $userId) {
