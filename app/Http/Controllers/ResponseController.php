@@ -11,7 +11,7 @@ class ResponseController extends Controller
     public function response(Request $request)
     {
         $events = json_decode($request->getContent(), true);
-        error_log("request is" . $request->getContent());
+        // error_log("request is" . $request->getContent());
         foreach ($events as $event) {
             error_log("################################## event is ##################################");
             error_log(json_encode($event, JSON_UNESCAPED_UNICODE));
@@ -19,6 +19,10 @@ class ResponseController extends Controller
             $userId = $event["to"][0]; // string
             $type = $event["type"];
             $text = $event["text"];
+            if ($type == "follow") {
+                $message = $this->followEvent($userId);
+                return json_encode($message, JSON_UNESCAPED_UNICODE);
+            }
             error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text);
 
             // foreach ($usersId as $userId) {
@@ -208,6 +212,21 @@ class ResponseController extends Controller
         ];
         return $message;
     }
+
+    public function followEvent($userId): array
+    {
+        $message = [
+            "to" => [$userId],
+            "type" => "text",
+            "text" => "こちらから設定してください\nhttps://tut-line-bot-test.glitch.me",
+            "quickReply" => [
+                "texts" => NULL
+            ]
+        ];
+        return array($message);
+    }
+
+    ###############################################################################
     public function res(Request $request)
     {
         $events = json_decode($request->getContent(), true);
