@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LineBotController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\DataBaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,15 @@ Route::post('/parrot', [LineBotController::class, 'parrot']);
 Route::get('/v1/settings/{id?}', [SettingController::class, 'index']);
 
 Route::post('/v1/settings/{id?}', [SettingController::class, 'update']);
+
+// 新着情報の送信：POST base/v1/infos/new
+Route::post('/v1/infos/new', [DataBaseController::class, 'updateNew']);
+// 休講情報の送信：POST base/v1/infos/lecture
+Route::post('/v1/infos/lecture', [DataBaseController::class, 'updateCancel']);
+// 参考書情報の送信：POST base/v1/infos/reference
+Route::post('/v1/infos/reference', [DataBaseController::class, 'updateReference']);
+
+
 
 // Route::get('/v1/settings/{id?}', function () {
 //     return 'PHP Framework Laravel Routing!!';

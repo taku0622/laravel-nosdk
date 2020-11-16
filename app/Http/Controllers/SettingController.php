@@ -10,6 +10,8 @@ class SettingController extends Controller
     {
         error_log("hello...");
         error_log("id: " . $id);
+        return "connected!!";
+        // return "connected user is :" . $id . PHP_EOL;
     }
 
     public function update(Request $request)
@@ -18,5 +20,15 @@ class SettingController extends Controller
         error_log($request->getContent());
         $input = $request->getContent();
         error_log("input: " . $input);
+        return "connected!!";
+        // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
+    }
+
+    public function index2($id)
+    {
+        error_log("hello...");
+        error_log("id: " . $id);
+        return view('index2');
+        // return "connected user is :" . $id . PHP_EOL;
     }
 }
