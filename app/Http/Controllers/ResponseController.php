@@ -222,10 +222,10 @@ class ResponseController extends Controller
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log(json_encode($student));
         error_log($student->user_id);
-        // error_log(json_encode($student));
-        // error_log(json_encode($student));
-        $stuDecode = json_decode($student, true);
-        error_log(gettype($stuDecode));
+        error_log(is_null($student->user_id));
+        error_log(isset($student->user_id));
+        error_log(empty($student->user_id));
+        error_log($student->user_id);
         // if ($student->isEmpty()) {
         //     DB::table('students')->insert(
         //         [
