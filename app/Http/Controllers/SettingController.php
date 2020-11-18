@@ -28,7 +28,8 @@ class SettingController extends Controller
     {
         error_log("hello...");
         error_log("id: " . $id);
-        $userId = $id;
+        // $userId = $id;
+        $userId = 2;
         return view('setting.index2', compact('userId'));
         // return "connected user is :" . $id . PHP_EOL;
     }
