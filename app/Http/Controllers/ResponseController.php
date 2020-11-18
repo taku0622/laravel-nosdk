@@ -221,6 +221,9 @@ class ResponseController extends Controller
     {
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log(json_encode($student));
+        error_log($student->user_id);
+        // error_log(json_encode($student));
+        // error_log(json_encode($student));
         $stuDecode = json_decode($student, true);
         error_log(gettype($stuDecode));
         // if ($student->isEmpty()) {
