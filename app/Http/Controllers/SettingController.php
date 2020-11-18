@@ -35,10 +35,8 @@ class SettingController extends Controller
     public function update(Request $request) // 設定の更新
     {
         error_log("設定の更新");
-        error_log($request->getContent());
-        $input = $request->getContent();
-        error_log("input: " . $input);
+        $input = json_decode($request->getContent(), true);
+        error_log("input is :" . $input);
         return "connected!!";
-        // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
 }
