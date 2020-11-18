@@ -220,6 +220,7 @@ class ResponseController extends Controller
     public function followEvent($userId)
     {
         $student = DB::table('students')->where('user_id', $userId)->first();
+        error_log(json_encode($student));
         if ($student->isEmpty()) {
             DB::table('students')->insert(
                 [
