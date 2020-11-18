@@ -157,6 +157,8 @@ class ResponseController extends Controller
 
     public function cancelInfo($userId, $text): array
     {
+        $student = DB::table('students')->where('user_id', $userId)->first();
+        error_log($student->department);
         $contents = [
             [
                 'title' => '2020年10月22日 3時限　並列・分散処理',
