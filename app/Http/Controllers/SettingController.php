@@ -13,13 +13,6 @@ class SettingController extends Controller
         error_log("設定画面の表示");
         // error_log("id: " . $id);
         $student = DB::table('students')->where('user_id', $id)->first();
-        // $student = DB::table('students')->first();
-        // error_log(json_encode($student, JSON_UNESCAPED_UNICODE));
-        // if ($student->isEmpty()) {
-        //     error_log("データがありません");
-        // } else {
-        //     error_log($student->number);
-        // }
         $profile = [
             "number" => $student->number,
             "push_new" => $student->push_new,
@@ -47,7 +40,6 @@ class SettingController extends Controller
         );
         $student = DB::table('students')->where('user_id', $id)->first();
         error_log(json_encode($student, JSON_UNESCAPED_UNICODE));
-        // {"number":"C0117253","push_new":true,"push_important":true,"push_cancel":true,"push_event":false}
         return "connected!!";
     }
 }
