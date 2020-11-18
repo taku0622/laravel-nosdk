@@ -17,7 +17,10 @@ class SettingController extends Controller
             "push_cancel" => false,
             "push_event" => true,
         ];
-        return "connected!!";
+        // return "connected!!";
+        error_log(json_encode($profile));
+        error_log(gettype(json_encode($profile)));
+        return json_encode($profile);
         // return "connected user is :" . $id . PHP_EOL;
     }
 
