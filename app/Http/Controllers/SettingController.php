@@ -16,11 +16,11 @@ class SettingController extends Controller
         // $student = DB::table('students')->where('user_id', $id)->get();
         $student = DB::table('students')->first();
         error_log(json_encode($student, JSON_UNESCAPED_UNICODE));
-        if ($student->isEmpty()) {
-            error_log("データがありません");
-        } else {
-            error_log($student->number);
-        }
+        // if ($student->isEmpty()) {
+        //     error_log("データがありません");
+        // } else {
+        //     error_log($student->number);
+        // }
         error_log($student->number);
         $profile = [
             "number" => $student->number,
