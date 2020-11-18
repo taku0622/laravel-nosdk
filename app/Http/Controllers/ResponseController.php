@@ -159,32 +159,54 @@ class ResponseController extends Controller
     {
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
-        $contents = [
-            [
-                'title' => '2020年10月22日 3時限　並列・分散処理',
-                'content' => 'コンピュータサイエンス学部',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '2020年10月27日 1,2,3時限　スポーツ実技Ⅳ',
-                'content' => 'コンディショニングエクササイズ　工学部(学科共通), メディア学部, コンピュータサイエンス学部, 応用生物学部',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '2020年11月06日 1時限　知的財産権',
-                'content' => '工学部(学科共通)',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
-                'label' => '詳細'
-            ]
-        ];
-        $message = [
-            "to" => [$userId],
-            "type" => "multiple",
-            "altText" =>  $text,
-            "contents" => $contents
-        ];
+        #############################################################
+        $cancelInfomations = DB::table('cancel_informations')->where('department', $student->department)->get();
+        if ($cancelInfomations->isEmpty()) {
+            // $message = "あなたの学部の休講案内はありません";
+            $message = [
+                "to" => [$userId],
+                "type" => "text",
+                "text" => "あなたの学部の休講案内はありません",
+                "quickReply" => [
+                    "texts" => NULL
+                ]
+            ];
+        } else {
+            $message = "";
+            foreach ($cancelInfomations as $cancelInfomation) {
+                $message .= $cancelInfomation->date . "　";
+                $message .= $cancelInfomation->period . "　";
+                $message .= $cancelInfomation->lecture_name . "\n";
+                $message .= $cancelInfomation->department . "\n\n";
+            }
+        }
+        #############################################################
+        // $contents = [
+        //     [
+        //         'title' => '2020年10月22日 3時限　並列・分散処理',
+        //         'content' => 'コンピュータサイエンス学部',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => '2020年10月27日 1,2,3時限　スポーツ実技Ⅳ',
+        //         'content' => 'コンディショニングエクササイズ　工学部(学科共通), メディア学部, コンピュータサイエンス学部, 応用生物学部',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => '2020年11月06日 1時限　知的財産権',
+        //         'content' => '工学部(学科共通)',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+        //         'label' => '詳細'
+        //     ]
+        // ];
+        // $message = [
+        //     "to" => [$userId],
+        //     "type" => "multiple",
+        //     "altText" =>  $text,
+        //     "contents" => $contents
+        // ];
         return $message;
     }
 
