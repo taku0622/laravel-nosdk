@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
-    public function index($id)
+    public function index($id) // 設定画面の表示
     {
-        error_log("hello...");
-        error_log("id: " . $id);
-        #################################################################
+        error_log("設定画面の表示");
+        // error_log("id: " . $id);
         $student = DB::table('students')->where('user_id', $id)->first();
+        // $student = DB::table('students')->first();
         // error_log(json_encode($student, JSON_UNESCAPED_UNICODE));
         // if ($student->isEmpty()) {
         //     error_log("データがありません");
@@ -31,9 +31,9 @@ class SettingController extends Controller
         return json_encode($profile);
     }
 
-    public function update(Request $request)
+    public function update(Request $request) // 設定の更新
     {
-        error_log("hello...");
+        error_log("設定の更新");
         error_log($request->getContent());
         $input = $request->getContent();
         error_log("input: " . $input);
