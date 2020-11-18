@@ -14,11 +14,11 @@ class SettingController extends Controller
         error_log("id: " . $id);
         #################################################################
         $student = DB::table('students')->where('user_id', $id)->get();
-        // if ($cancelInfomations->isEmpty()) {
-        //     $message = "あなたの学部の休講案内はありません";
-        // } else {
-        //     $message = "";
-        // }
+        if ($student->isEmpty()) {
+            error_log("データがありません");
+        } else {
+            error_log($student->number);
+        }
         error_log($student->number);
         #################################################################
         $profile = [
