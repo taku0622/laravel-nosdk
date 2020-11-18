@@ -32,6 +32,7 @@ class SettingController extends Controller
         $input = json_decode($request->getContent(), true);
         DB::table('students')->where('user_id', $id)->update(
             [
+                "number" => $input["number"],
                 "push_new" => $input["push_new"],
                 "push_important" => $input["push_important"],
                 "push_cancel" => $input["push_cancel"],
