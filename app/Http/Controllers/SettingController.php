@@ -32,10 +32,12 @@ class SettingController extends Controller
         return json_encode($profile);
     }
 
-    public function update(Request $request) // 設定の更新
+    public function update($id, Request $request) // 設定の更新
     {
         error_log("設定の更新");
+        error_log("id :" . $id);
         $input = json_decode($request->getContent(), true);
+        // $student = DB::table('students')->where('user_id', $id)->first();
         error_log("number :" . $input["number"]);
         // {"number":"C0117253","push_new":true,"push_important":true,"push_cancel":true,"push_event":false}
         return "connected!!";
