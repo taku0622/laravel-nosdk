@@ -13,8 +13,8 @@ class SettingController extends Controller
         error_log("hello...");
         error_log("id: " . $id);
         #################################################################
-        $student = DB::table('students')->where('user_id', $id)->get();
-        // $student = DB::table('students')->first();
+        // $student = DB::table('students')->where('user_id', $id)->get();
+        $student = DB::table('students')->first();
         error_log(json_encode($student, JSON_UNESCAPED_UNICODE));
         if ($student->isEmpty()) {
             error_log("データがありません");
