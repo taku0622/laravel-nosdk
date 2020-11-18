@@ -27,7 +27,8 @@ class SettingController extends Controller
             "push_cancel" => $student->push_cancel,
             "push_event" => $student->push_event,
         ];
-        error_log(gettype(json_encode($profile)));
+        // error_log(gettype(json_encode($profile)));
+        error_log(json_encode($profile));
         return json_encode($profile);
     }
 
