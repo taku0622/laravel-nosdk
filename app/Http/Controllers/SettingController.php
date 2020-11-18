@@ -11,17 +11,15 @@ class SettingController extends Controller
         error_log("hello...");
         error_log("id: " . $id);
         $profile = [
-            "id" => $id,
+            "number" => "C0117253",
             "push_new" => true,
             "push_important" => true,
             "push_cancel" => false,
             "push_event" => true,
         ];
-        // return "connected!!";
         error_log(json_encode($profile));
         error_log(gettype(json_encode($profile)));
         return json_encode($profile);
-        // return "connected user is :" . $id . PHP_EOL;
     }
 
     public function update(Request $request)
