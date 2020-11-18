@@ -31,14 +31,4 @@ class SettingController extends Controller
         return "connected!!";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
-
-    public function index2($id)
-    {
-        error_log("hello...");
-        error_log("id: " . $id);
-        // $userId = $id;
-        $userId = 2;
-        return view('setting.index2', compact('userId'));
-        // return "connected user is :" . $id . PHP_EOL;
-    }
 }
