@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Services\Watson;
 
 class ResponseController extends Controller
@@ -21,7 +23,7 @@ class ResponseController extends Controller
             if ($type == "follow") {
                 $message = $this->followEvent($userId);
                 error_log("follow event:" . json_encode($message, JSON_UNESCAPED_UNICODE));
-                return json_encode($message, JSON_UNESCAPED_UNICODE);
+                return $message;
             }
             $text = $event["text"];
 
@@ -215,16 +217,18 @@ class ResponseController extends Controller
         return $message;
     }
 
-    public function followEvent($userId): array
+    public function followEvent($userId)
     {
-        $message = [
-            "to" => [$userId],
-            "type" => "text",
-            "text" => "こちらから設定してください\nhttps://tut-line-bot-test.glitch.me",
-            "quickReply" => [
-                "texts" => NULL
+        DB::table('students')->insert(
+            [
+                'user_id' => $userId,
+                'push_new' => TRUE,
+                'push_important' => TRUE,
+                'push_cancel' => TRUE,
+                'push_event' => TRUE,
             ]
-        ];
-        return array($message);
+        );
+        $message = "followed";
+        return $message;
     }
 }
