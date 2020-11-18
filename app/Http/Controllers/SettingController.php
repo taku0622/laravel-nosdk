@@ -19,6 +19,7 @@ class SettingController extends Controller
         // } else {
         //     $message = "";
         // }
+        error_log($student->number);
         #################################################################
         $profile = [
             "number" => $student->number,
