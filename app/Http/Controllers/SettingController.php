@@ -30,9 +30,43 @@ class SettingController extends Controller
         error_log("設定の更新");
         error_log("id :" . $id);
         $input = json_decode($request->getContent(), true);
+        // 学部判定
+        $numTwoDigits = substr($input["number"], 0, 2);
+        switch ($numTwoDigits) {
+            case 'B0':
+                $department = 'BS';
+                break;
+            case 'C0':
+                $department = 'CS';
+                break;
+            case 'M0':
+                $department = 'MS';
+                break;
+            case 'E0':
+                $department = 'ES';
+                break;
+            case 'D0':
+                $department = 'DS';
+                break;
+            case 'H0':
+                $department = 'HS';
+                break;
+            case 'H0':
+                $department = 'HS';
+                break;
+            case 'D1':
+            case 'D2':
+            case 'D3':
+                $department = '院八';
+                break;
+            default:
+                $department = '';
+                break;
+        }
         DB::table('students')->where('user_id', $id)->update(
             [
                 "number" => $input["number"],
+                "department" => $department,
                 "push_new" => $input["push_new"],
                 "push_important" => $input["push_important"],
                 "push_cancel" => $input["push_cancel"],
