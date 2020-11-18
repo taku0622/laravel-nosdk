@@ -36,7 +36,8 @@ class SettingController extends Controller
     {
         error_log("設定の更新");
         $input = json_decode($request->getContent(), true);
-        error_log("input is :" . $input);
+        error_log("number :" . $input["number"]);
+        // {"number":"C0117253","push_new":true,"push_important":true,"push_cancel":true,"push_event":false}
         return "connected!!";
     }
 }
