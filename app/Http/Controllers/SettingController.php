@@ -37,8 +37,16 @@ class SettingController extends Controller
         error_log("設定の更新");
         error_log("id :" . $id);
         $input = json_decode($request->getContent(), true);
-        // $student = DB::table('students')->where('user_id', $id)->first();
-        error_log("number :" . $input["number"]);
+        DB::table('students')->where('user_id', $id)->update(
+            [
+                "push_new" => $input["push_new"],
+                "push_important" => $input["push_important"],
+                "push_cancel" => $input["push_cancel"],
+                "push_event" => $input["push_event"],
+            ]
+        );
+        $student = DB::table('students')->where('user_id', $id)->first();
+        error_log(json_encode($student, JSON_UNESCAPED_UNICODE));
         // {"number":"C0117253","push_new":true,"push_important":true,"push_cancel":true,"push_event":false}
         return "connected!!";
     }
