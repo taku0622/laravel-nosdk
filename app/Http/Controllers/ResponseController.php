@@ -219,15 +219,15 @@ class ResponseController extends Controller
 
     public function followEvent($userId)
     {
-        DB::table('students')->insert(
-            [
-                'user_id' => $userId,
-                'push_new' => TRUE,
-                'push_important' => TRUE,
-                'push_cancel' => TRUE,
-                'push_event' => TRUE,
-            ]
-        );
+        // DB::table('students')->insert(
+        //     [
+        //         'user_id' => $userId,
+        //         'push_new' => TRUE,
+        //         'push_important' => TRUE,
+        //         'push_cancel' => TRUE,
+        //         'push_event' => TRUE,
+        //     ]
+        // );
         $message = "followed";
         return $message;
     }
