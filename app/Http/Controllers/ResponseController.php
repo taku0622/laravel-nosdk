@@ -167,9 +167,6 @@ class ResponseController extends Controller
                 "to" => [$userId],
                 "type" => "text",
                 "text" => "あなたの学部の休講案内はありません",
-                "quickReply" => [
-                    "texts" => NULL
-                ]
             ];
         } else {
             $message = "";
