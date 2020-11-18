@@ -222,7 +222,7 @@ class ResponseController extends Controller
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log(json_encode($student));
         error_log(isset($student->user_id));
-        if (isset($student->user_id)) {
+        if (!isset($student->user_id)) {
             DB::table('students')->insert(
                 [
                     'user_id' => $userId,
