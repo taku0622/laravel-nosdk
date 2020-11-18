@@ -27,7 +27,7 @@ Route::post('/v1/messages/reply', [ResponseController::class, 'response']);
 
 Route::post('/parrot', [LineBotController::class, 'parrot']);
 
-Route::get('/v1/settings/{id?}', [SettingController::class, 'index']);
+Route::get('/v1/settings/{id?}', [SettingController::class, 'index2']);
 
 Route::post('/v1/settings/{id?}', [SettingController::class, 'update']);
 

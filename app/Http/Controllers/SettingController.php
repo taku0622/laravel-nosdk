@@ -10,6 +10,13 @@ class SettingController extends Controller
     {
         error_log("hello...");
         error_log("id: " . $id);
+        $profile = [
+            "id" => "U6e0f4008a090ff5b5bef0323cae3428e",
+            "push_new" => true,
+            "push_important" => true,
+            "push_cancel" => false,
+            "push_event" => true,
+        ];
         return "connected!!";
         // return "connected user is :" . $id . PHP_EOL;
     }
