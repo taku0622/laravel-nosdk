@@ -221,19 +221,19 @@ class ResponseController extends Controller
     {
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log(json_encode($student));
-        if ($student->isEmpty()) {
-            DB::table('students')->insert(
-                [
-                    'user_id' => $userId,
-                    'number' => "",
-                    'department' => "",
-                    'push_new' => TRUE,
-                    'push_important' => TRUE,
-                    'push_cancel' => TRUE,
-                    'push_event' => TRUE,
-                ]
-            );
-        }
+        // if ($student->isEmpty()) {
+        //     DB::table('students')->insert(
+        //         [
+        //             'user_id' => $userId,
+        //             'number' => "",
+        //             'department' => "",
+        //             'push_new' => TRUE,
+        //             'push_important' => TRUE,
+        //             'push_cancel' => TRUE,
+        //             'push_event' => TRUE,
+        //         ]
+        //     );
+        // }
         $message = "followed";
         return $message;
     }
