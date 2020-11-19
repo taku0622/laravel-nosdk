@@ -229,9 +229,11 @@ class ResponseController extends Controller
 
     public function followEvent($userId)
     {
+        // すでにあるか
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log(json_encode($student));
         error_log(isset($student->user_id));
+        // データがない場合
         if (!isset($student->user_id)) {
             DB::table('students')->insert(
                 [
