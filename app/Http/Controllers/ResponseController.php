@@ -161,7 +161,7 @@ class ResponseController extends Controller
         error_log($student->department);
         $cancelInfomations = DB::table('cancel_informations')
             ->where('department', $student->department)
-            ->orderBy('date', 'desc')->get();
+            ->orderBy('date', 'asc')->get();
         if ($cancelInfomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
