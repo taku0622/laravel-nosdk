@@ -164,7 +164,7 @@ class ResponseController extends Controller
             $cancelInfomations = DB::table('cancel_informations')
                 ->where([
                     ['department', $student->department],
-                    ['date', '>=', $today]
+                    ['date', '<=', $today]
                 ])
                 ->orderBy('date', 'asc')->limit(5)->get();
         }
