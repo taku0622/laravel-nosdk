@@ -159,9 +159,10 @@ class ResponseController extends Controller
     {
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
-        $cancelInfomations = DB::table('cancel_informations')->where('department', $student->department)->get();
+        $cancelInfomations = DB::table('cancel_informations')
+            ->where('department', $student->department)
+            ->orderBy('date', 'desc')->get();
         if ($cancelInfomations->isEmpty()) {
-            // $message = "あなたの学部の休講案内はありません";
             $message = [
                 "to" => [$userId],
                 "type" => "text",
@@ -171,8 +172,8 @@ class ResponseController extends Controller
             $contents = [];
             foreach ($cancelInfomations as $cancelInfomation) {
                 $content = [
-                    'title' => $cancelInfomation->date . "　"  .
-                        $cancelInfomation->period . "　" .
+                    'title' => $cancelInfomation->date . "\n"  .
+                        $cancelInfomation->period . "\n" .
                         $cancelInfomation->lecture_name,
                     'content' => $cancelInfomation->department,
                     'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
@@ -187,7 +188,6 @@ class ResponseController extends Controller
                 "contents" => $contents
             ];
         }
-
         return $message;
     }
 
