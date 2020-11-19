@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
 class DataBaseController extends Controller
 {
     public function updateNew(Request $request)
@@ -21,6 +23,8 @@ class DataBaseController extends Controller
         error_log($request->getContent());
         $input = $request->getContent();
         error_log("input: " . $input);
+        // 既にデータがあるか
+        // ない場合
         return "connected!! updateCancel";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
