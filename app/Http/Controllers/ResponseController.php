@@ -153,7 +153,7 @@ class ResponseController extends Controller
     public function cancelInfo($userId, $text): array
     {
         date_default_timezone_set('Asia/Tokyo');
-        $today = date("Y-m-d H:i:s");
+        $today = date("Y-m-d");
         error_log($today);
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
@@ -163,7 +163,8 @@ class ResponseController extends Controller
         } else {
             $cancelInfomations = DB::table('cancel_informations')
                 ->where('department', $student->department)
-                ->orderBy('date', 'asc')->get();
+                ->orWhere('date', '>=', $today)
+                ->orderBy('date', 'asc')->limit(5)->get();
         }
         if ($cancelInfomations->isEmpty()) {
             $message = [
