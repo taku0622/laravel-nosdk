@@ -162,8 +162,10 @@ class ResponseController extends Controller
                 ->orderBy('date', 'asc')->get();
         } else {
             $cancelInfomations = DB::table('cancel_informations')
-                ->where('department', $student->department)
-                ->orWhere('date', '>=', $today)
+                ->where([
+                    ['department', $student->department],
+                    ['date', '>=', $today]
+                ])
                 ->orderBy('date', 'asc')->limit(5)->get();
         }
         if ($cancelInfomations->isEmpty()) {
