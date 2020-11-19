@@ -60,7 +60,7 @@ class SettingController extends Controller
                 $department = '院八';
                 break;
             default:
-                $department = '';
+                $department = '全学部';
                 break;
         }
         DB::table('students')->where('user_id', $id)->update(
