@@ -161,6 +161,7 @@ class ResponseController extends Controller
         error_log($student->department);
         $cancelInfomations = DB::table('cancel_informations')
             ->where('department', $student->department)
+            ->orWhere('department', '全学部')
             ->orderBy('date', 'asc')->get();
         if ($cancelInfomations->isEmpty()) {
             $message = [
