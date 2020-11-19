@@ -159,15 +159,19 @@ class ResponseController extends Controller
     {
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
-        $cancelInfomations = DB::table('cancel_informations')
-            ->where('department', $student->department)
-            ->orWhere('department', '全学部')
-            ->orderBy('date', 'asc')->get();
+        if ($student->department == "全学部") {
+            $cancelInfomations = DB::table('cancel_informations')
+                ->orderBy('date', 'asc')->get();
+        } else {
+            $cancelInfomations = DB::table('cancel_informations')
+                ->where('department', $student->department)
+                ->orderBy('date', 'asc')->get();
+        }
         if ($cancelInfomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
                 "type" => "text",
-                "text" => $student->department . "学部の休講案内はありません",
+                "text" => $student->department . "の休講案内はありません",
             ];
         } else {
             $contents = [];
