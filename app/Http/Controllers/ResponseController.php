@@ -29,11 +29,6 @@ class ResponseController extends Controller
 
             error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text);
 
-            // foreach ($usersId as $userId) {
-            //     error_log("################################## user is ##################################");
-            //     error_log("userId: " . implode(",", $userId) . "  type: " . $type . "  text: " . $text);
-            // }
-
             // 送信のデータの作成
             switch ($text) {
                 case "新着情報":
