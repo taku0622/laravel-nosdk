@@ -175,15 +175,11 @@ class ResponseController extends Controller
                     'title' => $cancelInfomation->date . "　"  .
                         $cancelInfomation->period . "　" .
                         $cancelInfomation->lecture_name,
-                    'content' => $student->department,
+                    'content' => $cancelInfomation->department,
                     'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
                     'label' => '詳細'
                 ];
                 $contents[] = $content;
-                // $message .= $cancelInfomation->date . "　";
-                // $message .= $cancelInfomation->period . "　";
-                // $message .= $cancelInfomation->lecture_name . "\n";
-                // $message .= $cancelInfomation->department . "\n\n";
             }
             $message = [
                 "to" => [$userId],
