@@ -152,6 +152,8 @@ class ResponseController extends Controller
 
     public function cancelInfo($userId, $text): array
     {
+        $today = date("Y-m-d H:i:s");
+        error_log($today);
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
         if ($student->department == "全学部") {
