@@ -169,21 +169,36 @@ class ResponseController extends Controller
                 "text" => "あなたの学部の休講案内はありません",
             ];
         } else {
-            $message = "";
+            $contents = [];
             foreach ($cancelInfomations as $cancelInfomation) {
-                $message .= $cancelInfomation->date . "　";
-                $message .= $cancelInfomation->period . "　";
-                $message .= $cancelInfomation->lecture_name . "\n";
-                $message .= $cancelInfomation->department . "\n\n";
+                $content = [
+                    'title' => $cancelInfomation->date . "　"  .
+                        $cancelInfomation->period . "　" .
+                        $cancelInfomation->lecture_name,
+                    'content' => $student->department,
+                    'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+                    'label' => '詳細'
+                ];
+                $contents[] = $content;
+                // $message .= $cancelInfomation->date . "　";
+                // $message .= $cancelInfomation->period . "　";
+                // $message .= $cancelInfomation->lecture_name . "\n";
+                // $message .= $cancelInfomation->department . "\n\n";
             }
+            $message = [
+                "to" => [$userId],
+                "type" => "multiple",
+                "altText" =>  $text,
+                "contents" => $contents
+            ];
         }
         #############################################################
         // $contents = [
         //     [
-        //         'title' => '2020年10月22日 3時限　並列・分散処理',
-        //         'content' => 'コンピュータサイエンス学部',
-        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
-        //         'label' => '詳細'
+        // 'title' => '2020年10月22日 3時限　並列・分散処理',
+        // 'content' => 'コンピュータサイエンス学部',
+        // 'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+        // 'label' => '詳細'
         //     ],
         //     [
         //         'title' => '2020年10月27日 1,2,3時限　スポーツ実技Ⅳ',
