@@ -152,6 +152,7 @@ class ResponseController extends Controller
 
     public function cancelInfo($userId, $text): array
     {
+        date_default_timezone_set('Asia/Tokyo');
         $today = date("Y-m-d H:i:s");
         error_log($today);
         $student = DB::table('students')->where('user_id', $userId)->first();
