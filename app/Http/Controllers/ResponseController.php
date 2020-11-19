@@ -154,7 +154,6 @@ class ResponseController extends Controller
     {
         date_default_timezone_set('Asia/Tokyo');
         $today = date("Y-m-d");
-        error_log($today);
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
         if ($student->department == "全学部") {
@@ -164,7 +163,7 @@ class ResponseController extends Controller
             $cancelInfomations = DB::table('cancel_informations')
                 ->where([
                     ['department', $student->department],
-                    ['date', '<=', $today]
+                    ['date', '>=', $today]
                 ])
                 ->orderBy('date', 'asc')->limit(5)->get();
         }
