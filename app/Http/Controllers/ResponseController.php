@@ -156,7 +156,7 @@ class ResponseController extends Controller
         $today = date("Y-m-d");
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
-        if ($student->department == "全学部") {
+        if ($student->department == 'all') {
             $cancelInfomations = DB::table('cancel_informations')
                 ->orderBy('date', 'asc')->get();
         } else {
@@ -171,7 +171,7 @@ class ResponseController extends Controller
             $message = [
                 "to" => [$userId],
                 "type" => "text",
-                "text" => $student->department . "の休講案内はありません",
+                "text" => "あなたの学部の休講案内はありません",
             ];
         } else {
             $contents = [];
