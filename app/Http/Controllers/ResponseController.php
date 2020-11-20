@@ -158,6 +158,7 @@ class ResponseController extends Controller
         error_log($student->department);
         if ($student->department == 'all') {
             $cancelInfomations = DB::table('cancel_informations')
+                ->where('date', '>=', $today)
                 ->orderBy('date', 'asc')->get();
         } else {
             $cancelInfomations = DB::table('cancel_informations')
