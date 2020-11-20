@@ -34,33 +34,30 @@ class SettingController extends Controller
         $numTwoDigits = substr($input["number"], 0, 2);
         switch ($numTwoDigits) {
             case 'B0':
-                $department = 'BS';
+                $department = 'bs';
                 break;
             case 'C0':
-                $department = 'CS';
+                $department = 'cs';
                 break;
             case 'M0':
-                $department = 'MS';
+                $department = 'ms';
                 break;
             case 'E0':
-                $department = 'ES';
+                $department = 'es';
                 break;
             case 'D0':
-                $department = 'DS';
+                $department = 'ds';
                 break;
             case 'H0':
-                $department = 'HS';
-                break;
-            case 'H0':
-                $department = 'HS';
+                $department = 'hs';
                 break;
             case 'D1':
             case 'D2':
             case 'D3':
-                $department = '院八';
+                $department = 'inhachi';
                 break;
             default:
-                $department = '全学部';
+                $department = 'all';
                 break;
         }
         DB::table('students')->where('user_id', $id)->update(

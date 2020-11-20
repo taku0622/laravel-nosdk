@@ -239,7 +239,7 @@ class ResponseController extends Controller
                 [
                     'user_id' => $userId,
                     'number' => "",
-                    'department' => "全学部",
+                    'department' => "all",
                     'push_new' => TRUE,
                     'push_important' => TRUE,
                     'push_cancel' => TRUE,
