@@ -45,15 +45,16 @@ class ResponseController extends Controller
                     break;
                 default:
                     $watson = new Watson();
-                    $Response = $watson->watson($userId, $text);
-                    $message = [
-                        "to" => [$userId],
-                        "type" => "text",
-                        "text" => $Response[0],
-                        "quickReply" => [
-                            "texts" => $Response[1]
-                        ]
-                    ];
+                    $message = $watson->watson($userId, $text);
+                    // $Response = $watson->watson($userId, $text);
+                    // $message = [
+                    //     "to" => [$userId],
+                    //     "type" => "text",
+                    //     "text" => $Response[0],
+                    //     "quickReply" => [
+                    //         "texts" => $Response[1]
+                    //     ]
+                    // ];
                     break;
             }
             $message = array($message);
