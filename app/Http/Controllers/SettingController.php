@@ -57,7 +57,7 @@ class SettingController extends Controller
                 $department = 'inhachi';
                 break;
             default:
-                $department = 'all';
+                $department = 'all_department';
                 break;
         }
         DB::table('students')->where('user_id', $id)->update(

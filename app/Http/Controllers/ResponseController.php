@@ -154,19 +154,21 @@ class ResponseController extends Controller
     {
         date_default_timezone_set('Asia/Tokyo');
         $today = date("Y-m-d");
+        // userIDから学部の特定
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
-        if ($student->department == 'all') {
+        // 学部を設定していなかったら「全学部」として検索
+        if ($student->department == 'all_department') {
             $cancelInfomations = DB::table('cancel_informations')
                 ->where('date', '>=', $today)
-                ->orderBy('date', 'asc')->get();
+                ->orderBy('date', 'asc')->limit(10)->get();
         } else {
             $cancelInfomations = DB::table('cancel_informations')
                 ->where([
                     ['department', $student->department],
                     ['date', '>=', $today]
                 ])
-                ->orderBy('date', 'asc')->limit(5)->get();
+                ->orderBy('date', 'asc')->limit(10)->get();
         }
         if ($cancelInfomations->isEmpty()) {
             $message = [
