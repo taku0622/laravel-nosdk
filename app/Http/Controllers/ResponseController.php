@@ -72,12 +72,12 @@ class ResponseController extends Controller
         // 学部を設定していなかったら「全学部」として全表示
         if ($student->department == 'all_department') {
             $infomations = DB::table('informations')
-                ->join('tags', 'informations.id', '=', 'information_id')
+                ->join('tags', 'informations.id', '=', 'tags.information_id')
                 ->whereNull('important')
                 ->orderBy('posted_date', 'desc')->limit(10)->get();
         } else {
             $infomations = DB::table('informations')
-                ->join('tags', 'informations.id', '=', 'information_id')
+                ->join('tags', 'informations.id', '=', 'tags.information_id')
                 ->where($department, true)->whereNull('important')
                 ->orderBy('posted_date', 'desc')->limit(5)->get();
         }
