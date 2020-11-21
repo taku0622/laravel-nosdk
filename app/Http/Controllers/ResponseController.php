@@ -66,45 +66,85 @@ class ResponseController extends Controller
 
     public function newInfo($userId, $text): array
     {
-        $contents = [
-            [
-                'title' => '【図書館】リクエストの結果報告＜八王子キャンパス＞',
-                'content' => '10月（前半）の選書の結果、以下のリクエストが採択されました。',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/64555/',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '2020年度第2学期（後期）放送大学特別聴講学生',
-                'content' => '放送大学特別聴講学生へ',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020_dai2gakki_housoudaigaku_1022.pdf',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '【CS学部】2020年度「創成課題」教室（10/22更新）',
-                'content' => '属された研究室ごとに、創成課題を行います。',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020CS_souseikadai_kyousitu20201022.pdf',
-                'label' => '詳細'
-            ],
-            [
-                'title' => 'シェアサイクル設置のお知らせ（八王子キャンパス）',
-                'content' => '八王子キャンパスにシェアサイクルを設置することになりました。',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/shearingu_settiosirase_1021.pdf',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '【図書館】図書館アルバイトを募集します！＜八王子キャンパス＞',
-                'content' => 'お申し込みを お待ちしています。',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/12658/',
-                'label' => '詳細'
-            ]
-        ];
-        $message = [
-            "to" => [$userId],
-            "type" => "multiple",
-            "altText" =>  $text,
-            "contents" => $contents
-        ];
+        // userIDから学部の特定
+        $student = DB::table('students')->where('user_id', $userId)->first();
+        $department = $student->department;
+        // 学部を設定していなかったら「全学部」として全表示
+        if ($student->department == 'all_department') {
+            $infomations = DB::table('informations')
+                ->join('tags', 'informations.id', '=', 'information_id')
+                ->whereNull('important')
+                ->orderBy('posted_date', 'desc')->limit(10)->get();
+        } else {
+            $infomations = DB::table('informations')
+                ->join('tags', 'informations.id', '=', 'information_id')
+                ->where($department, true)->whereNull('important')
+                ->orderBy('posted_date', 'desc')->limit(5)->get();
+        }
+        if ($infomations->isEmpty()) {
+            $message = [
+                "to" => [$userId],
+                "type" => "text",
+                "text" => "あなたの学部の新着情報はありません",
+            ];
+        } else {
+            $contents = [];
+            foreach ($infomations as $infomation) {
+                $content = [
+                    'title' => $infomation->title,
+                    'content' => $infomation->content,
+                    'uri' => $infomation->uri,
+                    'label' => '詳細'
+                ];
+                $contents[] = $content;
+            }
+            $message = [
+                "to" => [$userId],
+                "type" => "multiple",
+                "altText" =>  $text,
+                "contents" => $contents
+            ];
+        }
         return $message;
+        // $contents = [
+        //     [
+        //         'title' => '【図書館】リクエストの結果報告＜八王子キャンパス＞',
+        //         'content' => '10月（前半）の選書の結果、以下のリクエストが採択されました。',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/64555/',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => '2020年度第2学期（後期）放送大学特別聴講学生',
+        //         'content' => '放送大学特別聴講学生へ',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020_dai2gakki_housoudaigaku_1022.pdf',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => '【CS学部】2020年度「創成課題」教室（10/22更新）',
+        //         'content' => '属された研究室ごとに、創成課題を行います。',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020CS_souseikadai_kyousitu20201022.pdf',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => 'シェアサイクル設置のお知らせ（八王子キャンパス）',
+        //         'content' => '八王子キャンパスにシェアサイクルを設置することになりました。',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/shearingu_settiosirase_1021.pdf',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => '【図書館】図書館アルバイトを募集します！＜八王子キャンパス＞',
+        //         'content' => 'お申し込みを お待ちしています。',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/12658/',
+        //         'label' => '詳細'
+        //     ]
+        // ];
+        // $message = [
+        //     "to" => [$userId],
+        //     "type" => "multiple",
+        //     "altText" =>  $text,
+        //     "contents" => $contents
+        // ];
+        // return $message;
     }
 
     public function importantInfo($userId, $text): array
