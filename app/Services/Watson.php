@@ -62,7 +62,7 @@ class Watson
       "type" => "text",
       "text" => $$replyArray[0],
       "quickReply" => [
-        "texts" => $replyArray[1]
+        "texts" => $quickReply
       ]
     ];
     // error_log(json_encode($replyArray, JSON_UNESCAPED_UNICODE));
