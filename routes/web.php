@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\LineBotController;
+
 
 
 /*
@@ -19,7 +21,7 @@ Route::get('/', function () {
   return view('welcome');
 });
 
-Route::get('/v2/settings/{id?}', [SettingController::class, 'index2']);
+Route::get('/hello', [LineBotController::class, 'index']);
 
 # response接続 
 // Route::post('/api/v1/messages/reply', [ResponseController::class, 'response']);

@@ -8,6 +8,10 @@ use App\Services\Watson;
 
 class LineBotController extends Controller
 {
+    public function index()
+    {
+        return view('linebot.index');
+    }
     public function parrot(Request $request)
     {
         error_log("hello...");
