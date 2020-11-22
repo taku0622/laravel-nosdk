@@ -184,32 +184,32 @@ class ResponseController extends Controller
 
     public function eventInfo($userId, $text): array
     {
-        $contents = [
-            [
-                'title' => '『学内ミニ合同企業説明会』の開催について',
-                'content' => '【対象:2020年3月卒業･修了予定者】',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/76553/',
-                'label' => '詳細'
-            ],
-            [
-                'title' => 'クリエイティブ業界学内合同企業セミナーのお知らせ',
-                'content' => '学内合同企業セミナーを実施します',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/35103/',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '大林組グループ会社説明会』の開催について',
-                'content' => '対象:学部3年生および大学院修士1年生／学部不問】',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/53517/',
-                'label' => '詳細'
-            ]
-        ];
-        $message = [
-            "to" => [$userId],
-            "type" => "multiple",
-            "altText" =>  $text,
-            "contents" => $contents
-        ];
+        $eventInfomations = DB::table('event_informations')
+            ->orderBy('posted_date', 'desc')->get();
+        if ($eventInfomations->isEmpty()) {
+            $message = [
+                "to" => [$userId],
+                "type" => "text",
+                "text" => "イベントはありません",
+            ];
+        } else {
+            $contents = [];
+            foreach ($eventInfomations as $eventInfomation) {
+                $content = [
+                    'title' => mb_substr($eventInfomation->title, 0, 40),
+                    'content' => mb_substr($eventInfomation->content, 0, 60),
+                    'uri' => $eventInfomation->uri,
+                    'label' => '詳細'
+                ];
+                $contents[] = $content;
+            }
+            $message = [
+                "to" => [$userId],
+                "type" => "multiple",
+                "altText" =>  $text,
+                "contents" => $contents
+            ];
+        }
         return $message;
     }
 
