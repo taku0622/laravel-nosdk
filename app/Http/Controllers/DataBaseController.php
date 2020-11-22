@@ -128,49 +128,83 @@ class DataBaseController extends Controller
         error_log("pushCancelINfo...");
         // push通知オンの人を集める
         $allStudents = DB::table('students')->select('user_id')
-            ->where('push_cancel', true);
-        error_log(json_encode($allStudents, JSON_UNESCAPED_UNICODE));
+            ->where('push_cancel', false);
+
+        // 休講情報
+        date_default_timezone_set('Asia/Tokyo');
+        $today = date("Y-m-d");
+        $cancelInfomations = DB::table('cancel_informations')
+            ->where('date', '>=', $today)
+            ->orderBy('date', 'asc');
+
         // CS学部
-        // $csStudents = $allStudents
-        $userId = "U6e0f4008a090ff5b5bef0323cae3428e";
-        $contents = [
-            [
-                'title' => '【図書館】リクエストの結果報告＜八王子キャンパス＞',
-                'content' => '10月（前半）の選書の結果、以下のリクエストが採択されました。',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/64555/',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '2020年度第2学期（後期）放送大学特別聴講学生',
-                'content' => '放送大学特別聴講学生へ',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020_dai2gakki_housoudaigaku_1022.pdf',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '【CS学部】2020年度「創成課題」教室（10/22更新）',
-                'content' => '属された研究室ごとに、創成課題を行います。',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020CS_souseikadai_kyousitu20201022.pdf',
-                'label' => '詳細'
-            ],
-            [
-                'title' => 'シェアサイクル設置のお知らせ（八王子キャンパス）',
-                'content' => '八王子キャンパスにシェアサイクルを設置することになりました。',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/shearingu_settiosirase_1021.pdf',
-                'label' => '詳細'
-            ],
-            [
-                'title' => '【図書館】図書館アルバイトを募集します！＜八王子キャンパス＞',
-                'content' => 'お申し込みを お待ちしています。',
-                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/12658/',
-                'label' => '詳細'
-            ]
-        ];
-        $message = [
-            "to" => [$userId],
-            "type" => "multiple",
-            "altText" =>  "休講案内",
-            "contents" => $contents
-        ];
+        $csStudents = $allStudents->where('department', 'cs')->get();
+        $csStudentsId = [];
+        foreach ($csStudents as $csStudent) {
+            $csStudentsId[] = $csStudent->user_id;
+        }
+        $csCancelInfomationsContents = [];
+        $csCancelInfomations = $cancelInfomations->where('department', 'cs')->limit(10)->get();
+        if ($csCancelInfomations->isEmpty()) {
+            $message = [
+                "to" => $csStudentsId,
+                "type" => "text",
+                "text" => "あなたの学部の休講案内はありません",
+            ];
+        } else {
+            foreach ($csCancelInfomations as $csCancelInfomation) {
+                $title = mb_substr($csCancelInfomation->date . "\n"  .
+                    $csCancelInfomation->period . "\n" .
+                    $csCancelInfomation->lecture_name, 0, 40);
+                $csCancelInfomationsContent = [
+                    'title' => $title,
+                    'content' => mb_substr($csCancelInfomation->department, 0, 60),
+                    'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+                    'label' => '詳細'
+                ];
+                $csCancelInfomationsContents[] = $csCancelInfomationsContent;
+            }
+            $message = [
+                "to" => $csStudentsId,
+                "type" => "multiple",
+                "altText" =>  "休講案内",
+                "contents" => $csCancelInfomationsContents
+            ];
+        }
+
+        // $contents = [
+        //     [
+        //         'title' => '【図書館】リクエストの結果報告＜八王子キャンパス＞',
+        //         'content' => '10月（前半）の選書の結果、以下のリクエストが採択されました。',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/64555/',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => '2020年度第2学期（後期）放送大学特別聴講学生',
+        //         'content' => '放送大学特別聴講学生へ',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020_dai2gakki_housoudaigaku_1022.pdf',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => '【CS学部】2020年度「創成課題」教室（10/22更新）',
+        //         'content' => '属された研究室ごとに、創成課題を行います。',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020CS_souseikadai_kyousitu20201022.pdf',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => 'シェアサイクル設置のお知らせ（八王子キャンパス）',
+        //         'content' => '八王子キャンパスにシェアサイクルを設置することになりました。',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/shearingu_settiosirase_1021.pdf',
+        //         'label' => '詳細'
+        //     ],
+        //     [
+        //         'title' => '【図書館】図書館アルバイトを募集します！＜八王子キャンパス＞',
+        //         'content' => 'お申し込みを お待ちしています。',
+        //         'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/12658/',
+        //         'label' => '詳細'
+        //     ]
+        // ];
+
         $data = json_encode([$message], JSON_UNESCAPED_UNICODE);
         $options = array(
             'http' => array(
