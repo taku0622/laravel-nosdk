@@ -32,8 +32,15 @@ class DataBaseController extends Controller
     {
         error_log("hello...");
         error_log($request->getContent());
-        $input = $request->getContent();
-        error_log("input: " . $input);
+        $inputs = $request->getContent();
+        error_log("inputs: " . $inputs);
+        $inputs = json_decode($request->getContent(), true);
+        error_log("inputs: " . $inputs);
+        foreach ($inputs as $input) {
+            // データ整形
+            error_log("input: " . $input);
+        }
+
         return "connected!! updateReference";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
