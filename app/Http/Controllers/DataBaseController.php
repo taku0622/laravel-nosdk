@@ -35,7 +35,6 @@ class DataBaseController extends Controller
         $inputs = $request->getContent();
         error_log("inputs: " . $inputs);
         $inputs = json_decode($request->getContent(), true);
-        error_log("inputs: " . $inputs);
         foreach ($inputs as $input) {
             // データ整形
             error_log("input: " . $input);
