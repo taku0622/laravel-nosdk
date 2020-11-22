@@ -32,11 +32,12 @@ class DataBaseController extends Controller
     {
         error_log("hello...");
         error_log($request->getContent());
-        $inputs = json_decode($request->getContent(), true);
-        foreach ($inputs as $input) {
-            // データ整形
-            error_log("input: " . $input);
-        }
+        error_log(gettype($request->getContent()));
+        // foreach ($inputs as $input) {
+        //     // データ整形
+        //     $input = json_decode($input, true);
+        //     error_log("input[day]: " . $input["day"]);
+        // }
 
         return "connected!! updateReference";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
