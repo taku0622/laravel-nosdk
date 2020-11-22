@@ -46,15 +46,6 @@ class ResponseController extends Controller
                 default:
                     $watson = new Watson();
                     $message = $watson->watson($userId, $text);
-                    // $Response = $watson->watson($userId, $text);
-                    // $message = [
-                    //     "to" => [$userId],
-                    //     "type" => "text",
-                    //     "text" => $Response[0],
-                    //     "quickReply" => [
-                    //         "texts" => $Response[1]
-                    //     ]
-                    // ];
                     break;
             }
             $message = array($message);
@@ -92,8 +83,8 @@ class ResponseController extends Controller
             $contents = [];
             foreach ($infomations as $infomation) {
                 $content = [
-                    'title' => $infomation->title,
-                    'content' => $infomation->content,
+                    'title' => mb_substr($infomation->title, 0, 40),
+                    'content' => mb_substr($infomation->content, 0, 60),
                     'uri' => $infomation->uri,
                     'label' => '詳細'
                 ];
