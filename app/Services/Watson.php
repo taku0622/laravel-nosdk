@@ -24,6 +24,13 @@ class Watson
         $message = $this->serchReference1($userId, $text, $conversation_id);
         return $message;
       }
+      // 参考書サーチ2
+      $dialog_node = mb_substr($dialog_node, 0, 21);
+      $lecture_name = mb_substr($dialog_node, 21);
+      if ($dialog_node == "node_10_1606035689190") {
+        $message = $this->serchReference2($userId, $text, $conversation_id, $lecture_name);
+        return $message;
+      }
       #######################################################################
       // 前回までの会話のデータをパラメータに追加
       $data["context"] = array(
@@ -138,7 +145,7 @@ class Watson
       error_log(count($referenceInfomations));
       $count = count($referenceInfomations);
       if ($count > 1) { // 複数
-        $dialog_node = 'node_10_1606035689190';
+        $dialog_node = 'node_10_1606035689190' . $text;
         // 会話dbに保存
         DB::table('conversations')->where('userid', $userId)
           ->update([
@@ -177,6 +184,57 @@ class Watson
         ];
         return $message;
       }
+    }
+  }
+
+  // 参考書サーチ2
+  public function serchReference2($userId, $text, $conversation_id, $lecture_name)
+  {
+    // $textで講師検索
+    $referenceInfomation = DB::table('reference_informations')
+      ->where([
+        ['lecture_name', $lecture_name],
+        ['teacher_name', $text]
+      ])->first();
+    // ない  
+    if ($referenceInfomation->isEmpty()) {
+      $dialog_node = 'root';
+      // 会話dbに保存
+      DB::table('conversations')->where('userid', $userId)
+        ->update([
+          'conversation_id' => $conversation_id,
+          'dialog_node' => $dialog_node,
+        ]);
+      // メッセージ生成
+      $message = [
+        "to" => [$userId],
+        "type" => "text",
+        "text" => "講師が見つかりませんでした。\nすみませんが、「質問」からやり直してください",
+        "quickReply" => [
+          "texts" => ["質問"]
+        ]
+      ];
+      return $message;
+    } else {
+      // 一つある
+      $dialog_node = 'root';
+      // 会話dbに保存
+      DB::table('conversations')->where('userid', $userId)
+        ->update([
+          'conversation_id' => $conversation_id,
+          'dialog_node' => $dialog_node,
+        ]);
+      error_log($referenceInfomation->reference_name);
+      // メッセージ生成
+      $message = [
+        "to" => [$userId],
+        "type" => "text",
+        "text" => $referenceInfomation->reference_name,
+        "quickReply" => [
+          "texts" => NULL
+        ]
+      ];
+      return $message;
     }
   }
 }
