@@ -147,6 +147,52 @@ class PushCancelInfo
     }
     $allMessages[] = $message;
 
+    // BS学部
+    $bsStudents = DB::table('students')->select('user_id')
+      ->where([
+        ['push_cancel', false],
+        ['department', 'bs']
+      ])->get();
+    $bsStudentsId = [];
+    foreach ($bsStudents as $bsStudent) {
+      $bsStudentsId[] = $bsStudent->user_id;
+    }
+    $bsCancelInfomationsContents = [];
+    $bsCancelInfomations = DB::table('cancel_informations')
+      ->where([
+        ['date', '>=', $today],
+        ['department', 'bs']
+      ])->orderBy('date', 'asc')->limit(10)->get();
+    if ($bsCancelInfomations->isEmpty()) {
+      $message = [
+        "to" => $bsStudentsId,
+        "type" => "text",
+        "text" => "あなたの学部の休講案内はありません",
+      ];
+    } else {
+      foreach ($bsCancelInfomations as $bsCancelInfomation) {
+        $title = mb_substr($bsCancelInfomation->date . "\n"  .
+          $bsCancelInfomation->period . "\n" .
+          $bsCancelInfomation->lecture_name, 0, 40);
+        $bsCancelInfomationsContent = [
+          'title' => $title,
+          'content' => mb_substr($bsCancelInfomation->department, 0, 60),
+          'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+          'label' => '詳細'
+        ];
+        $bsCancelInfomationsContents[] = $bsCancelInfomationsContent;
+      }
+      $message = [
+        "to" => $bsStudentsId,
+        "type" => "multiple",
+        "altText" =>  "休講案内",
+        "contents" => $bsCancelInfomationsContents
+      ];
+    }
+    $allMessages[] = $message;
+
+
+
     $data = json_encode($allMessages, JSON_UNESCAPED_UNICODE);
     error_log($data);
     $options = array(
