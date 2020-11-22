@@ -80,7 +80,7 @@ class DataBaseController extends Controller
             // 昨日
             date_default_timezone_set('Asia/Tokyo');
             $yesterday = date('Y-m-d', strtotime('-1 day'));
-            $insertData = [
+            $insertInformation = [
                 'date' => $date,
                 'period' => $period,
                 'lecture_name' => $input["name"],
@@ -95,13 +95,13 @@ class DataBaseController extends Controller
 
             error_log($yesterday);
             if ($posted_date == $yesterday) {
-                $insertLists[] = $insertData;
+                $insertInformations[] = $insertInformation;
             }
         }
-        if ($insertLists = []) {
+        if ($insertInformations == []) {
             error_log("no list");
         } else {
-            error_log($insertLists);
+            error_log($insertInformations);
         }
         return "connected!! updateCancel";
     }
