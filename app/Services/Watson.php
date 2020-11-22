@@ -138,7 +138,23 @@ class Watson
       error_log(count($referenceInfomations));
       $count = count($referenceInfomations);
       if ($count > 1) { // 複数
-        $message = $count . "件見つかりました。\n講師の名前を入力してください";
+        $dialog_node = 'node_10_1606035689190';
+        // 会話dbに保存
+        DB::table('conversations')->where('userid', $userId)
+          ->update([
+            'conversation_id' => $conversation_id,
+            'dialog_node' => $dialog_node,
+          ]);
+        // メッセージ生成
+        $message = [
+          "to" => [$userId],
+          "type" => "text",
+          "text" => $count . "件見つかりました。\n講師の名前を入力してください",
+          "quickReply" => [
+            "texts" => NULL
+          ]
+        ];
+        return $message;
       } else {
         // 一つある
         $referenceInfomation = $referenceInfomations->first();
