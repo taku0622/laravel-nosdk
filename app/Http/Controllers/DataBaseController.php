@@ -127,8 +127,11 @@ class DataBaseController extends Controller
     {
         error_log("pushCancelINfo...");
         // push通知オンの人を集める
-        $students = DB::table('students')->where('push_cancel', true)->get();
-        error_log(json_encode($students, JSON_UNESCAPED_UNICODE));
+        $allStudents = DB::table('students')->select('user_id')
+            ->where('push_cancel', true);
+        error_log(json_encode($allStudents, JSON_UNESCAPED_UNICODE));
+        // CS学部
+        // $csStudents = $allStudents
         $userId = "U6e0f4008a090ff5b5bef0323cae3428e";
         $contents = [
             [
