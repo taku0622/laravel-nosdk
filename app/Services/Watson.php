@@ -14,7 +14,10 @@ class Watson
     // 前回までの会話のデータがデータベースに保存されていれば
     if ($this->getLastConversationData($userId)) {
       $lastConversationData = $this->getLastConversationData($userId);
-
+      #######################################################################
+      error_log($lastConversationData["conversation_id"]);
+      error_log($lastConversationData["dialog_node"]);
+      #######################################################################
       // 前回までの会話のデータをパラメータに追加
       $data["context"] = array(
         "conversation_id" => $lastConversationData["conversation_id"],
