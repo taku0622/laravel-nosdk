@@ -21,8 +21,9 @@ class DataBaseController extends Controller
     {
         error_log("hello...");
         error_log($request->getContent());
-        $input = $request->getContent();
-        error_log("input: " . $input);
+        $inputs = $request->getContent();
+        error_log("input: " . $inputs);
+        error_log(gettype($inputs));
         // 既にデータがあるか
         // ない場合
         return "connected!! updateCancel";
