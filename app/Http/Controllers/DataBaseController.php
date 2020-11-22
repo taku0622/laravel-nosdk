@@ -27,10 +27,13 @@ class DataBaseController extends Controller
         $inputs = json_decode($inputs, true);
         foreach ($inputs as $input) {
             // データ整形
-            $date = mb_substr($input["day"], 0, 11);
-            $search = ['年', '月', '日'];
+            $date = mb_substr($input["day"], 0, 10); // 2020年11月29
+            $period = mb_substr($input["day"], 12);
+            $search = ['年', '月'];
             $date = str_replace($search, '-', $date);
-            error_log("input[day]: " . $date);
+            error_log("input[day]: " . $input["day"]);
+            error_log("date: " . $date);
+            error_log("period: " . $period);
             error_log("input[name]: " . $input["name"]);
             error_log("input[instructor]: " . $input["instructor"]);
             error_log("input[department]: " . $input["department"]);
