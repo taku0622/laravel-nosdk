@@ -25,6 +25,7 @@ class DataBaseController extends Controller
         error_log("input: " . $inputs);
         error_log(gettype($inputs));
         $inputs = json_decode($inputs, true);
+        $insertInformations = [];
         foreach ($inputs as $input) {
             error_log("input[day]: " . $input["day"]); // 1
             error_log("input[name]: " . $input["name"]); // 2
@@ -59,8 +60,8 @@ class DataBaseController extends Controller
                 case 'デザイン学部':
                     $department = 'ds';
                     break;
-                case '医療保健学部':
-                    $department = 'hs';
+                default:
+                    $department = 'es';
                     break;
             }
             $posted_date = mb_substr($input["up"], 0, 10); // 2020年11月29
@@ -79,7 +80,24 @@ class DataBaseController extends Controller
             // 昨日
             date_default_timezone_set('Asia/Tokyo');
             $yesterday = date('Y-m-d', strtotime('-1 day'));
+            $insertData = [
+                'date' => $date,
+                'period' => $period,
+                'lecture_name' => $input["name"],
+                'teacher_name' => $input["instructor"],
+                'grade' => $input["grade"],
+                'department' => $department,
+                'class' => $input["class"],
+                'note' => $input["note"],
+                'posted_date' => $posted_date,
+                'contributor' => $input["from"],
+            ];
+
             error_log($yesterday);
+            if ($posted_date == $yesterday) {
+                $insertLists[] = $insertData;
+            }
+            error_log($insertLists);
         }
         return "connected!! updateCancel";
     }
