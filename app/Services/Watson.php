@@ -192,15 +192,16 @@ class Watson
   public function serchReference2($userId, $text, $conversation_id, $lecture_name)
   {
     // $textで講師検索
-    $referenceInfomation = DB::table('reference_informations')
+    $referenceInfomations = DB::table('reference_informations')
       ->where([
         ['lecture_name', $lecture_name],
         ['teacher_name', $text]
-      ])->first();
+      ])->get();
     $dialog_node = 'root';
     // ない
     error_log("ここですか");
-    if ($referenceInfomation->isEmpty()) {
+
+    if ($referenceInfomations->isEmpty()) {
       // 会話dbに保存
       DB::table('conversations')->where('userid', $userId)
         ->update([
@@ -219,6 +220,7 @@ class Watson
       return $message;
     } else {
       // 一つある
+      $referenceInfomation = $referenceInfomations->first();
       // 会話dbに保存
       DB::table('conversations')->where('userid', $userId)
         ->update([
