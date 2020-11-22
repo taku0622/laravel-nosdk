@@ -52,7 +52,7 @@ class ResponseController extends Controller
                     $message = $watson->watson($userId, $text);
                     break;
                 default:
-                    $message = $this->eventInfo($userId, $text);
+                    $message = $this->referenceInfo($userId, $text);
                     break;
             }
             $message = array($message);
@@ -189,6 +189,40 @@ class ResponseController extends Controller
         return $message;
     }
 
+    public function referenceInfo($userId, $text): array
+    {
+        $message = [
+            "to" => [$userId],
+            "type" => "text",
+            "text" => "参考書検索",
+        ];
+        return $message;
+    }
+
+    public function followEvent($userId)
+    {
+        // すでにあるか
+        $student = DB::table('students')->where('user_id', $userId)->first();
+        error_log(json_encode($student));
+        error_log(isset($student->user_id));
+        // データがない場合
+        if (!isset($student->user_id)) {
+            DB::table('students')->insert(
+                [
+                    'user_id' => $userId,
+                    'number' => "",
+                    'department' => "all",
+                    'push_new' => TRUE,
+                    'push_important' => TRUE,
+                    'push_cancel' => TRUE,
+                    'push_event' => TRUE,
+                ]
+            );
+        }
+        $message = "followed";
+        return $message;
+    }
+
     public function eventInfo($userId, $text): array
     {
         $eventInfomations = DB::table('event_informations')
@@ -217,30 +251,6 @@ class ResponseController extends Controller
                 "contents" => $contents
             ];
         }
-        return $message;
-    }
-
-    public function followEvent($userId)
-    {
-        // すでにあるか
-        $student = DB::table('students')->where('user_id', $userId)->first();
-        error_log(json_encode($student));
-        error_log(isset($student->user_id));
-        // データがない場合
-        if (!isset($student->user_id)) {
-            DB::table('students')->insert(
-                [
-                    'user_id' => $userId,
-                    'number' => "",
-                    'department' => "all",
-                    'push_new' => TRUE,
-                    'push_important' => TRUE,
-                    'push_cancel' => TRUE,
-                    'push_event' => TRUE,
-                ]
-            );
-        }
-        $message = "followed";
         return $message;
     }
 }
