@@ -127,7 +127,7 @@ class DataBaseController extends Controller
     {
         error_log("pushCancelINfo...");
         $allMessages = []; //最後に使う
-        // push通知オンの人を集める
+        // push通知オンの人を集める ここではfalse
         $allStudents = DB::table('students')->select('user_id')
             ->where('push_cancel', false);
 
@@ -211,8 +211,8 @@ class DataBaseController extends Controller
         $allMessages[] = $message;
 
 
-
         $data = json_encode($allMessages, JSON_UNESCAPED_UNICODE);
+        error_log($data);
         $options = array(
             'http' => array(
                 'method' => 'POST',
