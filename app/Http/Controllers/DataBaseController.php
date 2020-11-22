@@ -24,8 +24,11 @@ class DataBaseController extends Controller
         $inputs = $request->getContent();
         error_log("input: " . $inputs);
         error_log(gettype($inputs));
-        // 既にデータがあるか
-        // ない場合
+        $inputs = json_decode($inputs, true);
+        foreach ($inputs as $input) {
+            // データ整形
+            error_log("input[day]: " . $input["day"]);
+        }
         return "connected!! updateCancel";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
