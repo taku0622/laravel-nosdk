@@ -115,8 +115,8 @@ class ResponseController extends Controller
             $contents = [];
             foreach ($infomations as $infomation) {
                 $content = [
-                    'title' => $infomation->title,
-                    'content' => $infomation->content,
+                    'title' => mb_substr($infomation->title, 0, 40),
+                    'content' => mb_substr($infomation->content, 0, 60),
                     'uri' => $infomation->uri,
                     'label' => '詳細'
                 ];
@@ -161,11 +161,12 @@ class ResponseController extends Controller
         } else {
             $contents = [];
             foreach ($cancelInfomations as $cancelInfomation) {
+                $title = mb_substr($cancelInfomation->date . "\n"  .
+                    $cancelInfomation->period . "\n" .
+                    $cancelInfomation->lecture_name, 0, 40);
                 $content = [
-                    'title' => $cancelInfomation->date . "\n"  .
-                        $cancelInfomation->period . "\n" .
-                        $cancelInfomation->lecture_name,
-                    'content' => $cancelInfomation->department,
+                    'title' => $title,
+                    'content' => mb_substr($cancelInfomation->department, 0, 60),
                     'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
                     'label' => '詳細'
                 ];
