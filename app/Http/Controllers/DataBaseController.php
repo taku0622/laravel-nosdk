@@ -101,7 +101,7 @@ class DataBaseController extends Controller
         if ($insertInformations == []) {
             error_log("no list");
         } else {
-            error_log($insertInformations);
+            error_log("exist");
         }
         return "connected!! updateCancel";
     }
