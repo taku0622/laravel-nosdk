@@ -106,6 +106,7 @@ class DataBaseController extends Controller
             error_log("exist");
             DB::table('cancel_informations')->insert($insertInformations);
         }
+        $this->postCancelInfo();
         return "connected!! updateCancel";
     }
     public function updateReference(Request $request)
@@ -121,5 +122,64 @@ class DataBaseController extends Controller
 
         return "connected!! updateReference";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
+    }
+    public function postCancelInfo()
+    {
+        error_log("pushCancelINfo...");
+        $userId = "U6e0f4008a090ff5b5bef0323cae3428e";
+        $contents = [
+            [
+                'title' => '【図書館】リクエストの結果報告＜八王子キャンパス＞',
+                'content' => '10月（前半）の選書の結果、以下のリクエストが採択されました。',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/64555/',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '2020年度第2学期（後期）放送大学特別聴講学生',
+                'content' => '放送大学特別聴講学生へ',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020_dai2gakki_housoudaigaku_1022.pdf',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '【CS学部】2020年度「創成課題」教室（10/22更新）',
+                'content' => '属された研究室ごとに、創成課題を行います。',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/2020CS_souseikadai_kyousitu20201022.pdf',
+                'label' => '詳細'
+            ],
+            [
+                'title' => 'シェアサイクル設置のお知らせ（八王子キャンパス）',
+                'content' => '八王子キャンパスにシェアサイクルを設置することになりました。',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/wp-content/uploads/2020/10/shearingu_settiosirase_1021.pdf',
+                'label' => '詳細'
+            ],
+            [
+                'title' => '【図書館】図書館アルバイトを募集します！＜八王子キャンパス＞',
+                'content' => 'お申し込みを お待ちしています。',
+                'uri' => 'https://service.cloud.teu.ac.jp/inside2/archives/12658/',
+                'label' => '詳細'
+            ]
+        ];
+        $message = [
+            "to" => [$userId],
+            "type" => "multiple",
+            "altText" =>  "新着情報",
+            "contents" => $contents
+        ];
+        $data = json_encode([$message], JSON_UNESCAPED_UNICODE);
+        $options = array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => "Content-type: text/plain\n"
+                    . "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\r\n" // 適当に名乗ったりできます
+                    . "Content-Length: " . strlen($data) . "\r\n",
+                'content' => $data
+            )
+        );
+        error_log(json_encode($data, JSON_UNESCAPED_UNICODE));
+
+        $context = stream_context_create($options);
+        $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
+        echo gettype($response);
+        echo $response;
     }
 }
