@@ -28,6 +28,8 @@ class DataBaseController extends Controller
         foreach ($inputs as $input) {
             // データ整形
             $date = mb_substr($input["day"], 0, 11);
+            $search = ['年', '月', '日'];
+            $date = str_replace($search, '-', $date);
             error_log("input[day]: " . $date);
             error_log("input[name]: " . $input["name"]);
             error_log("input[instructor]: " . $input["instructor"]);
