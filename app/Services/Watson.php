@@ -197,9 +197,9 @@ class Watson
         ['lecture_name', $lecture_name],
         ['teacher_name', $text]
       ])->first();
-    // ない  
+    $dialog_node = 'root';
+    // ない
     if ($referenceInfomation->isEmpty()) {
-      $dialog_node = 'root';
       // 会話dbに保存
       DB::table('conversations')->where('userid', $userId)
         ->update([
@@ -218,7 +218,6 @@ class Watson
       return $message;
     } else {
       // 一つある
-      $dialog_node = 'root';
       // 会話dbに保存
       DB::table('conversations')->where('userid', $userId)
         ->update([
