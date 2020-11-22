@@ -75,7 +75,6 @@ class DataBaseController extends Controller
             error_log("note: " . $input["note"]); // 8
             error_log("posted_date: " . $posted_date); // 9
             error_log("contributor: " . $input["from"]); // 10
-
         }
         return "connected!! updateCancel";
     }
