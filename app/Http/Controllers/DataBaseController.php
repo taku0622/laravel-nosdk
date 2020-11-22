@@ -109,7 +109,7 @@ class DataBaseController extends Controller
             DB::table('cancel_informations')->insert($insertInformations);
         }
         $pushCancelInfo = new PushCancelInfo();
-        $pushCancelInfo->pushCancelInfo;
+        $pushCancelInfo->pushCancelInfo();
         // $this->pushCancelInfo();
         return "connected!! updateCancel";
     }
