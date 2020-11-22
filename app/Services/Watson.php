@@ -162,21 +162,5 @@ class Watson
         return $message;
       }
     }
-    // $conversationId = $lastConversationData['conversation_id'];
-    // $dialogNode = $lastConversationData['dialog_node'];
-
-    // if (!($this->getLastConversationData($userId))) {
-    //   DB::table('conversations')->insert([
-    //     'conversation_id' => $conversationId,
-    //     'dialog_node' => $dialogNode,
-    //     'userid' => $userId
-    //   ]);
-    // } else {
-    //   DB::table('conversations')->where('userid', $userId)
-    //     ->update([
-    //       'conversation_id' => $conversationId,
-    //       'dialog_node' => $dialogNode,
-    //     ]);
-    // }
   }
 }
