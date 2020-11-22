@@ -14,12 +14,7 @@ class Watson
     // 前回までの会話のデータがデータベースに保存されていれば
     if ($this->getLastConversationData($userId)) {
       $lastConversationData = $this->getLastConversationData($userId);
-      ################################################################################
-      // 参考書の時
-      error_log($lastConversationData["userid"]);
-      error_log($lastConversationData["conversation_id"]);
-      error_log($lastConversationData["dialog_node"]);
-      ################################################################################
+
       // 前回までの会話のデータをパラメータに追加
       $data["context"] = array(
         "conversation_id" => $lastConversationData["conversation_id"],
@@ -30,7 +25,6 @@ class Watson
         )
       );
     }
-    ## ここまでが前回データ
     $data_json = json_encode($data, JSON_UNESCAPED_UNICODE);
     $headers = ['Content-Type' => 'application/json', 'Content-Length' => strlen($data_json)];
     $curlOpts = [
