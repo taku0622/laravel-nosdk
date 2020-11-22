@@ -163,7 +163,7 @@ class Watson
         $message = [
           "to" => [$userId],
           "type" => "text",
-          "text" => $count . "件見つかりました。\n講師の名前を入力してください",
+          "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
           "quickReply" => [
             "texts" => $names13
           ]
