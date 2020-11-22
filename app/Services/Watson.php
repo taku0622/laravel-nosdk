@@ -130,7 +130,7 @@ class Watson
         "type" => "text",
         "text" => "正しい講義名を入力してください\nすみませんが、「質問」からやり直してください",
         "quickReply" => [
-          "texts" => "質問"
+          "texts" => ["質問"]
         ]
       ];
       return $message;
