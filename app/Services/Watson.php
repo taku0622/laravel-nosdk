@@ -27,6 +27,8 @@ class Watson
       // 参考書サーチ2
       if (mb_substr($dialog_node, 0, 21) == "node_10_1606035689190") {
         $lecture_name = mb_substr($dialog_node, 21);
+        error_log($text); //講師
+        error_log($lecture_name); //講義名
         $message = $this->serchReference2($userId, $text, $conversation_id, $lecture_name);
         return $message;
       }
