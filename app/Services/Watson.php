@@ -159,6 +159,7 @@ class Watson
             "texts" => NULL
           ]
         ];
+        return $message;
       }
     }
     // $conversationId = $lastConversationData['conversation_id'];
