@@ -47,6 +47,7 @@ class ResponseController extends Controller
                 case '履修登録':
                 case '証明書発行':
                 case 'バス時刻表':
+                case '参考書':
                     $watson = new Watson();
                     $message = $watson->watson($userId, $text);
                     break;
