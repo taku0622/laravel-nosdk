@@ -78,7 +78,7 @@ class DataBaseController extends Controller
             // 0:00に定期実行と定義する
             // 昨日
             date_default_timezone_set('Asia/Tokyo');
-            $yesterday = date("Y-m-d", strtotime('-1 day'));
+            $yesterday = date('Y-m-d', strtotime('-1 day'));
             error_log($yesterday);
         }
         return "connected!! updateCancel";
