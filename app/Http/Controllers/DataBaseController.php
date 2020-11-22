@@ -97,6 +97,10 @@ class DataBaseController extends Controller
             if ($posted_date == $yesterday) {
                 $insertLists[] = $insertData;
             }
+        }
+        if ($insertLists = []) {
+            error_log("no list");
+        } else {
             error_log($insertLists);
         }
         return "connected!! updateCancel";
