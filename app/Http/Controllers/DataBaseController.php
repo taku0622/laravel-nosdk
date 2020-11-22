@@ -75,6 +75,10 @@ class DataBaseController extends Controller
             error_log("note: " . $input["note"]); // 8
             error_log("posted_date: " . $posted_date); // 9
             error_log("contributor: " . $input["from"]); // 10
+            // 今日
+            date_default_timezone_set('Asia/Tokyo');
+            $today = date("Y-m-d");
+            error_log($today - 1);
         }
         return "connected!! updateCancel";
     }
