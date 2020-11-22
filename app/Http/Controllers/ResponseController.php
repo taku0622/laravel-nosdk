@@ -48,7 +48,7 @@ class ResponseController extends Controller
                     $message = $watson->watson($userId, $text);
                     break;
                 default:
-                    $message = "すみません。解釈できませんでした。\nメニューから入力をお願いします。";
+                    $message = $this->eventInfo($userId, $text);
                     break;
             }
             $message = array($message);
