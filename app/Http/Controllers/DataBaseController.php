@@ -174,10 +174,11 @@ class DataBaseController extends Controller
         }
         $allMessages[] = $message;
 
-        // eS学部
+        // es学部
         $esStudents = $allStudents->where('department', 'es')->get();
         $esStudentsId = [];
         foreach ($esStudents as $esStudent) {
+            error_log("ここにいるはず" . $esStudent->user_id);
             $esStudentsId[] = $esStudent->user_id;
         }
         $esCancelInfomationsContents = [];
