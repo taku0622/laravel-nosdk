@@ -99,9 +99,12 @@ class DataBaseController extends Controller
             }
         }
         if ($insertInformations == []) {
+            // インサートするデータがあるとき
             error_log("no list");
         } else {
+            // インサートするデータがないとき
             error_log("exist");
+            DB::table('cancel_informations')->insert($insertInformations);
         }
         return "connected!! updateCancel";
     }
