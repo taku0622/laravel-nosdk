@@ -17,6 +17,13 @@ class Watson
       #######################################################################
       error_log($lastConversationData["conversation_id"]);
       error_log($lastConversationData["dialog_node"]);
+      $conversation_id = $lastConversationData["conversation_id"];
+      $dialog_node = $lastConversationData["dialog_node"];
+      // 参考書サーチ1
+      if ($dialog_node == "node_1_1606031433273") {
+        $message = $this->serchReference1($userId, $text, $conversation_id);
+        return $message;
+      }
       #######################################################################
       // 前回までの会話のデータをパラメータに追加
       $data["context"] = array(
@@ -100,5 +107,75 @@ class Watson
           'dialog_node' => $dialogNode,
         ]);
     }
+  }
+
+  // 参考書サーチ1
+  public function serchReference1($userId, $text, $conversation_id)
+  {
+    // $textで参考書検索
+    $referenceInfomations = DB::table('reference_informations')
+      ->where('lecture_name', $text)->get();
+    // ない  
+    if ($referenceInfomations->isEmpty()) {
+      $dialog_node = 'root';
+      // 会話dbに保存
+      DB::table('conversations')->where('userid', $userId)
+        ->update([
+          'conversation_id' => $conversation_id,
+          'dialog_node' => $dialog_node,
+        ]);
+      // メッセージ生成
+      $message = [
+        "to" => [$userId],
+        "type" => "text",
+        "text" => "正しい講義名を入力してください",
+        "quickReply" => [
+          "texts" => NULL
+        ]
+      ];
+      return $message;
+    } else {
+      error_log(count($referenceInfomations));
+      $count = count($referenceInfomations);
+      if ($count > 1) { // 複数
+        $message = $count . "件見つかりました。\n講師の名前を入力してください";
+      } else {
+        // 一つある
+        $referenceInfomation = $referenceInfomations->first();
+        $dialog_node = 'root';
+        // 会話dbに保存
+        DB::table('conversations')->where('userid', $userId)
+          ->update([
+            'conversation_id' => $conversation_id,
+            'dialog_node' => $dialog_node,
+          ]);
+        error_log($referenceInfomation->reference_name);
+        // メッセージ生成
+        $message = [
+          "to" => [$userId],
+          "type" => "text",
+          "text" => $referenceInfomation->reference_name,
+          "quickReply" => [
+            "texts" => NULL
+          ]
+        ];
+      }
+    }
+    // $conversationId = $lastConversationData['conversation_id'];
+    // $dialogNode = $lastConversationData['dialog_node'];
+
+    // if (!($this->getLastConversationData($userId))) {
+    //   DB::table('conversations')->insert([
+    //     'conversation_id' => $conversationId,
+    //     'dialog_node' => $dialogNode,
+    //     'userid' => $userId
+    //   ]);
+    // } else {
+    //   DB::table('conversations')->where('userid', $userId)
+    //     ->update([
+    //       'conversation_id' => $conversationId,
+    //       'dialog_node' => $dialogNode,
+    //     ]);
+    // }
   }
 }
