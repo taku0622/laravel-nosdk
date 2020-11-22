@@ -199,6 +199,7 @@ class Watson
       ])->first();
     $dialog_node = 'root';
     // ない
+    error_log("ここですか");
     if ($referenceInfomation->isEmpty()) {
       // 会話dbに保存
       DB::table('conversations')->where('userid', $userId)
