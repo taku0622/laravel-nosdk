@@ -176,10 +176,7 @@ class DataBaseController extends Controller
             )
         );
         error_log(json_encode($data, JSON_UNESCAPED_UNICODE));
-
         $context = stream_context_create($options);
         $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
-        echo gettype($response);
-        echo $response;
     }
 }
