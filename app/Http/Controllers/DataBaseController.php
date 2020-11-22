@@ -32,8 +32,8 @@ class DataBaseController extends Controller
             $search = ['年', '月'];
             $date = str_replace($search, '-', $date);
             error_log("input[day]: " . $input["day"]);
-            error_log("date: " . $date);
-            error_log("period: " . $period);
+            error_log("date:" . $date);
+            error_log("period:" . $period);
             error_log("input[name]: " . $input["name"]);
             error_log("input[instructor]: " . $input["instructor"]);
             error_log("input[department]: " . $input["department"]);
