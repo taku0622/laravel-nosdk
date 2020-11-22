@@ -27,7 +27,8 @@ class DataBaseController extends Controller
         $inputs = json_decode($inputs, true);
         foreach ($inputs as $input) {
             // データ整形
-            error_log("input[day]: " . $input["day"]);
+            $date = mb_substr($input["day"], 0, 11);
+            error_log("input[day]: " . $date);
             error_log("input[name]: " . $input["name"]);
             error_log("input[instructor]: " . $input["instructor"]);
             error_log("input[department]: " . $input["department"]);
@@ -37,7 +38,6 @@ class DataBaseController extends Controller
             error_log("input[from]: " . $input["from"]);
         }
         return "connected!! updateCancel";
-        // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
     public function updateReference(Request $request)
     {
