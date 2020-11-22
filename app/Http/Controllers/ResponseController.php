@@ -43,16 +43,17 @@ class ResponseController extends Controller
                 case "イベント":
                     $message = $this->eventInfo($userId, $text);
                     break;
-                case '質問':
-                case '履修登録':
-                case '証明書発行':
-                case 'バス時刻表':
-                case '参考書':
+                    // case '質問':
+                    // case '履修登録':
+                    // case '証明書発行':
+                    // case 'バス時刻表':
+                    // case '参考書':
+                    //     $watson = new Watson();
+                    //     $message = $watson->watson($userId, $text);
+                    //     break;
+                default:
                     $watson = new Watson();
                     $message = $watson->watson($userId, $text);
-                    break;
-                default:
-                    $message = $this->referenceInfo($userId, $text);
                     break;
             }
             $message = array($message);
