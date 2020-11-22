@@ -25,9 +25,8 @@ class Watson
         return $message;
       }
       // 参考書サーチ2
-      $dialog_node = mb_substr($dialog_node, 0, 21);
-      $lecture_name = mb_substr($dialog_node, 21);
-      if ($dialog_node == "node_10_1606035689190") {
+      if (mb_substr($dialog_node, 0, 21) == "node_10_1606035689190") {
+        $lecture_name = mb_substr($dialog_node, 21);
         $message = $this->serchReference2($userId, $text, $conversation_id, $lecture_name);
         return $message;
       }
