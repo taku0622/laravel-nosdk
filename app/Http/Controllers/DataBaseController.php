@@ -127,16 +127,9 @@ class DataBaseController extends Controller
     {
         error_log("pushCancelINfo...");
         $allMessages = []; //最後に使う
-        // push通知オンの人を集める ここではfalse
-        // $allStudents = DB::table('students')->select('user_id')
-        //     ->where('push_cancel', false);
 
-        // 休講情報
         date_default_timezone_set('Asia/Tokyo');
         $today = date("Y-m-d");
-        // $cancelInfomations = DB::table('cancel_informations')
-        //     ->where('date', '>=', $today)
-        //     ->orderBy('date', 'asc');
 
         // CS学部
         $csStudents = DB::table('students')->select('user_id')
@@ -181,13 +174,6 @@ class DataBaseController extends Controller
             ];
         }
         $allMessages[] = $message;
-
-        // 休講情報
-        // date_default_timezone_set('Asia/Tokyo');
-        // $today = date("Y-m-d");
-        // $cancelInfomations = DB::table('cancel_informations')
-        //     ->where('date', '>=', $today)
-        //     ->orderBy('date', 'asc');
 
         // es学部
         $esStudents = DB::table('students')->select('user_id')
