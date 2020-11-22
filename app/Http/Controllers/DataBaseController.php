@@ -28,6 +28,13 @@ class DataBaseController extends Controller
         foreach ($inputs as $input) {
             // データ整形
             error_log("input[day]: " . $input["day"]);
+            error_log("input[name]: " . $input["name"]);
+            error_log("input[instructor]: " . $input["instructor"]);
+            error_log("input[department]: " . $input["department"]);
+            error_log("input[grade]: " . $input["grade"]);
+            error_log("input[note]: " . $input["note"]);
+            error_log("input[up]: " . $input["up"]);
+            error_log("input[from]: " . $input["from"]);
         }
         return "connected!! updateCancel";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
