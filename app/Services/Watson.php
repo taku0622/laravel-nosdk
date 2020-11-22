@@ -154,12 +154,16 @@ class Watson
             'dialog_node' => $dialog_node,
           ]);
         // メッセージ生成
+        $names = [];
+        foreach ($referenceInfomations as $referenceInfomation) {
+          $names[] = $referenceInfomation->teacher_name;
+        }
         $message = [
           "to" => [$userId],
           "type" => "text",
           "text" => $count . "件見つかりました。\n講師の名前を入力してください",
           "quickReply" => [
-            "texts" => NULL
+            "texts" => $names
           ]
         ];
         return $message;
