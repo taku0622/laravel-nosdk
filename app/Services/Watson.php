@@ -158,12 +158,14 @@ class Watson
         foreach ($referenceInfomations as $referenceInfomation) {
           $names[] = $referenceInfomation->teacher_name;
         }
+        // names配列切り取り限度13(line quick reply)
+        $names13 = array_slice($names, 0, 13);
         $message = [
           "to" => [$userId],
           "type" => "text",
           "text" => $count . "件見つかりました。\n講師の名前を入力してください",
           "quickReply" => [
-            "texts" => $names
+            "texts" => $names13
           ]
         ];
         return $message;
