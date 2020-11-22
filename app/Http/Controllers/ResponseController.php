@@ -44,6 +44,9 @@ class ResponseController extends Controller
                     $message = $this->eventInfo($userId, $text);
                     break;
                 case '質問':
+                case '履修登録':
+                case '証明書発行':
+                case 'バス時刻表':
                     $watson = new Watson();
                     $message = $watson->watson($userId, $text);
                     break;
