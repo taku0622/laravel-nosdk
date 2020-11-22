@@ -173,6 +173,45 @@ class DataBaseController extends Controller
             ];
         }
         $allMessages[] = $message;
+
+        // eS学部
+        $esStudents = $allStudents->where('department', 'es')->get();
+        $esStudentsId = [];
+        foreach ($esStudents as $esStudent) {
+            $esStudentsId[] = $esStudent->user_id;
+        }
+        $esCancelInfomationsContents = [];
+        $esCancelInfomations = $cancelInfomations->where('department', 'es')->limit(10)->get();
+        if ($esCancelInfomations->isEmpty()) {
+            $message = [
+                "to" => $esStudentsId,
+                "type" => "text",
+                "text" => "あなたの学部の休講案内はありません",
+            ];
+        } else {
+            foreach ($esCancelInfomations as $esCancelInfomation) {
+                $title = mb_substr($esCancelInfomation->date . "\n"  .
+                    $esCancelInfomation->period . "\n" .
+                    $esCancelInfomation->lecture_name, 0, 40);
+                $esCancelInfomationsContent = [
+                    'title' => $title,
+                    'content' => mb_substr($esCancelInfomation->department, 0, 60),
+                    'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+                    'label' => '詳細'
+                ];
+                $esCancelInfomationsContents[] = $esCancelInfomationsContent;
+            }
+            $message = [
+                "to" => $esStudentsId,
+                "type" => "multiple",
+                "altText" =>  "休講案内",
+                "contents" => $esCancelInfomationsContents
+            ];
+        }
+        $allMessages[] = $message;
+
+
+
         $data = json_encode($allMessages, JSON_UNESCAPED_UNICODE);
         $options = array(
             'http' => array(
