@@ -162,7 +162,7 @@ class DataBaseController extends Controller
         $message = [
             "to" => [$userId],
             "type" => "multiple",
-            "altText" =>  "新着情報",
+            "altText" =>  "休講案内",
             "contents" => $contents
         ];
         $data = json_encode([$message], JSON_UNESCAPED_UNICODE);
