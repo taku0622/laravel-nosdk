@@ -128,24 +128,32 @@ class DataBaseController extends Controller
         error_log("pushCancelINfo...");
         $allMessages = []; //最後に使う
         // push通知オンの人を集める ここではfalse
-        $allStudents = DB::table('students')->select('user_id')
-            ->where('push_cancel', false);
+        // $allStudents = DB::table('students')->select('user_id')
+        //     ->where('push_cancel', false);
 
         // 休講情報
         date_default_timezone_set('Asia/Tokyo');
         $today = date("Y-m-d");
-        $cancelInfomations = DB::table('cancel_informations')
-            ->where('date', '>=', $today)
-            ->orderBy('date', 'asc');
+        // $cancelInfomations = DB::table('cancel_informations')
+        //     ->where('date', '>=', $today)
+        //     ->orderBy('date', 'asc');
 
         // CS学部
-        $csStudents = $allStudents->where('department', 'cs')->get();
+        $csStudents = DB::table('students')->select('user_id')
+            ->where([
+                ['push_cancel', false],
+                ['department', 'cs']
+            ])->get();
         $csStudentsId = [];
         foreach ($csStudents as $csStudent) {
             $csStudentsId[] = $csStudent->user_id;
         }
         $csCancelInfomationsContents = [];
-        $csCancelInfomations = $cancelInfomations->where('department', 'cs')->limit(10)->get();
+        $csCancelInfomations = DB::table('cancel_informations')
+            ->where([
+                ['date', '>=', $today],
+                ['department', 'cs']
+            ])->orderBy('date', 'asc')->limit(10)->get();
         if ($csCancelInfomations->isEmpty()) {
             $message = [
                 "to" => $csStudentsId,
@@ -174,26 +182,29 @@ class DataBaseController extends Controller
         }
         $allMessages[] = $message;
 
-        // push通知オンの人を集める ここではfalse
-        $allStudents = DB::table('students')->select('user_id')
-            ->where('push_cancel', false);
-
         // 休講情報
-        date_default_timezone_set('Asia/Tokyo');
-        $today = date("Y-m-d");
-        $cancelInfomations = DB::table('cancel_informations')
-            ->where('date', '>=', $today)
-            ->orderBy('date', 'asc');
+        // date_default_timezone_set('Asia/Tokyo');
+        // $today = date("Y-m-d");
+        // $cancelInfomations = DB::table('cancel_informations')
+        //     ->where('date', '>=', $today)
+        //     ->orderBy('date', 'asc');
 
         // es学部
-        $esStudents = $allStudents->where('department', 'es')->get();
+        $esStudents = DB::table('students')->select('user_id')
+            ->where([
+                ['push_cancel', false],
+                ['department', 'es']
+            ])->get();
         $esStudentsId = [];
         foreach ($esStudents as $esStudent) {
-            error_log("ここにいるはず" . $esStudent->user_id);
             $esStudentsId[] = $esStudent->user_id;
         }
         $esCancelInfomationsContents = [];
-        $esCancelInfomations = $cancelInfomations->where('department', 'es')->limit(10)->get();
+        $esCancelInfomations = DB::table('cancel_informations')
+            ->where([
+                ['date', '>=', $today],
+                ['department', 'es']
+            ])->orderBy('date', 'asc')->limit(10)->get();
         if ($esCancelInfomations->isEmpty()) {
             $message = [
                 "to" => $esStudentsId,
