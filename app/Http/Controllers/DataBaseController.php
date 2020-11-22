@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use App\push\PushCancelInfo;
+
 class DataBaseController extends Controller
 {
     public function updateNew(Request $request)
@@ -106,7 +108,9 @@ class DataBaseController extends Controller
             error_log("exist");
             DB::table('cancel_informations')->insert($insertInformations);
         }
-        $this->pushCancelInfo();
+        $pushCancelInfo = new PushCancelInfo();
+        $pushCancelInfo->pushCancelInfo;
+        // $this->pushCancelInfo();
         return "connected!! updateCancel";
     }
     public function updateReference(Request $request)
@@ -123,6 +127,7 @@ class DataBaseController extends Controller
         return "connected!! updateReference";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
+
     public function pushCancelInfo()
     {
         error_log("pushCancelINfo...");
