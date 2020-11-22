@@ -106,7 +106,7 @@ class DataBaseController extends Controller
             error_log("exist");
             DB::table('cancel_informations')->insert($insertInformations);
         }
-        $this->postCancelInfo();
+        $this->pushCancelInfo();
         return "connected!! updateCancel";
     }
     public function updateReference(Request $request)
@@ -123,7 +123,7 @@ class DataBaseController extends Controller
         return "connected!! updateReference";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
-    public function postCancelInfo()
+    public function pushCancelInfo()
     {
         error_log("pushCancelINfo...");
         $allMessages = []; //最後に使う
