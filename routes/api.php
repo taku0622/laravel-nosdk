@@ -25,9 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware(['throttle:testLimit'])->group(function () {
     Route::post('/v1/messages/reply', [ResponseController::class, 'response']);
+    Route::post('/parrot', [LineBotController::class, 'parrot']);
 });
-
-Route::post('/parrot', [LineBotController::class, 'parrot']);
 
 
 Route::get('/v1/settings/{id?}', [SettingController::class, 'index']);
