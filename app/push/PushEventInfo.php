@@ -23,7 +23,7 @@ class PushEventInfo
     foreach ($allStudents as $allStudent) {
       $allStudentsId[] = $allStudent->user_id;
     }
-    error_log($allStudentsId);
+    error_log("ここまで");
 
     $allEventInfomationsContents = [];
     $allEventInfomations = DB::table('event_informations')
