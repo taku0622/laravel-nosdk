@@ -119,13 +119,16 @@ class DataBaseController extends Controller
     {
         error_log("hello...");
         error_log($request->getContent());
-        error_log(gettype($request->getContent()));
-        // foreach ($inputs as $input) {
-        //     // データ整形
-        //     $input = json_decode($input, true);
-        //     error_log("input[day]: " . $input["day"]);
-        // }
-
+        $inputs = $request->getContent();
+        error_log("input: " . $inputs);
+        error_log(gettype($inputs));
+        $inputs = json_decode($inputs, true);
+        $insertInformations = [];
+        foreach ($inputs as $input) {
+            error_log("input[name]: " . $input["name"]); // 1
+            error_log("input[instructor]: " . $input["ninstructor"]); // 1
+            error_log("input[reference]: " . $input["reference"]); // 1
+        }
         return "connected!! updateReference";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
