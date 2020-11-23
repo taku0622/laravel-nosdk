@@ -173,7 +173,7 @@ class DataBaseController extends Controller
         } else {
             // インサートするデータがないとき
             error_log("exist");
-            DB::table('cancel_informations')->insert($insertInformations);
+            // DB::table('cancel_informations')->insert($insertInformations);
         }
         $pushCancelInfo = new PushCancelInfo();
         $pushCancelInfo->pushCancelInfo();
@@ -190,6 +190,7 @@ class DataBaseController extends Controller
         error_log(gettype($inputs));
         $inputs = json_decode($inputs, true);
         $insertInformations = [];
+        // 
         foreach ($inputs as $input) {
             error_log("input[name]: " . $input["name"]); // 1
             error_log("input[instructor]: " . $input["instructor"]); // 1
@@ -203,6 +204,5 @@ class DataBaseController extends Controller
         }
         DB::table('reference_informations')->insert($insertInformations);
         return "connected!! updateReference";
-        // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
 }
