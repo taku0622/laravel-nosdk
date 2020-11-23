@@ -44,6 +44,7 @@ class DataBaseController extends Controller
                     'uri' => $input["uri"],
                     'posted_date' => $posted_date
                 ];
+                error_log(json_encode($insertInformation, JSON_UNESCAPED_UNICODE));
                 DB::table('informations')->insert($insertInformation);
                 // // tagsテーブルにデータを入れる
                 // $insertInformation = [];
