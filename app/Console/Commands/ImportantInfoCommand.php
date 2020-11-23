@@ -4,14 +4,16 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class SampleCommand extends Command
+use App\push\PushImportantInfo; //　重要情報
+
+class ImportantInfoCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:sample';
+    protected $signature = 'command:pushImportant';
 
     /**
      * The console command description.
@@ -37,7 +39,8 @@ class SampleCommand extends Command
      */
     public function handle()
     {
-        // php artisan command:sample
-        echo "hello";
+        // php artisan command:pushImportant
+        $pushImportantInfo = new PushImportantInfo();
+        $pushImportantInfo->pushImportantInfo();
     }
 }

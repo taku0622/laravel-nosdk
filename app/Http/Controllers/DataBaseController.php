@@ -6,10 +6,6 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
-use App\push\PushCancelInfo; // 休講
-use App\push\PushEventInfo; // イベント
-use App\push\PushNewInfo; //　新着情報
-
 class DataBaseController extends Controller
 {
     public function updateNew(Request $request)
@@ -78,8 +74,6 @@ class DataBaseController extends Controller
                 DB::table('tags')->insert($insertInformation);
             }
         }
-        $pushNewInfo = new PushNewInfo();
-        $pushNewInfo->pushNewInfo();
         return "connected!! updateNew";
     }
 
@@ -174,8 +168,7 @@ class DataBaseController extends Controller
         }
         $pushCancelInfo = new PushCancelInfo();
         $pushCancelInfo->pushCancelInfo();
-        $pushEventInfo = new PushEventInfo();
-        $pushEventInfo->pushEventInfo();
+
         return "connected!! updateCancel";
     }
     public function updateReference(Request $request)
@@ -186,8 +179,6 @@ class DataBaseController extends Controller
         error_log("input: " . $inputs);
         error_log(gettype($inputs));
         $inputs = json_decode($inputs, true);
-        // $insertInformations = [];
-        // 
         foreach ($inputs as $input) {
             error_log("input[name]: " . $input["title"]); // 1
             error_log("input[instructor]: " . $input["instructor"]); // 2
