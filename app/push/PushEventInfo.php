@@ -16,9 +16,8 @@ class PushEventInfo
     date_default_timezone_set('Asia/Tokyo');
     $today = date("Y-m-d");
 
-    // // 全学部
-    $allStudents = DB::table('students')->select('user_id')
-      ->where('push_event', false)->get();
+    // 全学部
+    $allStudents = DB::table('students')->where('push_event', false)->get();
     $allStudentsId = [];
     foreach ($allStudents as $allStudent) {
       $allStudentsId[] = $allStudent->user_id;
