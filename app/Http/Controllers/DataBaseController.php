@@ -15,8 +15,25 @@ class DataBaseController extends Controller
     {
         error_log("hello...");
         error_log($request->getContent());
-        $input = $request->getContent();
-        error_log("input: " . $input);
+        $inputs = $request->getContent();
+        error_log("input: " . $inputs);
+        error_log(gettype($inputs));
+        $inputs = json_decode($inputs, true);
+        // $insertInformations = [];
+        // ひとつずつデータを入れていく、タグも生成
+        foreach ($inputs as $input) {
+            error_log("input[name]: " . $input["day"]); // 1
+            error_log("input[title]: " . $input["title"]); // 2
+            error_log("input[uri]: " . $input["uri"]); // 3
+            error_log("input[tag_list][0]: " . $input["tag_list"]); // 4
+            error_log("input[context]: " . $input["context"]); // 5
+            $insertInformation = [
+                'lecture_name' => $input["name"],
+                'teacher_name' => $input["instructor"],
+                'reference_name' => $input["reference"]
+            ];
+        }
+        // DB::table('reference_informations')->insert($insertInformations);
         return "connected!! updateNew";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
