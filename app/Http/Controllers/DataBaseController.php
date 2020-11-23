@@ -23,20 +23,14 @@ class DataBaseController extends Controller
             error_log("input[uri]: " . $input["uri"]); // 3
             error_log("input[tag_list][0]: " . $input["tag_list"][0]); // 4
             error_log("input[context]: " . $input["context"]); // 5
-            // 掲載日が昨日の場合入れる
             $posted_date = mb_substr($input["day"], 0, 10); // 2020年11月29
             $search = ['年', '月']; //置換する文字
             $posted_date = str_replace($search, '-', $posted_date); //置換
-
-            //データを入れる
-            $insertInformation = [
-                'title' => $input["title"],
-                'content' => $input["context"],
-                'uri' => $input["uri"],
-                'posted_date' => $posted_date
-            ];
-            // error_log(json_encode($insertInformation, JSON_UNESCAPED_UNICODE));
-            DB::table('informations')->insert($insertInformation);
+            // informationsにい入れる
+            DB::table('informations')->updateOrInsert(
+                ['title' => $input["title"], 'uri' => $input["uri"]],
+                ['content' => $input["context"], 'posted_date' => $posted_date]
+            );
             // tagsテーブルにデータを入れる
             $insertInformation = [];
             foreach ($input["tag_list"] as $tag) {
