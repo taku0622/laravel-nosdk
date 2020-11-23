@@ -36,7 +36,7 @@ class PushNewInfo
       $message = [
         "to" => $allStudentsId,
         "type" => "text",
-        "text" => "重要情報はありません",
+        "text" => "新着情報はありません",
       ];
     } else {
       foreach ($allImportantInfomations as $allImportantInfomation) {
@@ -51,7 +51,7 @@ class PushNewInfo
       $message = [
         "to" => $allStudentsId,
         "type" => "multiple",
-        "altText" =>  "重要情報",
+        "altText" =>  "新着情報",
         "contents" => $allImportantInfomationsContents
       ];
     }
