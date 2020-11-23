@@ -18,7 +18,7 @@ class PushCancelInfo
     // CS学部
     $csStudents = DB::table('students')->select('user_id')
       ->where([
-        ['push_cancel', false],
+        ['push_cancel', true],
         ['department', 'cs']
       ])->get();
     $csStudentsId = [];
@@ -62,7 +62,7 @@ class PushCancelInfo
     // es学部
     $esStudents = DB::table('students')->select('user_id')
       ->where([
-        ['push_cancel', false],
+        ['push_cancel', true],
         ['department', 'es']
       ])->get();
     $esStudentsId = [];
@@ -106,7 +106,7 @@ class PushCancelInfo
     // ms学部
     $msStudents = DB::table('students')->select('user_id')
       ->where([
-        ['push_cancel', false],
+        ['push_cancel', true],
         ['department', 'ms']
       ])->get();
     $msStudentsId = [];
@@ -150,7 +150,7 @@ class PushCancelInfo
     // BS学部
     $bsStudents = DB::table('students')->select('user_id')
       ->where([
-        ['push_cancel', false],
+        ['push_cancel', true],
         ['department', 'bs']
       ])->get();
     $bsStudentsId = [];

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\push\PushCancelInfo;
+use App\push\PushEventInfo;
 
 class DataBaseController extends Controller
 {
@@ -108,8 +109,10 @@ class DataBaseController extends Controller
             error_log("exist");
             DB::table('cancel_informations')->insert($insertInformations);
         }
-        $pushCancelInfo = new PushCancelInfo();
-        $pushCancelInfo->pushCancelInfo();
+        // $pushCancelInfo = new PushCancelInfo();
+        // $pushCancelInfo->pushCancelInfo();
+        $pushEventInfo = new PushEventInfo();
+        $pushEventInfo->pushEventInfo();
         // $this->pushCancelInfo();
         return "connected!! updateCancel";
     }
