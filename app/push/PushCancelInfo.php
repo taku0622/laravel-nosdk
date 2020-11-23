@@ -18,7 +18,7 @@ class PushCancelInfo
     // CS学部
     $csStudents = DB::table('students')->select('user_id')
       ->where([
-        ['push_cancel', false],
+        ['push_cancel', true],
         ['department', 'cs']
       ])->get();
     $csStudentsId = [];

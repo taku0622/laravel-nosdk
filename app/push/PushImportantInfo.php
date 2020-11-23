@@ -18,7 +18,7 @@ class PushImportantInfo
 
     // 全学部
     $allStudents = DB::table('students')->select('user_id')
-      ->where('push_important', false)->get();
+      ->where('push_important', true)->get();
     $allStudentsId = [];
     foreach ($allStudents as $allStudent) {
       $allStudentsId[] = $allStudent->user_id;

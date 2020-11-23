@@ -19,7 +19,7 @@ class PushNewInfo
     // 全学部の生徒
     $allStudents = DB::table('students')->select('user_id')
       ->where([
-        ['push_new', false],
+        ['push_new', true],
         ['department', 'all_department']
       ])->get();
     $allStudentsId = [];
