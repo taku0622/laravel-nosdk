@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\push\PushCancelInfo;
 use App\push\PushEventInfo;
+use App\push\PushImportantInfo;
 
 class DataBaseController extends Controller
 {
@@ -77,6 +78,8 @@ class DataBaseController extends Controller
                 DB::table('tags')->insert($insertInformation);
             }
         }
+        $pushImportantInfo = new PushImportantInfo();
+        $pushImportantInfo->pushImportantInfo();
         return "connected!! updateNew";
     }
     public function updateCancel(Request $request)
