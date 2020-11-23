@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 use App\push\PushCancelInfo; // 休講
 use App\push\PushEventInfo; // イベント
-use App\push\PushImportantInfo; // 重要情報
 use App\push\PushNewInfo; //　新着情報
 
 class DataBaseController extends Controller
@@ -79,8 +78,6 @@ class DataBaseController extends Controller
                 DB::table('tags')->insert($insertInformation);
             }
         }
-        $pushImportantInfo = new PushImportantInfo();
-        $pushImportantInfo->pushImportantInfo();
         $pushNewInfo = new PushNewInfo();
         $pushNewInfo->pushNewInfo();
         return "connected!! updateNew";
@@ -194,11 +191,11 @@ class DataBaseController extends Controller
         foreach ($inputs as $input) {
             error_log("input[name]: " . $input["title"]); // 1
             error_log("input[instructor]: " . $input["instructor"]); // 1
-            error_log("input[reference]: " . $input["reference"]); // 1
+            error_log("input[reference]: " . $input["Reference"]); // 1
             $insertInformation = [
                 'lecture_name' => $input["title"],
                 'teacher_name' => $input["instructor"],
-                'reference_name' => $input["reference"]
+                'reference_name' => $input["Reference"]
             ];
             DB::table('reference_informations')->insert($insertInformation);
         }
