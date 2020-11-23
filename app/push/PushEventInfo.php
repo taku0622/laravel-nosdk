@@ -26,7 +26,7 @@ class PushEventInfo
 
     $allEventInfomationsContents = [];
     $allEventInfomations = DB::table('event_informations')
-      ->orderBy('date', 'asc')->limit(10)->get();
+      ->orderBy('posted_date', 'asc')->limit(10)->get();
     if ($allEventInfomations->isEmpty()) {
       $message = [
         "to" => $allStudentsId,
@@ -34,8 +34,6 @@ class PushEventInfo
         "text" => "イベント情報はありません",
       ];
     } else {
-      error_log("ここまで");
-
       foreach ($allEventInfomations as $allEventInfomation) {
         $allEventInfomationsContent = [
           'title' => mb_substr($allEventInfomation->title, 0, 40),
