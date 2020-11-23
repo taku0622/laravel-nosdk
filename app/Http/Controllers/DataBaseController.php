@@ -126,7 +126,7 @@ class DataBaseController extends Controller
         $insertInformations = [];
         foreach ($inputs as $input) {
             error_log("input[name]: " . $input["name"]); // 1
-            error_log("input[instructor]: " . $input["ninstructor"]); // 1
+            error_log("input[instructor]: " . $input["instructor"]); // 1
             error_log("input[reference]: " . $input["reference"]); // 1
         }
         return "connected!! updateReference";
