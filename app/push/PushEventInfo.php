@@ -23,6 +23,8 @@ class PushEventInfo
     foreach ($allStudents as $allStudent) {
       $allStudentsId[] = $allStudent->user_id;
     }
+    error_log($allStudentsId);
+
     $allEventInfomationsContents = [];
     $allEventInfomations = DB::table('event_informations')
       ->orderBy('date', 'asc')->limit(10)->get();
