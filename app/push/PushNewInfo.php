@@ -20,7 +20,7 @@ class PushNewInfo
     $allStudents = DB::table('students')->select('user_id')
       ->where([
         ['push_new', true],
-        ['department', 'all_department']
+        ['department', 'cs']
       ])->get();
     $allStudentsId = [];
     foreach ($allStudents as $allStudent) {
