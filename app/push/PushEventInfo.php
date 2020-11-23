@@ -18,7 +18,7 @@ class PushEventInfo
 
     // 全学部
     $allStudents = DB::table('students')->select('user_id')
-      ->where('push_event', false)->get();
+      ->where('push_event', true)->get();
     $allStudentsId = [];
     foreach ($allStudents as $allStudent) {
       $allStudentsId[] = $allStudent->user_id;
