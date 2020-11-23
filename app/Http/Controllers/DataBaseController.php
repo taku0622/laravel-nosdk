@@ -31,18 +31,18 @@ class DataBaseController extends Controller
             error_log("input[tag_list][0]: " . $input["tag_list"][0]); // 4
             error_log("input[context]: " . $input["context"]); // 5
             // 掲載日が昨日の場合入れる
-            $date = mb_substr($input["day"], 0, 10); // 2020年11月29
+            $posted_date = mb_substr($input["day"], 0, 10); // 2020年11月29
             $search = ['年', '月']; //置換する文字
-            $date = str_replace($search, '-', $date); //置換
-            error_log("date: " . $date);
-            error_log($date == $yesterday);
+            $posted_date = str_replace($search, '-', $posted_date); //置換
+            error_log("date: " . $posted_date);
+            error_log($posted_date == $yesterday);
 
-            if ($date == $yesterday) { //データを入れる
+            if ($posted_date == $yesterday) { //データを入れる
                 $insertInformation = [
                     'title' => $input["title"],
                     'content' => $input["content"],
                     'uri' => $input["uri"],
-                    'posted_date' => $date,
+                    'posted_date' => $posted_date,
                 ];
                 error_log("ここまで");
                 DB::table('informations')->insert($insertInformation);
