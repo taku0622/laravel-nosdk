@@ -189,7 +189,7 @@ class DataBaseController extends Controller
         error_log("input: " . $inputs);
         error_log(gettype($inputs));
         $inputs = json_decode($inputs, true);
-        $insertInformations = [];
+        // $insertInformations = [];
         // 
         foreach ($inputs as $input) {
             error_log("input[name]: " . $input["title"]); // 1
@@ -200,9 +200,8 @@ class DataBaseController extends Controller
                 'teacher_name' => $input["instructor"],
                 'reference_name' => $input["reference"]
             ];
-            $insertInformations[] = $insertInformation;
+            DB::table('reference_informations')->insert($insertInformation);
         }
-        DB::table('reference_informations')->insert($insertInformations);
         return "connected!! updateReference";
     }
 }
