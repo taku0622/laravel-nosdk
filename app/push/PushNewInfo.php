@@ -16,9 +16,12 @@ class PushNewInfo
     date_default_timezone_set('Asia/Tokyo');
     $today = date("Y-m-d");
 
-    // 全学部
+    // 全学部の生徒
     $allStudents = DB::table('students')->select('user_id')
-      ->where('push_new', false)->get();
+      ->where([
+        ['push_new', false],
+        ['department', 'all_department']
+      ])->get();
     $allStudentsId = [];
     foreach ($allStudents as $allStudent) {
       $allStudentsId[] = $allStudent->user_id;
@@ -33,7 +36,7 @@ class PushNewInfo
       $message = [
         "to" => $allStudentsId,
         "type" => "text",
-        "text" => "重要情報はありません",
+        "text" => "新着情報はありません",
       ];
     } else {
       foreach ($allImportantInfomations as $allImportantInfomation) {
@@ -48,7 +51,7 @@ class PushNewInfo
       $message = [
         "to" => $allStudentsId,
         "type" => "multiple",
-        "altText" =>  "重要情報",
+        "altText" =>  "新着情報",
         "contents" => $allImportantInfomationsContents
       ];
     }
