@@ -166,8 +166,6 @@ class DataBaseController extends Controller
             error_log("exist");
             // DB::table('cancel_informations')->insert($insertInformations);
         }
-        $pushCancelInfo = new PushCancelInfo();
-        $pushCancelInfo->pushCancelInfo();
 
         return "connected!! updateCancel";
     }
