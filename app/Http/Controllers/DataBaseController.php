@@ -28,8 +28,8 @@ class DataBaseController extends Controller
             $posted_date = str_replace($search, '-', $posted_date); //置換
             // informationsにい入れる
             DB::table('informations')->updateOrInsert(
-                ['title' => $input["title"], 'uri' => $input["uri"]],
-                ['content' => $input["context"], 'posted_date' => $posted_date]
+                ['title' => $input["title"], 'uri' => $input["uri"], 'posted_date' => $posted_date],
+                ['content' => $input["context"]]
             );
             // tagsテーブルにデータを入れる
             $insertInformation = [];
