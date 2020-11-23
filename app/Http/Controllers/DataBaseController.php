@@ -71,13 +71,9 @@ class DataBaseController extends Controller
 
     public function updateCancel(Request $request)
     {
-        error_log("hello...");
-        error_log($request->getContent());
         $inputs = $request->getContent();
         error_log("input: " . $inputs);
-        error_log(gettype($inputs));
         $inputs = json_decode($inputs, true);
-        $insertInformations = [];
         foreach ($inputs as $input) {
             error_log("input[day]: " . $input["day"]); // 1
             error_log("input[name]: " . $input["name"]); // 2
@@ -94,6 +90,8 @@ class DataBaseController extends Controller
             $period = mb_substr($input["day"], 12); // 3限目
             $search = ['年', '月']; //置換する文字
             $date = str_replace($search, '-', $date); //置換
+            $posted_date = mb_substr($input["up"], 0, 10); // 2020年11月29
+            $posted_date = str_replace($search, '-', $posted_date); //置換
             # 学部
             switch ($input["department"]) {
                 case '応用生物学部':
@@ -116,8 +114,6 @@ class DataBaseController extends Controller
                     $department = 'es';
                     break;
             }
-            $posted_date = mb_substr($input["up"], 0, 10); // 2020年11月29
-            $posted_date = str_replace($search, '-', $posted_date); //置換
             error_log("date:" . $date); // 1
             error_log("period:" . $period); // 2
             error_log("lecture_name:" . $input["name"]); // 3
@@ -128,37 +124,26 @@ class DataBaseController extends Controller
             error_log("note: " . $input["note"]); // 8
             error_log("posted_date: " . $posted_date); // 9
             error_log("contributor: " . $input["from"]); // 10
-            // 0:00に定期実行と定義する
-            // 昨日
-            date_default_timezone_set('Asia/Tokyo');
-            $yesterday = date('Y-m-d', strtotime('-1 day'));
-            $insertInformation = [
-                'date' => $date,
-                'period' => $period,
-                'lecture_name' => $input["name"],
-                'teacher_name' => $input["instructor"],
-                'grade' => $input["grade"],
-                'department' => $department,
-                'class' => $input["class"],
-                'note' => $input["note"],
-                'posted_date' => $posted_date,
-                'contributor' => $input["from"],
-            ];
-
-            error_log($yesterday);
-            if ($posted_date == $yesterday) {
-                $insertInformations[] = $insertInformation;
+            // データがない場合
+            if (DB::table('cancel_informations')->where([
+                ['lecture_name', $input["name"]],
+                ['teacher_name', $input["instructor"]],
+            ])->doesntExist()) {
+                //　データを入れる
+                DB::table('cancel_informations')->insert([
+                    'date' => $date,
+                    'period' => $period,
+                    'lecture_name' => $input["name"],
+                    'teacher_name' => $input["instructor"],
+                    'grade' => $input["grade"],
+                    'department' => $department,
+                    'class' => $input["class"],
+                    'note' => $input["note"],
+                    'posted_date' => $posted_date,
+                    'contributor' => $input["from"]
+                ]);
             }
         }
-        if ($insertInformations == []) {
-            // インサートするデータがあるとき
-            error_log("no list");
-        } else {
-            // インサートするデータがないとき
-            error_log("exist");
-            // DB::table('cancel_informations')->insert($insertInformations);
-        }
-
         return "connected!! updateCancel";
     }
     public function updateReference(Request $request)
