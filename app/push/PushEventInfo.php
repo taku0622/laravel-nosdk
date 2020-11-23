@@ -23,7 +23,6 @@ class PushEventInfo
     foreach ($allStudents as $allStudent) {
       $allStudentsId[] = $allStudent->user_id;
     }
-    error_log("ここまで");
 
     $allEventInfomationsContents = [];
     $allEventInfomations = DB::table('event_informations')
@@ -35,6 +34,8 @@ class PushEventInfo
         "text" => "イベント情報はありません",
       ];
     } else {
+      error_log("ここまで");
+
       foreach ($allEventInfomations as $allEventInfomation) {
         $allEventInfomationsContent = [
           'title' => mb_substr($allEventInfomation->title, 0, 40),
