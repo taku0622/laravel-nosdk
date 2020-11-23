@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
-use App\push\PushCancelInfo;
-use App\push\PushEventInfo;
-use App\push\PushImportantInfo;
-use App\push\PushNewInfo;
+use App\push\PushCancelInfo; // 休講
+use App\push\PushEventInfo; // イベント
+use App\push\PushImportantInfo; // 重要情報
+use App\push\PushNewInfo; //　新着情報
 
 class DataBaseController extends Controller
 {
