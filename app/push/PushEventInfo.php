@@ -17,19 +17,19 @@ class PushEventInfo
     $today = date("Y-m-d");
 
     // // 全学部
-    // $allStudents = DB::table('students')->select('user_id')
-    //   ->where('push_event', false)->get();
-    // $allStudentsId = [];
-    // foreach ($allStudents as $allStudent) {
-    //   $allStudentsId[] = $allStudent->user_id;
-    // }
+    $allStudents = DB::table('students')->select('user_id')
+      ->where('push_event', false)->get();
+    $allStudentsId = [];
+    foreach ($allStudents as $allStudent) {
+      $allStudentsId[] = $allStudent->user_id;
+    }
 
     $allEventInfomationsContents = [];
     $allEventInfomations = DB::table('event_informations')
       ->orderBy('posted_date', 'asc')->limit(10)->get();
     if ($allEventInfomations->isEmpty()) {
       $message = [
-        "to" => ['U6e0f4008a090ff5b5bef0323cae3428e'],
+        "to" => $allStudentsId,
         "type" => "text",
         "text" => "イベント情報はありません",
       ];
@@ -44,7 +44,7 @@ class PushEventInfo
         $allEventInfomationsContents[] = $allEventInfomationsContent;
       }
       $message = [
-        "to" => ['U6e0f4008a090ff5b5bef0323cae3428e'],
+        "to" => $allStudentsId,
         "type" => "multiple",
         "altText" =>  "イベント",
         "contents" => $allEventInfomationsContents
