@@ -38,19 +38,18 @@ class DataBaseController extends Controller
             error_log($posted_date == $yesterday);
 
             if ($posted_date == $yesterday) { //データを入れる
-                // $insertInformation = [
-                //     'title' => $input["title"],
-                //     'content' => $input["content"],
-                //     'uri' => $input["uri"],
-                //     'posted_date' => $posted_date
-                // ];
-                // error_log(json_encode($insertInformation, JSON_UNESCAPED_UNICODE));
-                DB::table('informations')->insert([
+                error_log("title" . $input["title"]);
+                error_log("content" . $input["content"]);
+                error_log("uri" . $input["uri"]);
+                error_log("posted_date" . $input["posted_date"]);
+                $insertInformation = [
                     'title' => $input["title"],
                     'content' => $input["content"],
                     'uri' => $input["uri"],
                     'posted_date' => $posted_date
-                ]);
+                ];
+                error_log(json_encode($insertInformation, JSON_UNESCAPED_UNICODE));
+                DB::table('informations')->insert($insertInformation);
                 // // tagsテーブルにデータを入れる
                 // $insertInformation = [];
                 // foreach ($input["tag_list"] as $tag) {
