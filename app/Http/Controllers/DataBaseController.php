@@ -45,35 +45,35 @@ class DataBaseController extends Controller
                     'posted_date' => $posted_date
                 ];
                 DB::table('informations')->insert($insertInformation);
-                // tagsテーブルにデータを入れる
-                $insertInformation = [];
-                foreach ($input["tag_list"] as $tag) {
-                    switch ($tag) {
-                        case '院八':
-                            $tag = 'inhachi';
-                            break;
-                        case '院工学':
-                            $tag = 'inkogaku';
-                            break;
-                        case '院DS':
-                            $tag = 'inds';
-                            break;
-                        case '重要':
-                            $tag = 'important';
-                            break;
-                        case '全学部':
-                            $tag = 'all_department';
-                            break;
-                        default:
-                            $tag = mb_strtolower($tag);
-                            break;
-                    }
-                    $insertInformation[$tag] = true;
-                }
-                // information_idの取得
-                $lastData = DB::table('informations')->orderBy('id', 'desc')->first();
-                $insertInformation['information_id'] = $lastData->id;
-                DB::table('tags')->insert($insertInformation);
+                // // tagsテーブルにデータを入れる
+                // $insertInformation = [];
+                // foreach ($input["tag_list"] as $tag) {
+                //     switch ($tag) {
+                //         case '院八':
+                //             $tag = 'inhachi';
+                //             break;
+                //         case '院工学':
+                //             $tag = 'inkogaku';
+                //             break;
+                //         case '院DS':
+                //             $tag = 'inds';
+                //             break;
+                //         case '重要':
+                //             $tag = 'important';
+                //             break;
+                //         case '全学部':
+                //             $tag = 'all_department';
+                //             break;
+                //         default:
+                //             $tag = mb_strtolower($tag);
+                //             break;
+                //     }
+                //     $insertInformation[$tag] = true;
+                // }
+                // // information_idの取得
+                // $lastData = DB::table('informations')->orderBy('id', 'desc')->first();
+                // $insertInformation['information_id'] = $lastData->id;
+                // DB::table('tags')->insert($insertInformation);
             }
         }
         return "connected!! updateNew";
