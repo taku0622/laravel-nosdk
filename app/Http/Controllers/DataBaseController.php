@@ -21,16 +21,22 @@ class DataBaseController extends Controller
         $inputs = json_decode($inputs, true);
         // $insertInformations = [];
         // ひとつずつデータを入れていく、タグも生成
+        // 昨日
+        date_default_timezone_set('Asia/Tokyo');
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
         foreach ($inputs as $input) {
             error_log("input[name]: " . $input["day"]); // 1
             error_log("input[title]: " . $input["title"]); // 2
             error_log("input[uri]: " . $input["uri"]); // 3
             error_log("input[tag_list][0]: " . $input["tag_list"][0]); // 4
             error_log("input[context]: " . $input["context"]); // 5
+            // 掲載日が昨日の場合入れる
+            $date = mb_substr($input["day"], 0, 10); // 2020年11月29
+            $search = ['年', '月']; //置換する文字
+            $date = str_replace($search, '-', $date); //置換
+            error_log("date: " . $date);
         }
-        // DB::table('reference_informations')->insert($insertInformations);
         return "connected!! updateNew";
-        // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
     public function updateCancel(Request $request)
     {
