@@ -26,7 +26,7 @@ class DataBaseController extends Controller
             $posted_date = mb_substr($input["day"], 0, 10); // 2020年11月29
             $search = ['年', '月']; //置換する文字
             $posted_date = str_replace($search, '-', $posted_date); //置換
-            error_log("date: " . $date);
+            error_log("posted_date: " . $posted_date);
             // informationsにい入れる
             DB::table('informations')->updateOrInsert(
                 ['title' => $input["title"], 'uri' => $input["uri"], 'posted_date' => $posted_date],
