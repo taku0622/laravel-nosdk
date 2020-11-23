@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\push\PushCancelInfo;
 use App\push\PushEventInfo;
 use App\push\PushImportantInfo;
+use App\push\PushNewInfo;
 
 class DataBaseController extends Controller
 {
@@ -80,8 +81,11 @@ class DataBaseController extends Controller
         }
         $pushImportantInfo = new PushImportantInfo();
         $pushImportantInfo->pushImportantInfo();
+        $pushNewInfo = new PushNewInfo();
+        $pushNewInfo->pushNewInfo();
         return "connected!! updateNew";
     }
+
     public function updateCancel(Request $request)
     {
         error_log("hello...");
