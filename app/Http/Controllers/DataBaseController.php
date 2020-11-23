@@ -42,6 +42,7 @@ class DataBaseController extends Controller
                     'uri' => $input["uri"],
                     'posted_date' => $date,
                 ];
+                error_log("ここまで");
                 DB::table('informations')->insert($insertInformation);
                 // tagsテーブルにデータを入れる
                 $insertInformation = [];
