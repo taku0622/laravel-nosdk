@@ -25,7 +25,7 @@ class DataBaseController extends Controller
             error_log("input[name]: " . $input["day"]); // 1
             error_log("input[title]: " . $input["title"]); // 2
             error_log("input[uri]: " . $input["uri"]); // 3
-            error_log("input[tag_list][0]: " . $input["tag_list"]); // 4
+            error_log("input[tag_list][0]: " . $input["tag_list"][0]); // 4
             error_log("input[context]: " . $input["context"]); // 5
             $insertInformation = [
                 'lecture_name' => $input["name"],
