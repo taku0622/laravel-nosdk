@@ -27,11 +27,6 @@ class DataBaseController extends Controller
             error_log("input[uri]: " . $input["uri"]); // 3
             error_log("input[tag_list][0]: " . $input["tag_list"][0]); // 4
             error_log("input[context]: " . $input["context"]); // 5
-            $insertInformation = [
-                'lecture_name' => $input["name"],
-                'teacher_name' => $input["instructor"],
-                'reference_name' => $input["reference"]
-            ];
         }
         // DB::table('reference_informations')->insert($insertInformations);
         return "connected!! updateNew";
