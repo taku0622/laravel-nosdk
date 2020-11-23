@@ -26,117 +26,36 @@ class PushNewInfo
     foreach ($allStudents as $allStudent) {
       $allStudentsId[] = $allStudent->user_id;
     }
-    // all_deartmentは全部
-    $allNewInfomationsContents = [];
-    $allNewInfomations = DB::table('informations')
+
+    $allImportantInfomationsContents = [];
+    $allImportantInfomations = DB::table('informations')
       ->join('tags', 'informations.id', '=', 'tags.information_id')
       ->whereNull('important')
       ->orderBy('posted_date', 'desc')->limit(10)->get();
-    if ($allNewInfomations->isEmpty()) {
+    if ($allImportantInfomations->isEmpty()) {
       $message = [
         "to" => $allStudentsId,
         "type" => "text",
-        "text" => "新着情報はありません",
+        "text" => "重要情報はありません",
       ];
     } else {
-      foreach ($allNewInfomations as $allNewInfomation) {
-        $allNewInfomationsContent = [
-          'title' => mb_substr($allNewInfomation->title, 0, 40),
-          'content' => mb_substr($allNewInfomation->content, 0, 60),
-          'uri' => $allNewInfomation->uri,
+      foreach ($allImportantInfomations as $allImportantInfomation) {
+        $allImportantInfomationsContent = [
+          'title' => mb_substr($allImportantInfomation->title, 0, 40),
+          'content' => mb_substr($allImportantInfomation->content, 0, 60),
+          'uri' => $allImportantInfomation->uri,
           'label' => '詳細'
         ];
-        $allNewInfomationsContents[] = $allNewInfomationsContent;
+        $allImportantInfomationsContents[] = $allImportantInfomationsContent;
       }
       $message = [
         "to" => $allStudentsId,
         "type" => "multiple",
-        "altText" =>  "新着情報",
-        "contents" => $allNewInfomationsContents
+        "altText" =>  "重要情報",
+        "contents" => $allImportantInfomationsContents
       ];
     }
     $allMessages[] = $message;
-    // // CS学部の生徒
-    // $allStudents = DB::table('students')->select('user_id')
-    //   ->where([
-    //     ['push_new', false],
-    //     ['department', 'cs']
-    //   ])->get();
-    // $allStudentsId = [];
-    // foreach ($allStudents as $allStudent) {
-    //   $allStudentsId[] = $allStudent->user_id;
-    // }
-    // // cs
-    // $allImportantInfomationsContents = [];
-    // $allImportantInfomations = DB::table('informations')
-    //   ->join('tags', 'informations.id', '=', 'tags.information_id')
-    //   ->where('cs', true)
-    //   ->whereNull('important')
-    //   ->orderBy('posted_date', 'desc')->limit(10)->get();
-    // if ($allImportantInfomations->isEmpty()) {
-    //   $message = [
-    //     "to" => $allStudentsId,
-    //     "type" => "text",
-    //     "text" => "新着情報はありません",
-    //   ];
-    // } else {
-    //   foreach ($allImportantInfomations as $allImportantInfomation) {
-    //     $allImportantInfomationsContent = [
-    //       'title' => mb_substr($allImportantInfomation->title, 0, 40),
-    //       'content' => mb_substr($allImportantInfomation->content, 0, 60),
-    //       'uri' => $allImportantInfomation->uri,
-    //       'label' => '詳細'
-    //     ];
-    //     $allImportantInfomationsContents[] = $allImportantInfomationsContent;
-    //   }
-    //   $message = [
-    //     "to" => $allStudentsId,
-    //     "type" => "multiple",
-    //     "altText" =>  "新着情報",
-    //     "contents" => $allImportantInfomationsContents
-    //   ];
-    // }
-
-    // // 全学部の生徒
-    // $allStudents = DB::table('students')->select('user_id')
-    //   ->where([
-    //     ['push_new', false],
-    //     ['department', 'all_department']
-    //   ])->get();
-    // $allStudentsId = [];
-    // foreach ($allStudents as $allStudent) {
-    //   $allStudentsId[] = $allStudent->user_id;
-    // }
-    // // all_deartmentは全部
-    // $allImportantInfomationsContents = [];
-    // $allImportantInfomations = DB::table('informations')
-    //   ->join('tags', 'informations.id', '=', 'tags.information_id')
-    //   ->whereNull('important')
-    //   ->orderBy('posted_date', 'desc')->limit(10)->get();
-    // if ($allImportantInfomations->isEmpty()) {
-    //   $message = [
-    //     "to" => $allStudentsId,
-    //     "type" => "text",
-    //     "text" => "新着情報はありません",
-    //   ];
-    // } else {
-    //   foreach ($allImportantInfomations as $allImportantInfomation) {
-    //     $allImportantInfomationsContent = [
-    //       'title' => mb_substr($allImportantInfomation->title, 0, 40),
-    //       'content' => mb_substr($allImportantInfomation->content, 0, 60),
-    //       'uri' => $allImportantInfomation->uri,
-    //       'label' => '詳細'
-    //     ];
-    //     $allImportantInfomationsContents[] = $allImportantInfomationsContent;
-    //   }
-    //   $message = [
-    //     "to" => $allStudentsId,
-    //     "type" => "multiple",
-    //     "altText" =>  "新着情報",
-    //     "contents" => $allImportantInfomationsContents
-    //   ];
-    // }
-    // $allMessages[] = $message;
 
     $data = json_encode($allMessages, JSON_UNESCAPED_UNICODE);
     error_log($data);
