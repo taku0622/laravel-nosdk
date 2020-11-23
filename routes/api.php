@@ -23,7 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/v1/messages/reply', [ResponseController::class, 'response']);
+Route::middleware(['throttle:api'])->group(function () {
+    Route::post('/v1/messages/reply', [ResponseController::class, 'response']);
+});
 
 Route::post('/parrot', [LineBotController::class, 'parrot']);
 
