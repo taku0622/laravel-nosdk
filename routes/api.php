@@ -23,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['throttle:api'])->group(function () {
+Route::middleware(['throttle:testLimit'])->group(function () {
     Route::post('/v1/messages/reply', [ResponseController::class, 'response']);
 });
 
