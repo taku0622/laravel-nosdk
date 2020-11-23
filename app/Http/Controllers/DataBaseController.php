@@ -190,14 +190,12 @@ class DataBaseController extends Controller
         // 
         foreach ($inputs as $input) {
             error_log("input[name]: " . $input["title"]); // 1
-            error_log("input[instructor]: " . $input["instructor"]); // 1
-            error_log("input[reference]: " . $input["Reference"]); // 1
-            $insertInformation = [
-                'lecture_name' => $input["title"],
-                'teacher_name' => $input["instructor"],
-                'reference_name' => $input["Reference"]
-            ];
-            DB::table('reference_informations')->insert($insertInformation);
+            error_log("input[instructor]: " . $input["instructor"]); // 2
+            error_log("input[reference]: " . $input["Reference"]); // 3
+            DB::table('reference_informations')->updateOrInsert(
+                ['lecture_name' => $input["title"], 'teacher_name' => $input["instructor"]],
+                ['reference_name' => $input["Reference"]]
+            );
         }
         return "connected!! updateReference";
     }
