@@ -35,6 +35,8 @@ class DataBaseController extends Controller
             $search = ['年', '月']; //置換する文字
             $date = str_replace($search, '-', $date); //置換
             error_log("date: " . $date);
+            error_log($date == $yesterday);
+
             if ($date == $yesterday) { //データを入れる
                 $insertInformation = [
                     'title' => $input["title"],
