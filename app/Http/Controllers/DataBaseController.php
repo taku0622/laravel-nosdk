@@ -109,11 +109,10 @@ class DataBaseController extends Controller
             error_log("exist");
             DB::table('cancel_informations')->insert($insertInformations);
         }
-        // $pushCancelInfo = new PushCancelInfo();
-        // $pushCancelInfo->pushCancelInfo();
+        $pushCancelInfo = new PushCancelInfo();
+        $pushCancelInfo->pushCancelInfo();
         $pushEventInfo = new PushEventInfo();
         $pushEventInfo->pushEventInfo();
-        // $this->pushCancelInfo();
         return "connected!! updateCancel";
     }
     public function updateReference(Request $request)
