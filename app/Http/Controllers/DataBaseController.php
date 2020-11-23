@@ -192,11 +192,11 @@ class DataBaseController extends Controller
         $insertInformations = [];
         // 
         foreach ($inputs as $input) {
-            error_log("input[name]: " . $input["name"]); // 1
+            error_log("input[name]: " . $input["title"]); // 1
             error_log("input[instructor]: " . $input["instructor"]); // 1
             error_log("input[reference]: " . $input["reference"]); // 1
             $insertInformation = [
-                'lecture_name' => $input["name"],
+                'lecture_name' => $input["title"],
                 'teacher_name' => $input["instructor"],
                 'reference_name' => $input["reference"]
             ];
