@@ -38,13 +38,13 @@ class LineBotController extends Controller
     }
     function reply($userId, $replytoken, $text)
     {
-        // $watson = new Watson();
-        // $Response = $watson->watson($userId, $text);
+        $watson = new Watson();
+        $Response = $watson->watson($userId, $text);
         // error_log($Response);
         $messages =
             [
                 "type" => "text",
-                "text" =>  "heyheyhey"
+                "text" =>  $Response
             ];
         $object = [
             'replyToken' => $replytoken,
