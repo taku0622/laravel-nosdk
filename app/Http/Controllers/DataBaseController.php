@@ -128,7 +128,14 @@ class DataBaseController extends Controller
             error_log("input[name]: " . $input["name"]); // 1
             error_log("input[instructor]: " . $input["instructor"]); // 1
             error_log("input[reference]: " . $input["reference"]); // 1
+            $insertInformation = [
+                'lecture_name' => $input["name"],
+                'teacher_name' => $input["instructor"],
+                'reference_name' => $input["reference"]
+            ];
+            $insertInformations[] = $insertInformation;
         }
+        DB::table('reference_informations')->insert($insertInformations);
         return "connected!! updateReference";
         // return "connected request is :" . json_encode($input, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
