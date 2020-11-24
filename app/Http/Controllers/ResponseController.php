@@ -71,7 +71,7 @@ class ResponseController extends Controller
             $infomations = DB::table('informations')
                 ->join('tags', 'informations.id', '=', 'tags.information_id')
                 ->where($department, true)->whereNull('important')
-                ->orderBy('posted_date', 'desc')->limit(5)->get();
+                ->orderBy('posted_date', 'desc')->limit(10)->get();
         }
         if ($infomations->isEmpty()) {
             $message = [
