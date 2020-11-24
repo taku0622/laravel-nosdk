@@ -14,10 +14,10 @@ class DataBaseController extends Controller
         error_log("input: " . $inputs);
         $inputs = json_decode($inputs, true);
         foreach ($inputs as $input) {
-            error_log("input[name]: " . $input["day"]); // 1
+            error_log("input[date]: " . $input["date"]); // 1
             error_log("input[title]: " . $input["title"]); // 2
             error_log("input[uri]: " . $input["uri"]); // 3
-            error_log("input[tag_list][0]: " . $input["tag_list"][0]); // 4
+            error_log("input[tags][0]: " . $input["tags"][0]); // 4
             error_log("input[context]: " . $input["context"]); // 5
             $posted_date = mb_substr($input["day"], 0, 10); // 2020年11月29
             $search = ['年', '月']; //置換する文字
@@ -37,7 +37,7 @@ class DataBaseController extends Controller
                 ]);
                 // tagsテーブルにデータを入れる
                 $insertInformation = [];
-                foreach ($input["tag_list"] as $tag) {
+                foreach ($input["tags"] as $tag) {
                     switch ($tag) {
                         case '院八':
                             $tag = 'inhachi';
