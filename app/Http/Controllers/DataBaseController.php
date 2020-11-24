@@ -19,14 +19,14 @@ class DataBaseController extends Controller
             error_log("input[uri]: " . $input["uri"]); // 3
             error_log("input[tags][0]: " . $input["tags"][0]); // 4
             error_log("input[context]: " . $input["context"]); // 5
-            $posted_date = mb_substr($input["day"], 0, 10); // 2020年11月29
+            $posted_date = mb_substr($input["date"], 0, 10); // 2020年11月29
             $search = ['年', '月']; //置換する文字
             $posted_date = str_replace($search, '-', $posted_date); //置換
             error_log("posted_date: " . $posted_date);
             // データがない場合
             if (DB::table('informations')->where([
                 ['title', $input["title"]],
-                ['uri', $input["uri"]],
+                ['uri', $input["uri"]]
             ])->doesntExist()) {
                 //　データを入れる
                 DB::table('informations')->insert([
