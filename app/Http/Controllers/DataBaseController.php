@@ -133,7 +133,7 @@ class DataBaseController extends Controller
                 DB::table('cancel_informations')->insert([
                     'date' => $date,
                     'period' => $period,
-                    'lecture_name' => $input["date"],
+                    'lecture_name' => $input["title"],
                     'teacher_name' => $input["instructor"],
                     'grade' => $input["grade"],
                     'department' => $department,
