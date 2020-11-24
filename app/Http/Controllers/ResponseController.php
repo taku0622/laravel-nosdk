@@ -109,7 +109,7 @@ class ResponseController extends Controller
             $message = [
                 "to" => [$userId],
                 "type" => "text",
-                "text" => "あなたの学部の新着情報はありません",
+                "text" => "あなたの学部の重要情報はありません",
             ];
         } else {
             $contents = [];
