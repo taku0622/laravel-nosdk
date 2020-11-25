@@ -82,12 +82,10 @@ class ResponseController extends Controller
         } else {
             $contents = [];
             foreach ($infomations as $infomation) {
-                if ($infomation->title == "") {
-                    $infomation->title = "「詳細」を押してご確認ください";
-                }
+                $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
                 $content = [
                     'title' => mb_substr($infomation->title, 0, 40),
-                    'content' => mb_substr($infomation->content, 0, 60),
+                    'content' => mb_substr($content, 0, 60),
                     'uri' => $infomation->uri,
                     'label' => '詳細'
                 ];
@@ -117,9 +115,10 @@ class ResponseController extends Controller
         } else {
             $contents = [];
             foreach ($infomations as $infomation) {
+                $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
                 $content = [
                     'title' => mb_substr($infomation->title, 0, 40),
-                    'content' => mb_substr($infomation->content, 0, 60),
+                    'content' => mb_substr($content, 0, 60),
                     'uri' => $infomation->uri,
                     'label' => '詳細'
                 ];
