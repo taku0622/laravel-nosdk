@@ -95,7 +95,6 @@ class DataBaseController extends Controller
                     $department = 'ms';
                     break;
                 case '工学部':
-                case '機械工学科':
                     $department = 'es';
                     break;
                 case 'デザイン学部':

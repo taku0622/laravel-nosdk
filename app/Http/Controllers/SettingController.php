@@ -34,26 +34,35 @@ class SettingController extends Controller
         $numTwoDigits = substr($input["number"], 0, 2);
         switch ($numTwoDigits) {
             case 'B0':
+            case 'b0':
                 $department = 'bs';
                 break;
             case 'C0':
+            case 'c0':
                 $department = 'cs';
                 break;
             case 'M0':
+            case 'm0':
                 $department = 'ms';
                 break;
             case 'E0':
+            case 'e0':
                 $department = 'es';
                 break;
             case 'D0':
+            case 'd0':
                 $department = 'ds';
                 break;
             case 'H0':
+            case 'h0':
                 $department = 'hs';
                 break;
             case 'D1':
+            case 'd1':
             case 'D2':
+            case 'd2':
             case 'D3':
+            case 'd3':
                 $department = 'inhachi';
                 break;
             default:

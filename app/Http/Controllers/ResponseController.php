@@ -221,7 +221,7 @@ class ResponseController extends Controller
         } else {
             $contents = [];
             foreach ($eventInfomations as $eventInfomation) {
-                $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+                $content = $eventInfomation->content == ''  ? '「詳細」を押してご確認ください。' : $eventInfomation->content;
                 $content = [
                     'title' => mb_substr($eventInfomation->title, 0, 40),
                     'content' => mb_substr($eventInfomation->content, 0, 60),
