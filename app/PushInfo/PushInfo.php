@@ -33,7 +33,7 @@ class PushInfo
             "altText" =>  "重要情報",
             "contents" => $contents
         ];
-        error_log(json_encode($message));
+        error_log(json_encode($message), JSON_UNESCAPED_UNICODE);
 
         // post
         $data = json_encode([$message], JSON_UNESCAPED_UNICODE);
