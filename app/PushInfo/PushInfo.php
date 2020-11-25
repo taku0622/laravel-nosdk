@@ -35,9 +35,9 @@ class PushInfo
         ];
         error_log(json_encode($message));
 
-        // // post
-        // $data = json_encode([$message], JSON_UNESCAPED_UNICODE);
-        // error_log($data);
+        // post
+        $data = json_encode([$message], JSON_UNESCAPED_UNICODE);
+        error_log($data);
         // $options = array(
         //     'http' => array(
         //         'method' => 'POST',
