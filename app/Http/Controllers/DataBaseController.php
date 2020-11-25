@@ -17,8 +17,7 @@ class DataBaseController extends Controller
         $inputs = json_decode($inputs, true);
         // pushの配列を作る
         $pushImportant = [];
-        $pushAllDepartment = [];
-        $pushOthers = [];
+        $pushNew = [];
         foreach ($inputs as $input) {
             error_log("input[date]: " . $input["date"]); // 1
             error_log("input[title]: " . $input["title"]); // 2
@@ -76,26 +75,19 @@ class DataBaseController extends Controller
                 if (array_key_exists("important", $informationTags)) {
                     // push 重要情報 [1,2,3,4]
                     $pushImportant[] = $lastData->id;
-                } elseif (array_key_exists("all_department", $informationTags)) {
-                    // push 全学部 [5,6,7]
-                    $pushAllDepartment[] = $lastData->id;
-                } else { //　cs, ms, bs...
-                    $pushOthers[] = [array_keys($informationTags), $lastData->id];
+                } else { //　[[[all_department, cs, ms, bs], 5] ]
+                    $pushNew[] = [array_keys($informationTags), $lastData->id];
                 }
             }
         }
         // Pushの処理
         $push = new PushInfo();
-        if ($pushImportant != []) {
-            $push->pusnImportant($pushImportant);
+        // if ($pushImportant != []) {
+        //     $push->pusnImportant($pushImportant);
+        // }
+        if ($pushNew != []) {
+            $push->pusnNew($pushNew);
         }
-        // if ($pushAllDepartment != []) {
-        //     $push->pusnImportant();
-        // }
-        // if ($pushOthers != []) {
-        //     $push->pusnImportant();
-        // }
-
         return "connected!! updateNew";
     }
 
