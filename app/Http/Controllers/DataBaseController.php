@@ -83,7 +83,7 @@ class DataBaseController extends Controller
         // Pushの処理
         $push = new PushInfo();
         if ($pushImportant != []) {
-            error_log(json_encode($message), JSON_UNESCAPED_UNICODE);
+            error_log(json_encode($pushImportant), JSON_UNESCAPED_UNICODE);
             $push->pusnImportant($pushImportant);
         }
         if ($pushNew != []) {
