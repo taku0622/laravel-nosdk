@@ -19,9 +19,7 @@ class PushInfo
         error_log("ここまで");
         foreach ($infomations as $infomation) {
             $title4digit = mb_substr($infomation->title, 0, 4);
-            if ($title4digit != "【重要】") {
-                $title = "【重要】" . $infomation->title;
-            }
+            $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
             error_log($infomation->title);
             error_log($infomation->uri);
             $content = [
