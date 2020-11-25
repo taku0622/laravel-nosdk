@@ -13,29 +13,27 @@ class PushInfo
         $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
         error_log(json_encode($allStudentId));
         error_log(json_encode($idList));
-
-        // $allStudentsId = [];
-        // foreach ($allStudents as $allStudent) {
-        //     $allStudentsId[] = $allStudent->user_id;
-        // }
-
-        // foreach ($idList as $id) {
-        //     $allImportantInfomationsContent = [
-        //         'title' => mb_substr($allImportantInfomation->title, 0, 40),
-        //         'content' => mb_substr($allImportantInfomation->content, 0, 60),
-        //         'uri' => $allImportantInfomation->uri,
-        //         'label' => '詳細'
-        //     ];
-        //     $allImportantInfomationsContents[] = $allImportantInfomationsContent;
-        // }
+        $infomations = DB::table('informations')
+            ->whereIn('id', $idList)
+            ->orderBy('posted_date', 'desc')->limit(10)->get();
+        foreach ($infomations as $infomation) {
+            $content = [
+                'title' => mb_substr($infomation->title, 0, 40),
+                'content' => mb_substr($infomation->content, 0, 60),
+                'uri' => $infomation->uri,
+                'label' => '詳細'
+            ];
+            $contents[] = $content;
+        }
 
 
-        // $message = [
-        //     "to" => $allStudentsId,
-        //     "type" => "multiple",
-        //     "altText" =>  "重要情報",
-        //     "contents" => $allImportantInfomationsContents
-        // ];
+        $message = [
+            "to" => $allStudentId,
+            "type" => "multiple",
+            "altText" =>  "重要情報",
+            "contents" => $contents
+        ];
+        error_log(json_encode($message));
 
         // // post
         // $data = json_encode([$message], JSON_UNESCAPED_UNICODE);
