@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use App\PushInfo\PushInfo;
+
 class DataBaseController extends Controller
 {
     public function updateNew(Request $request)
@@ -13,6 +15,10 @@ class DataBaseController extends Controller
         $inputs = $request->getContent();
         error_log("input: " . $inputs);
         $inputs = json_decode($inputs, true);
+        // pushの配列を作る
+        $pushImportant = [];
+        $pushAllDepartment = [];
+        $pushOthers = [];
         foreach ($inputs as $input) {
             error_log("input[date]: " . $input["date"]); // 1
             error_log("input[title]: " . $input["title"]); // 2
@@ -28,6 +34,7 @@ class DataBaseController extends Controller
                 ['title', $input["title"]],
                 ['uri', $input["uri"]]
             ])->doesntExist()) {
+
                 //　データを入れる
                 DB::table('informations')->insert([
                     'title' => $input["title"],
@@ -62,10 +69,33 @@ class DataBaseController extends Controller
                 }
                 // information_idの取得
                 $lastData = DB::table('informations')->orderBy('id', 'desc')->first();
+                $informationTags = $insertInformation;
                 $insertInformation['information_id'] = $lastData->id;
                 DB::table('tags')->insert($insertInformation);
+
+                if (array_key_exists("important", $informationTags)) {
+                    // push 重要情報 [1,2,3,4]
+                    $pushImportant[] = $lastData->id;
+                } elseif (array_key_exists("all_department", $informationTags)) {
+                    // push 全学部 [5,6,7]
+                    $pushAllDepartment[] = $lastData->id;
+                } else { //　cs, ms, bs...
+                    $pushOthers[] = [array_keys($informationTags), $lastData->id];
+                }
             }
         }
+        // Pushの処理
+        $push = new PushInfo();
+        if ($pushImportant != []) {
+            $push->pusnImportant($pushImportant);
+        }
+        if ($pushAllDepartment != []) {
+            $push->pusnImportant();
+        }
+        if ($pushOthers != []) {
+            $push->pusnImportant();
+        }
+
         return "connected!! updateNew";
     }
 
