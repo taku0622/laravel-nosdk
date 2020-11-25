@@ -9,6 +9,7 @@ class PushInfo
     public function pusnImportant($idList)
     {
         // 全生徒のuser_id $allStudentsId[]
+        error_log("##################### pushInfo ##################");
         $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
         echo json_encode($allStudentId);
         echo json_encode($idList);

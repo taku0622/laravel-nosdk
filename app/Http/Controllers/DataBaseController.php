@@ -84,17 +84,18 @@ class DataBaseController extends Controller
                 }
             }
         }
+        error_log("配列:" . json_encode($pushImportant));
         // Pushの処理
         $push = new PushInfo();
         if ($pushImportant != []) {
             $push->pusnImportant($pushImportant);
         }
-        if ($pushAllDepartment != []) {
-            $push->pusnImportant();
-        }
-        if ($pushOthers != []) {
-            $push->pusnImportant();
-        }
+        // if ($pushAllDepartment != []) {
+        //     $push->pusnImportant();
+        // }
+        // if ($pushOthers != []) {
+        //     $push->pusnImportant();
+        // }
 
         return "connected!! updateNew";
     }
