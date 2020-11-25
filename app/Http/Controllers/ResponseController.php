@@ -61,7 +61,7 @@ class ResponseController extends Controller
         // userIDから学部の特定
         $student = DB::table('students')->where('user_id', $userId)->first();
         $department = $student->department;
-        // 学部を設定していなかったら「全学部」として全表示
+        // 学部を設定していなかったら全表示
         if ($student->department == 'all_department') {
             $infomations = DB::table('informations')
                 ->join('tags', 'informations.id', '=', 'tags.information_id')
@@ -141,7 +141,7 @@ class ResponseController extends Controller
         // userIDから学部の特定
         $student = DB::table('students')->where('user_id', $userId)->first();
         error_log($student->department);
-        // 学部を設定していなかったら「全学部」として検索
+        // 学部を設定していなかったら全表示
         if ($student->department == 'all_department') {
             $cancelInfomations = DB::table('cancel_informations')
                 ->where('date', '>=', $today)
@@ -184,16 +184,6 @@ class ResponseController extends Controller
         return $message;
     }
 
-    public function referenceInfo($userId, $text): array
-    {
-        $message = [
-            "to" => [$userId],
-            "type" => "text",
-            "text" => "参考書検索",
-        ];
-        return $message;
-    }
-
     public function followEvent($userId)
     {
         // すでにあるか
@@ -206,7 +196,7 @@ class ResponseController extends Controller
                 [
                     'user_id' => $userId,
                     'number' => "",
-                    'department' => "all",
+                    'department' => "all_department",
                     'push_new' => TRUE,
                     'push_important' => TRUE,
                     'push_cancel' => TRUE,
@@ -221,7 +211,7 @@ class ResponseController extends Controller
     public function eventInfo($userId, $text): array
     {
         $eventInfomations = DB::table('event_informations')
-            ->orderBy('posted_date', 'desc')->get();
+            ->orderBy('posted_date', 'desc')->limit(10)->get();
         if ($eventInfomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
@@ -231,6 +221,7 @@ class ResponseController extends Controller
         } else {
             $contents = [];
             foreach ($eventInfomations as $eventInfomation) {
+                $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
                 $content = [
                     'title' => mb_substr($eventInfomation->title, 0, 40),
                     'content' => mb_substr($eventInfomation->content, 0, 60),
