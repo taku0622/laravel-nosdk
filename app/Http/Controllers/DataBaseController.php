@@ -83,6 +83,7 @@ class DataBaseController extends Controller
         // Pushの処理
         $push = new PushInfo();
         if ($pushImportant != []) {
+            error_log(json_encode($message), JSON_UNESCAPED_UNICODE);
             $push->pusnImportant($pushImportant);
         }
         if ($pushNew != []) {
@@ -96,6 +97,8 @@ class DataBaseController extends Controller
         $inputs = $request->getContent();
         error_log("input: " . $inputs);
         $inputs = json_decode($inputs, true);
+        // pushの配列を作る
+        $pushCancel = [];
         foreach ($inputs as $input) {
             error_log("データベースに入れるデータに変換###################################");
             // データ整形
@@ -144,6 +147,8 @@ class DataBaseController extends Controller
                     'posted_date' => $posted_date,
                     'contributor' => $input["from"]
                 ]);
+                // information_idの取得
+                $lastData = DB::table('cancel_informations')->orderBy('id', 'desc')->first();
             }
         }
         return "connected!! updateCancel";
