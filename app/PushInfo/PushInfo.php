@@ -22,6 +22,8 @@ class PushInfo
             if ($title4digit != "【重要】") {
                 $title = "【重要】" . $infomation->title;
             }
+            error_log($infomation->title);
+            error_log($infomation->uri);
             $content = [
                 'title' => mb_substr($title, 0, 40),
                 'content' => mb_substr($infomation->content, 0, 60),
