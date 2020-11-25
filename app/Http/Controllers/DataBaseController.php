@@ -82,9 +82,9 @@ class DataBaseController extends Controller
         }
         // Pushの処理
         $push = new PushInfo();
-        // if ($pushImportant != []) {
-        //     $push->pusnImportant($pushImportant);
-        // }
+        if ($pushImportant != []) {
+            $push->pusnImportant($pushImportant);
+        }
         if ($pushNew != []) {
             $push->pusnNew($pushNew);
         }
