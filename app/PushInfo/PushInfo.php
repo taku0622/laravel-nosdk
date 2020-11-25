@@ -16,6 +16,7 @@ class PushInfo
         $infomations = DB::table('informations')
             ->whereIn('id', $idList)
             ->orderBy('posted_date', 'desc')->limit(10)->get();
+        error_log("ここまで");
         foreach ($infomations as $infomation) {
             $title4digit = mb_substr($infomation->title, 0, 4);
             if ($title4digit != "【重要】") {
