@@ -20,11 +20,12 @@ class PushInfo
         foreach ($infomations as $infomation) {
             $title4digit = mb_substr($infomation->title, 0, 4);
             $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
+            $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
             error_log($infomation->title);
             error_log($infomation->uri);
             $content = [
                 'title' => mb_substr($title, 0, 40),
-                'content' => mb_substr($infomation->content, 0, 60),
+                'content' => mb_substr($content, 0, 60),
                 'uri' => $infomation->uri,
                 'label' => '詳細'
             ];
@@ -41,7 +42,7 @@ class PushInfo
         error_log(json_encode($message), JSON_UNESCAPED_UNICODE);
 
         // post
-        $data = json_encode($message, JSON_UNESCAPED_UNICODE);
+        $data = json_encode([$message], JSON_UNESCAPED_UNICODE);
         error_log($data);
         $options = array(
             'http' => array(
