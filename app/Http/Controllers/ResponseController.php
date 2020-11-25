@@ -82,6 +82,9 @@ class ResponseController extends Controller
         } else {
             $contents = [];
             foreach ($infomations as $infomation) {
+                if ($infomation->title == "") {
+                    $infomation->title = "「詳細」を押してご確認ください";
+                }
                 $content = [
                     'title' => mb_substr($infomation->title, 0, 40),
                     'content' => mb_substr($infomation->content, 0, 60),

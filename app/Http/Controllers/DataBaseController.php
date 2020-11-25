@@ -23,9 +23,6 @@ class DataBaseController extends Controller
             $search = ['年', '月']; //置換する文字
             $posted_date = str_replace($search, '-', $posted_date); //置換
             error_log("posted_date: " . $posted_date);
-            if ($input["context"] == "") {
-                $input["context"] = "「詳細」を押してご確認ください";
-            }
             // データがない場合
             if (DB::table('informations')->where([
                 ['title', $input["title"]],
