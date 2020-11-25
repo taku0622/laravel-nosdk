@@ -84,7 +84,6 @@ class DataBaseController extends Controller
                 }
             }
         }
-        error_log("配列:" . json_encode($pushImportant));
         // Pushの処理
         $push = new PushInfo();
         if ($pushImportant != []) {

@@ -11,8 +11,9 @@ class PushInfo
         // 全生徒のuser_id $allStudentsId[]
         error_log("##################### pushInfo ##################");
         $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
-        echo json_encode($allStudentId);
-        echo json_encode($idList);
+        error_log(json_encode($allStudentId));
+        error_log(json_encode($idList));
+
         // $allStudentsId = [];
         // foreach ($allStudents as $allStudent) {
         //     $allStudentsId[] = $allStudent->user_id;
