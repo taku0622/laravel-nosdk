@@ -130,10 +130,11 @@ class PushInfo
             $department = $student->department;
             foreach ($idList as $id) {
                 $infomation = DB::table('informations')->where('id', $id)->first();
-                if ($department == $infomation->department || $department == "all_department") {
+                if (($department == $infomation->department) || ($department == "all_department")) {
                     $title = mb_substr("【休講】" . $infomation->date . "\n"  .
                         $infomation->period . "\n" .
                         $infomation->lecture_name, 0, 40);
+                    error_log($title);
                     $content = [
                         'title' => $title,
                         'content' => mb_substr($infomation->department, 0, 60),
