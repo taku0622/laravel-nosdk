@@ -70,7 +70,7 @@ class PushInfo
             error_log($student->user_id);
             $contents = [];
             foreach ($infoList as $info) {
-                if (in_array('all_department', $info[0]) || in_array($student->department, $info[0])) {
+                if (in_array('all_department', $info[0]) || in_array($student->department, $info[0]) || ($student->department == "all_department")) {
                     $infomation = DB::table('informations')->where('id', $info[1])->first();
                     $title4digit = mb_substr($infomation->title, 0, 4);
                     $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
