@@ -66,12 +66,13 @@ class PushInfo
         foreach ($infoList as $info) {
             // all_departmentが含まれる
             if (in_array('all_department', $info[0])) {
+                error_log("##################### pushNew all_department ##################");
                 error_log("ここまで");
                 $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
                 error_log(json_encode($allStudentId), JSON_UNESCAPED_UNICODE);
                 error_log("id: " . $info[1]);
                 error_log(gettype($info[1]));
-                $infomation = DB::table('informations')->where('id', $info[1])->get();
+                $infomation = DB::table('informations')->where('id', '=', $info[1])->get();
                 error_log(json_encode($infomation), JSON_UNESCAPED_UNICODE);
                 error_log("title: " . $infomation->title);
                 error_log("content: " . $infomation->content);
