@@ -69,8 +69,8 @@ class PushInfo
                 error_log("ここまで");
                 $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
                 error_log(json_encode($allStudentId), JSON_UNESCAPED_UNICODE);
-                $infomation = DB::table('informations')
-                    ->where('id', $info[1])->get();
+                error_log("id: " . $info[1]);
+                $infomation = DB::table('informations')->where('id', $info[1])->get();
 
                 $title4digit = mb_substr($infomation->title, 0, 4);
                 $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
