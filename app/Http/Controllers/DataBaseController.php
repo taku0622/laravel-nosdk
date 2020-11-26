@@ -60,6 +60,15 @@ class DataBaseController extends Controller
                         case '全学部':
                             $tag = 'all_department';
                             break;
+                        case 'MT':
+                        case 'NU':
+                            $tag = 'hs';
+                            break;
+                        case 'ME':
+                        case 'EE':
+                        case 'AC':
+                            $tag = 'es';
+                            break;
                         default:
                             $tag = mb_strtolower($tag);
                             break;
