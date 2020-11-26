@@ -70,7 +70,7 @@ class ResponseController extends Controller
         } else {
             $infomations = DB::table('informations')
                 ->join('tags', 'informations.id', '=', 'tags.information_id')
-                ->where($department, true)->whereNull('important')
+                ->where($department, true)->orWhere('tags.all_department', true)->whereNull('important')
                 ->orderBy('posted_date', 'desc')->limit(10)->get();
         }
         if ($infomations->isEmpty()) {
