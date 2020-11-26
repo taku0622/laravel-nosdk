@@ -62,14 +62,13 @@ class PushInfo
         error_log("##################### pushNew ##################");
         error_log(json_encode($infoList));
         $allMessages = [];
+        $allDepartmentContents = [];
         // [[[all_department, cs, ms, bs], 5]]
         foreach ($infoList as $info) {
             // all_departmentが含まれる
             if (in_array('all_department', $info[0])) {
                 error_log("##################### pushNew all_department ##################");
                 error_log("ここまで");
-                $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
-                error_log(json_encode($allStudentId), JSON_UNESCAPED_UNICODE);
                 error_log("id: " . $info[1]);
                 error_log(gettype($info[1]));
                 $infomation = DB::table('informations')->where('id', $info[1])->first();
@@ -89,12 +88,7 @@ class PushInfo
                     'uri' => $infomation->uri,
                     'label' => '詳細'
                 ];
-                $message = [
-                    "to" => $allStudentId,
-                    "type" => "multiple",
-                    "altText" =>  "新着情報",
-                    "contents" => $content
-                ];
+                $allDepartmentContents[] = $content;
             } else { // 各学部
                 // $allStudentId = [];
                 // foreach ($info[0] as $department) {
@@ -124,6 +118,18 @@ class PushInfo
                 //     "contents" => $content
                 // ];
             }
+            // $allMessages[] = $message;
+        }
+        // allDepartmentContents
+        if ($allDepartmentContents != []) {
+            $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
+            error_log(json_encode($allStudentId), JSON_UNESCAPED_UNICODE);
+            $message = [
+                "to" => $allStudentId,
+                "type" => "multiple",
+                "altText" =>  "新着情報",
+                "contents" => $allDepartmentContents
+            ];
             $allMessages[] = $message;
         }
         // 要素を切る
