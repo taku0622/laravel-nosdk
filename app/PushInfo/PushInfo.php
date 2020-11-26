@@ -114,4 +114,63 @@ class PushInfo
         $context = stream_context_create($options);
         $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
     }
+
+    public function pushCancel($idList)
+    {
+        error_log("##################### pushCancel ##################");
+        $allMessages = [];
+        // push on の全生徒
+        $allStudents = DB::table('students')->where('push_cancel', true)->get();
+        if ($allStudents->isEmpty()) {
+            exit;
+        }
+        foreach ($allStudents as $student) {
+            error_log($student->department);
+            $contents = [];
+            $department = $student->department;
+            foreach ($idList as $id) {
+                $infomation = DB::table('informations')->where('id', $id)->first();
+                if ($department == $infomation->department) {
+                    $title = mb_substr("【休講】" . $infomation->date . "\n"  .
+                        $infomation->period . "\n" .
+                        $infomation->lecture_name, 0, 40);
+                    $content = [
+                        'title' => $title,
+                        'content' => mb_substr($infomation->department, 0, 60),
+                        'uri' => 'https://service.cloud.teu.ac.jp/inside2/hachiouji/hachioji_common/cancel/',
+                        'label' => '詳細'
+                    ];
+                    $contents[] = $content;
+                }
+            }
+            // pushする情報がない人
+            if ($contents == []) {
+                continue;
+            }
+            // 10個に制限
+            $contents = array_slice($contents, 0, 10);
+            $message = [
+                "to" => [$student->user_id],
+                "type" => "multiple",
+                "altText" =>  "休講案内",
+                "contents" => $contents
+            ];
+            $allMessages[] = $message;
+        }
+        // post
+        $data = json_encode($allMessages, JSON_UNESCAPED_UNICODE);
+        error_log($data);
+        $options = array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => "Content-type: text/plain\n"
+                    . "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\r\n" // 適当に名乗ったりできます
+                    . "Content-Length: " . strlen($data) . "\r\n",
+                'content' => $data
+            )
+        );
+        error_log(json_encode($data, JSON_UNESCAPED_UNICODE));
+        $context = stream_context_create($options);
+        $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
+    }
 }

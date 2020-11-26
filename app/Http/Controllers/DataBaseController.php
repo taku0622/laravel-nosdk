@@ -99,7 +99,7 @@ class DataBaseController extends Controller
         error_log("input: " . $inputs);
         $inputs = json_decode($inputs, true);
         // pushの配列を作る
-        // $pushCancel = [];
+        $pushCancel = [];
         foreach ($inputs as $input) {
             error_log("データベースに入れるデータに変換###################################");
             // データ整形
@@ -149,8 +149,13 @@ class DataBaseController extends Controller
                     'contributor' => $input["from"]
                 ]);
                 // information_idの取得
-                // $lastData = DB::table('cancel_informations')->orderBy('id', 'desc')->first();
+                $lastData = DB::table('cancel_informations')->orderBy('id', 'desc')->first();
+                $pushCancel[] = $lastData->id; // [49,50]
             }
+        }
+        if ($pushCancel != []) {
+            $push = new PushInfo();
+            $push->pushCancel($pushCancel);
         }
         return "connected!! updateCancel";
     }
