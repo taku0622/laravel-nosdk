@@ -147,6 +147,7 @@ class PushInfo
             // pushする情報がない人
             if ($contents == []) {
                 continue;
+                error_log("ここまで");
             }
             // 10個に制限
             $contents = array_slice($contents, 0, 10);
