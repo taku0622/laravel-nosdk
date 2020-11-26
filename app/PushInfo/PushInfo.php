@@ -71,7 +71,8 @@ class PushInfo
                 error_log(json_encode($allStudentId), JSON_UNESCAPED_UNICODE);
                 error_log("id: " . $info[1]);
                 $infomation = DB::table('informations')->where('id', $info[1])->get();
-
+                error_log("title: " . $infomation->title);
+                error_log("content: " . $infomation->content);
                 $title4digit = mb_substr($infomation->title, 0, 4);
                 $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
                 $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
