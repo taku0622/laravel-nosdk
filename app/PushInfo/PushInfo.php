@@ -115,6 +115,8 @@ class PushInfo
             }
             $allMessages[] = $message;
         }
+        // 要素を切る
+        $allMessages = array_slice($allMessages, 0, 10);
         // post
         $data = json_encode($allMessages, JSON_UNESCAPED_UNICODE);
         error_log($data);
