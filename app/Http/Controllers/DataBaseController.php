@@ -148,9 +148,8 @@ class DataBaseController extends Controller
                     'posted_date' => $posted_date,
                     'contributor' => $input["from"]
                 ]);
-                information_idの取得
+                // information_idの取得
                 $lastData = DB::table('cancel_informations')->orderBy('id', 'desc')->first();
-
             }
         }
         return "connected!! updateCancel";
