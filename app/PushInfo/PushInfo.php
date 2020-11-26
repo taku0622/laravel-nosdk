@@ -72,8 +72,8 @@ class PushInfo
                 error_log(json_encode($allStudentId), JSON_UNESCAPED_UNICODE);
                 error_log("id: " . $info[1]);
                 error_log(gettype($info[1]));
-                $infomation = DB::table('informations')->where('id', '=', $info[1])->get();
-                error_log(json_encode($infomation), JSON_UNESCAPED_UNICODE);
+                $infomation = DB::table('informations')->where('id', $info[1])->first();
+                // error_log(json_encode($infomation), JSON_UNESCAPED_UNICODE);
                 error_log("title: " . $infomation->title);
                 error_log("content: " . $infomation->content);
                 $title4digit = mb_substr($infomation->title, 0, 4);
