@@ -67,28 +67,28 @@ class PushInfo
         foreach ($infoList as $info) {
             // all_departmentが含まれる
             if (in_array('all_department', $info[0])) {
-                // error_log("##################### pushNew all_department ##################");
-                // error_log("ここまで");
-                // error_log("id: " . $info[1]);
-                // error_log(gettype($info[1]));
-                // $infomation = DB::table('informations')->where('id', $info[1])->first();
-                // // error_log(json_encode($infomation), JSON_UNESCAPED_UNICODE);
-                // error_log("title: " . $infomation->title);
-                // error_log("content: " . $infomation->content);
-                // $title4digit = mb_substr($infomation->title, 0, 4);
-                // $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
-                // $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+                error_log("##################### pushNew all_department ##################");
+                error_log("ここまで");
+                error_log("id: " . $info[1]);
+                error_log(gettype($info[1]));
+                $infomation = DB::table('informations')->where('id', $info[1])->first();
+                // error_log(json_encode($infomation), JSON_UNESCAPED_UNICODE);
+                error_log("title: " . $infomation->title);
+                error_log("content: " . $infomation->content);
+                $title4digit = mb_substr($infomation->title, 0, 4);
+                $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
+                $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
 
-                // error_log($title);
-                // error_log($text);
+                error_log($title);
+                error_log($text);
 
-                // $content = [
-                //     'title' => mb_substr($title, 0, 40),
-                //     'content' => mb_substr($text, 0, 60),
-                //     'uri' => $infomation->uri,
-                //     'label' => '詳細'
-                // ];
-                // $allDepartmentContents[] = $content;
+                $content = [
+                    'title' => mb_substr($title, 0, 40),
+                    'content' => mb_substr($text, 0, 60),
+                    'uri' => $infomation->uri,
+                    'label' => '詳細'
+                ];
+                $allDepartmentContents[] = $content;
             } else { // 各学部
                 $allStudentId = [];
                 foreach ($info[0] as $department) {
@@ -100,6 +100,7 @@ class PushInfo
                     $allStudentId = array_merge($allStudentId, $studentId);
                     ################################
                 }
+                error_log("allstudentid: " . $allStudentId);
                 $infomation = DB::table('informations')
                     ->where('id', $info[1])->first();
                 $title4digit = mb_substr($infomation->title, 0, 4);
