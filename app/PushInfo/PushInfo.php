@@ -70,6 +70,7 @@ class PushInfo
                 $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
                 error_log(json_encode($allStudentId), JSON_UNESCAPED_UNICODE);
                 error_log("id: " . $info[1]);
+                error_log(gettype($info[1]));
                 $infomation = DB::table('informations')->where('id', $info[1])->get();
                 error_log("title: " . $infomation->title);
                 error_log("content: " . $infomation->content);
