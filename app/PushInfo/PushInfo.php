@@ -129,7 +129,8 @@ class PushInfo
             $contents = [];
             $department = $student->department;
             foreach ($idList as $id) {
-                $infomation = DB::table('informations')->where('id', $id)->first();
+                error_log("id:" . $id);
+                $infomation = DB::table('cancel_informations')->where('id', $id)->first();
                 if (($department == $infomation->department) || ($department == "all_department")) {
                     $title = mb_substr("【休講】" . $infomation->date . "\n"  .
                         $infomation->period . "\n" .
