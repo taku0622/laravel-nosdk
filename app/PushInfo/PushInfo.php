@@ -116,7 +116,7 @@ class PushInfo
                     "to" => $allStudentId,
                     "type" => "multiple",
                     "altText" =>  "新着情報",
-                    "contents" => $content
+                    "contents" => [$content]
                 ];
                 $allMessages[] = $message;
             }
