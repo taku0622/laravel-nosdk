@@ -2,7 +2,6 @@
 
 namespace App\PushInfo;
 
-use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\DB;
 
 class PushInfo
@@ -86,11 +85,14 @@ class PushInfo
                     "contents" => $content
                 ];
             } else { // 各学部
+                $allStudentId = [];
                 foreach ($info[0] as $department) {
                     echo "$department" . PHP_EOL;
                     ################################
-
-
+                    $studentId = DB::table('students')
+                        ->where('push_new', true)->where('department', $department)
+                        ->pluck('user_id');
+                    $allStudentId = array_merge($allStudentId, $studentId);
                     ################################
                 }
                 $infomation = DB::table('informations')
@@ -111,7 +113,7 @@ class PushInfo
                     "contents" => $content
                 ];
             }
-            $allMessages = $message;
+            $allMessages[] = $message;
         }
         // post
         $data = json_encode($allMessages, JSON_UNESCAPED_UNICODE);
