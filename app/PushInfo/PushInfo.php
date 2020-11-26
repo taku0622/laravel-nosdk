@@ -91,15 +91,18 @@ class PushInfo
                 $allDepartmentContents[] = $content;
             } else { // 各学部
                 $allStudentId = [];
-                foreach ($info[0] as $department) {
-                    echo "$department" . PHP_EOL;
-                    ################################
-                    $studentId = DB::table('students')
-                        ->where('push_new', true)->where('department', $department)
-                        ->pluck('user_id');
-                    $allStudentId = array_merge($allStudentId, $studentId);
-                    ################################
-                }
+                // foreach ($info[0] as $department) {
+                //     echo "$department" . PHP_EOL;
+                //     ################################
+                //     $studentId = DB::table('students')
+                //         ->where('push_new', true)->where('department', $department)
+                //         ->pluck('user_id');
+                //     $allStudentId = array_merge($allStudentId, $studentId);
+                //     ################################
+                // }
+                $allStudentId = DB::table('students')
+                    ->where('push_new', true)->whereIn('department', $info[0])
+                    ->pluck('user_id');
                 error_log("allstudentid: " . $allStudentId);
                 $infomation = DB::table('informations')
                     ->where('id', $info[1])->first();
