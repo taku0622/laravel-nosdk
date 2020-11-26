@@ -68,6 +68,7 @@ class PushInfo
             if (in_array('all_department', $info[0])) {
                 error_log("ここまで");
                 $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
+                error_log(json_encode($allStudentId), JSON_UNESCAPED_UNICODE);
                 $infomation = DB::table('informations')
                     ->where('id', $info[1])->get();
                 $title4digit = mb_substr($infomation->title, 0, 4);
