@@ -66,6 +66,7 @@ class PushInfo
         foreach ($infoList as $info) {
             // all_departmentが含まれる
             if (in_array('all_department', $info[0])) {
+                error_log("ここまで");
                 $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
                 $infomation = DB::table('informations')
                     ->where('id', $info[1])->get();
