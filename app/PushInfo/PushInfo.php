@@ -85,33 +85,33 @@ class PushInfo
                     "contents" => $content
                 ];
             } else { // 各学部
-                $allStudentId = [];
-                foreach ($info[0] as $department) {
-                    echo "$department" . PHP_EOL;
-                    ################################
-                    $studentId = DB::table('students')
-                        ->where('push_new', true)->where('department', $department)
-                        ->pluck('user_id');
-                    $allStudentId = array_merge($allStudentId, $studentId);
-                    ################################
-                }
-                $infomation = DB::table('informations')
-                    ->where('id', $info[1])->get();
-                $title4digit = mb_substr($infomation->title, 0, 4);
-                $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
-                $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
-                $content = [
-                    'title' => mb_substr($title, 0, 40),
-                    'content' => mb_substr($text, 0, 60),
-                    'uri' => $infomation->uri,
-                    'label' => '詳細'
-                ];
-                $message = [
-                    "to" => $allStudentId,
-                    "type" => "multiple",
-                    "altText" =>  "新着情報",
-                    "contents" => $content
-                ];
+                // $allStudentId = [];
+                // foreach ($info[0] as $department) {
+                //     echo "$department" . PHP_EOL;
+                //     ################################
+                //     $studentId = DB::table('students')
+                //         ->where('push_new', true)->where('department', $department)
+                //         ->pluck('user_id');
+                //     $allStudentId = array_merge($allStudentId, $studentId);
+                //     ################################
+                // }
+                // $infomation = DB::table('informations')
+                //     ->where('id', $info[1])->get();
+                // $title4digit = mb_substr($infomation->title, 0, 4);
+                // $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
+                // $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+                // $content = [
+                //     'title' => mb_substr($title, 0, 40),
+                //     'content' => mb_substr($text, 0, 60),
+                //     'uri' => $infomation->uri,
+                //     'label' => '詳細'
+                // ];
+                // $message = [
+                //     "to" => $allStudentId,
+                //     "type" => "multiple",
+                //     "altText" =>  "新着情報",
+                //     "contents" => $content
+                // ];
             }
             $allMessages[] = $message;
         }
