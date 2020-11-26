@@ -153,6 +153,7 @@ class DataBaseController extends Controller
                 $pushCancel[] = $lastData->id; // [49,50]
             }
         }
+        error_log(json_encode($pushCancel));
         if ($pushCancel != []) {
             $push = new PushInfo();
             $push->pushCancel($pushCancel);
