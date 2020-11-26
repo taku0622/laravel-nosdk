@@ -86,9 +86,10 @@ class DataBaseController extends Controller
             error_log(json_encode($pushImportant), JSON_UNESCAPED_UNICODE);
             $push->pusnImportant($pushImportant);
         }
-        if ($pushNew != []) {
-            $push->pusnNew($pushNew);
-        }
+        // if ($pushNew != []) {
+        //     error_log(json_encode($pushNew), JSON_UNESCAPED_UNICODE);
+        //     $push->pusnNew($pushNew);
+        // }
         return "connected!! updateNew";
     }
 

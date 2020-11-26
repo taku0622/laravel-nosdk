@@ -9,7 +9,7 @@ class PushInfo
     public function pusnImportant($idList)
     {
         // 全生徒のuser_id $allStudentsId[]
-        error_log("##################### pushInfo ##################");
+        error_log("##################### pushImportant ##################");
         $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
         error_log(json_encode($allStudentId));
         error_log(json_encode($idList));
@@ -20,18 +20,17 @@ class PushInfo
         foreach ($infomations as $infomation) {
             $title4digit = mb_substr($infomation->title, 0, 4);
             $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
-            $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
-            error_log($infomation->title);
-            error_log($infomation->uri);
+            $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+            // error_log($infomation->title);
+            // error_log($infomation->uri);
             $content = [
                 'title' => mb_substr($title, 0, 40),
-                'content' => mb_substr($content, 0, 60),
+                'content' => mb_substr($text, 0, 60),
                 'uri' => $infomation->uri,
                 'label' => '詳細'
             ];
             $contents[] = $content;
         }
-
 
         $message = [
             "to" => $allStudentId,
@@ -58,8 +57,34 @@ class PushInfo
         $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
     }
 
-    public function pusnNew($idList)
+    public function pusnNew($infoList)
     {
-        error_log(json_encode($idList));
+        error_log("##################### pushNew ##################");
+        error_log(json_encode($infoList));
+        $allMessages = [];
+        // [[[all_department, cs, ms, bs], 5]]
+        foreach ($infoList as $info) {
+            // all_departmentが含まれる
+            if (in_array('all_department', $info[0])) {
+                $allStudentId = DB::table('students')->where('push_important', true)->pluck('user_id');
+                $infomation = DB::table('informations')
+                    ->where('id', $info[1])->get();
+                $title4digit = mb_substr($infomation->title, 0, 4);
+                $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
+                $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+                $content = [
+                    'title' => mb_substr($title, 0, 40),
+                    'content' => mb_substr($content, 0, 60),
+                    'uri' => $infomation->uri,
+                    'label' => '詳細'
+                ];
+            } else { // 各学部
+                foreach ($info[0] as $department) {
+                    echo "$department" . PHP_EOL;
+                }
+                $infomation = DB::table('informations')
+                    ->where('id', $info[1])->get();
+            }
+        }
     }
 }
