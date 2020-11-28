@@ -138,7 +138,7 @@ class Watson
         "type" => "text",
         "text" => "講義が見つかりませんでした。\nすみませんが、「質問」からやり直してください",
         "quickReply" => [
-          "texts" => ["質問"]
+          "texts" => NULL
         ]
       ];
       return $message;
