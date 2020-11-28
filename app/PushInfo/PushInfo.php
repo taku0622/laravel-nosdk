@@ -125,11 +125,12 @@ class PushInfo
             ->where('push_new', false)->pluck('user_id');
         error_log(json_encode($allStudentId));
         error_log(json_encode($idList));
-        $infomations = DB::table('informations')
-            ->whereIn('id', $idList)->where('important', true)
-            ->orderBy('posted_date', 'desc')->limit(10)->get();
+        $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
+            ->whereIn('informations.id', $idList)->where('tags.important', true)
+            ->orderBy('informations.posted_date', 'desc')->limit(10)->get();
         if (($infomations->isEmpty()) || ($allStudentId == [])) {
             //何もしない
+            error_log("何もしない");
         } else {
             error_log("ここまで");
             foreach ($infomations as $infomation) {
