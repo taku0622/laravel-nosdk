@@ -80,24 +80,28 @@ class DataBaseController extends Controller
                 $informationTags = $insertInformation;
                 $insertInformation['information_id'] = $lastData->id;
                 DB::table('tags')->insert($insertInformation);
-
-                if (array_key_exists("important", $informationTags)) {
-                    // push 重要情報 [1,2,3,4]
-                    $pushImportant[] = $lastData->id;
-                } else { //　[[[all_department, cs, ms, bs], 5] ]
-                    $pushNew[] = [array_keys($informationTags), $lastData->id];
-                }
+                $pushNew[] = $lastData->id;
+                // if (array_key_exists("important", $informationTags)) {
+                //     // push 重要情報 [1,2,3,4]
+                //     $pushImportant[] = $lastData->id;
+                // } else { //　[[[all_department, cs, ms, bs], 5] ]
+                //     $pushNew[] = [array_keys($informationTags), $lastData->id];
+                // }
             }
         }
         // Pushの処理
         $push = new PushInfo();
-        if ($pushImportant != []) {
-            error_log(json_encode($pushImportant), JSON_UNESCAPED_UNICODE);
-            $push->pusnImportant($pushImportant);
-        }
+        // if ($pushImportant != []) {
+        //     error_log(json_encode($pushImportant), JSON_UNESCAPED_UNICODE);
+        //     $push->pusnImportant($pushImportant);
+        // }
+        // if ($pushNew != []) {
+        //     error_log(json_encode($pushNew), JSON_UNESCAPED_UNICODE);
+        //     $push->pusnNew($pushNew);
+        // }
         if ($pushNew != []) {
             error_log(json_encode($pushNew), JSON_UNESCAPED_UNICODE);
-            $push->pusnNew($pushNew);
+            $push->pusnIinformations($pushNew);
         }
         return "connected!! updateNew";
     }
