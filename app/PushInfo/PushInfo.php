@@ -120,88 +120,95 @@ class PushInfo
         $allMessages = [];
         // 全生徒のuser_id $allStudentsId[]
         // [重要1,重要2,重要3]
-        error_log("##################### pushImportant ##################");
-        $allStudentId = DB::table('students')->where('push_important', true)
-            ->where('push_new', false)->pluck('user_id');
-        error_log(json_encode($allStudentId));
-        error_log(json_encode($idList));
-        $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
-            ->whereIn('informations.id', $idList)->where('tags.important', true)
-            ->orderBy('informations.posted_date', 'desc')->limit(10)->get();
-        if (($infomations->isEmpty()) || ($allStudentId == [])) {
-            //何もしない
-            error_log("何もしない");
-        } else {
-            error_log("ここまで");
-            foreach ($infomations as $infomation) {
-                $title4digit = mb_substr($infomation->title, 0, 4);
-                $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
-                $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
-                $content = [
-                    'title' => mb_substr($title, 0, 40),
-                    'content' => mb_substr($text, 0, 60),
-                    'uri' => $infomation->uri,
-                    'label' => '詳細'
-                ];
-                $contents[] = $content;
-            }
-
-            $message = [
-                "to" => $allStudentId,
-                "type" => "multiple",
-                "altText" =>  "重要情報",
-                "contents" => $contents
-            ];
-            error_log(json_encode($message), JSON_UNESCAPED_UNICODE);
-            $allMessages[] = $message;
-        }
-
-        // error_log("##################### pushNew ##################");
-        // $allStudents = DB::table('students')->where('push_important', true)
-        //     ->where('push_new', true)->get();
-        // if ($allStudents->isEmpty()) {
-        //     // なにもしない
+        // error_log("##################### pushImportant ##################");
+        // $allStudentId = DB::table('students')->where('push_important', true)
+        //     ->where('push_new', false)->pluck('user_id');
+        // error_log(json_encode($allStudentId));
+        // error_log(json_encode($idList));
+        // $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
+        //     ->whereIn('informations.id', $idList)->where('tags.important', true)
+        //     ->orderBy('informations.posted_date', 'desc')->limit(10)->get();
+        // if (($infomations->isEmpty()) || ($allStudentId == [])) {
+        //     //何もしない
+        //     error_log("何もしない");
         // } else {
-        //     foreach ($allStudents as $student) {
-        //         if ($student->department == "all_department") {
-        //             $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
-        //                 ->whereIn('informations.id', $idList)->orderBy('posted_date', 'desc')->limit(10)->get();
-        //         } else {
-        //             $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
-        //                 ->whereIn('informations.id', $idList)->where($student->department, true)->orderBy('posted_date', 'desc')->limit(10)->get();
-        //         }
-        //         foreach ($infomations as $infomation) {
-        //             $title4digit = mb_substr($infomation->title, 0, 4);
-        //             $tag_important = $infomation->important;
-        //             if ($tag_important) {
-        //                 $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
-        //             } else {
-        //                 $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
-        //             }
-        //             $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
-        //             $content = [
-        //                 'title' => mb_substr($title, 0, 40),
-        //                 'content' => mb_substr($text, 0, 60),
-        //                 'uri' => $infomation->uri,
-        //                 'label' => '詳細'
-        //             ];
-        //             $contents[] = $content;
-        //         }
-        //         // pushする情報がない人
-        //         if ($contents == []) {
-        //             continue;
-        //         }
-        //         // 10個に制限
-        //         $contents = array_slice($contents, 0, 10);
-        //         $message = [
-        //             "to" => [$student->user_id],
-        //             "type" => "multiple",
-        //             "altText" =>  "新着情報",
-        //             "contents" => $contents
+        //     error_log("ここまで");
+        //     foreach ($infomations as $infomation) {
+        //         $title4digit = mb_substr($infomation->title, 0, 4);
+        //         $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
+        //         $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+        //         $content = [
+        //             'title' => mb_substr($title, 0, 40),
+        //             'content' => mb_substr($text, 0, 60),
+        //             'uri' => $infomation->uri,
+        //             'label' => '詳細'
         //         ];
-        //         $allMessages[] = $message;
+        //         $contents[] = $content;
         //     }
+
+        //     $message = [
+        //         "to" => $allStudentId,
+        //         "type" => "multiple",
+        //         "altText" =>  "重要情報",
+        //         "contents" => $contents
+        //     ];
+        //     error_log(json_encode($message), JSON_UNESCAPED_UNICODE);
+        //     $allMessages[] = $message;
         // }
+
+        error_log("##################### pushNew ##################");
+        // [新着1,重要1,新着2,重要2,重要3,新着3]
+        $allStudents = DB::table('students')->where('push_important', true)
+            ->where('push_new', true)->get();
+        if ($allStudents->isEmpty()) {
+            // なにもしない
+        } else {
+            foreach ($allStudents as $student) {
+                if ($student->department == "all_department") {
+                    $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
+                        ->whereIn('informations.id', $idList)->orderBy('posted_date', 'desc')->limit(10)->get();
+                    error_log("パターン全学部");
+                } else {
+                    $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
+                        ->whereIn('informations.id', $idList)->where($student->department, true)->orderBy('posted_date', 'desc')->limit(10)->get();
+                    error_log("パターン$student->department学部");
+                }
+                if ($infomations->isEmpty()) {
+                    // なにもしない
+                    continue;
+                }
+                foreach ($infomations as $infomation) {
+                    $title4digit = mb_substr($infomation->title, 0, 4);
+                    $tag_important = $infomation->important;
+                    if ($tag_important) {
+                        $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
+                    } else {
+                        $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
+                    }
+                    $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+                    $content = [
+                        'title' => mb_substr($title, 0, 40),
+                        'content' => mb_substr($text, 0, 60),
+                        'uri' => $infomation->uri,
+                        'label' => '詳細'
+                    ];
+                    $contents[] = $content;
+                }
+                // pushする情報がない人
+                if ($contents == []) {
+                    continue;
+                }
+                // 10個に制限
+                $contents = array_slice($contents, 0, 10);
+                $message = [
+                    "to" => [$student->user_id],
+                    "type" => "multiple",
+                    "altText" =>  "新着情報",
+                    "contents" => $contents
+                ];
+                $allMessages[] = $message;
+            }
+        }
         // post
         $data = json_encode($allMessages, JSON_UNESCAPED_UNICODE);
         error_log($data);
