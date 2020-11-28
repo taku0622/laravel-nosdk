@@ -181,9 +181,9 @@ class PushInfo
                     $title4digit = mb_substr($infomation->title, 0, 4);
                     $tag_important = $infomation->important;
                     if ($tag_important) {
-                        $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
-                    } else {
                         $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
+                    } else {
+                        $title = $title4digit != "【新着】"  ? "【新着】" . $infomation->title : $infomation->title;
                     }
                     $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
                     $content = [
