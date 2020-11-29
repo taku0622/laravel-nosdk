@@ -156,14 +156,14 @@ class Watson
         // メッセージ生成
         $names = [];
         foreach ($referenceInfomations as $referenceInfomation) {
-          $names[] = $referenceInfomation->lecture_name;
+          $names[] = $referenceInfomation->teacher_name;
         }
         // names配列切り取り限度13(line quick reply)
         $names13 = array_slice($names, 0, 13);
         $message = [
           "to" => [$userId],
           "type" => "text",
-          "text" => $count . "件見つかりました。\n講義の名前を選択してください。\nクイックリプライになければ入力してください",
+          "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
           "quickReply" => [
             "texts" => $names13
           ]
