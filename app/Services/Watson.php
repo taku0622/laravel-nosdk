@@ -26,7 +26,8 @@ class Watson
       }
       // 講義確定
       if (mb_substr($dialog_node, 0, 21) == "node_1_1606031433273") {
-        $lecture_name = mb_substr($dialog_node, 21);
+        error_log($text); // 講義名
+        // $lecture_name = mb_substr($dialog_node, 21);
         $message = $this->serchReference2($userId, $text, $conversation_id);
         return $message;
       }
@@ -206,7 +207,7 @@ class Watson
   {
     // $textで参考書検索
     $referenceInfomations = DB::table('reference_informations')
-      ->where('lecture_name', 'LIKE', $text)->get();
+      ->where('lecture_name', $text)->get();
     // ない  
     if ($referenceInfomations->isEmpty()) {
       $dialog_node = 'root';
