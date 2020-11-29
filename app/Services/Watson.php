@@ -122,7 +122,7 @@ class Watson
   {
     // $textで参考書検索
     $referenceInfomations = DB::table('reference_informations')
-      ->where('lecture_name', 'LIKE', $text)->get();
+      ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
     // ない  
     if ($referenceInfomations->isEmpty()) {
       $dialog_node = 'root';
