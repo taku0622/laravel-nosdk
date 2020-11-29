@@ -171,7 +171,7 @@ class PushInfo
                 } else {
                     $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
                         ->whereIn('informations.id', $idList)->where($student->department, true)->orWhere('tags.all_department', true)->orderBy('posted_date', 'desc')->limit(10)->get();
-                    error_log("パター各学部");
+                    error_log("パターン各学部");
                 }
                 if ($infomations->isEmpty()) {
                     // なにもしない
