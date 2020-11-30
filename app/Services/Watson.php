@@ -180,7 +180,7 @@ class Watson
       } else {
         // 一つある
         $referenceInfomation = $referenceInfomations->first();
-        $dialog_node = 'root';
+        $dialog_node = 'node_1_1606031433273' . $text;
         // 会話dbに保存
         DB::table('conversations')->where('userid', $userId)
           ->update([
@@ -231,7 +231,7 @@ class Watson
       error_log(count($referenceInfomations));
       $count = count($referenceInfomations);
       if ($count > 1) { // 複数
-        $dialog_node = 'node_10_1606035689190' . $text;
+        $dialog_node = 'node_1_1606031433273' . $text;
         // 会話dbに保存
         DB::table('conversations')->where('userid', $userId)
           ->update([
