@@ -25,12 +25,12 @@ class Watson
         return $message;
       }
       // 講義確定
-      if (mb_substr($dialog_node, 0, 21) == "node_1_1606031433273") {
-        error_log($text); // 講義名
-        // $lecture_name = mb_substr($dialog_node, 21);
-        $message = $this->serchReference2($userId, $text, $conversation_id);
-        return $message;
-      }
+      // if (mb_substr($dialog_node, 0, 21) == "node_1_1606031433273") {
+      //   error_log($text); // 講義名
+      //   // $lecture_name = mb_substr($dialog_node, 21);
+      //   $message = $this->serchReference2($userId, $text, $conversation_id);
+      //   return $message;
+      // }
       // 講師確定
       if (mb_substr($dialog_node, 0, 21) == "node_10_1606035689190") {
         $lecture_name = mb_substr($dialog_node, 21);
@@ -154,7 +154,7 @@ class Watson
       error_log(count($referenceInfomations));
       $count = count($referenceInfomations);
       if ($count > 1) { // 複数
-        $dialog_node = 'node_1_1606031433273' . $text;
+        $dialog_node = 'node_1_1606031433273';
         // 会話dbに保存
         DB::table('conversations')->where('userid', $userId)
           ->update([
@@ -180,7 +180,7 @@ class Watson
       } else {
         // 一つある
         $referenceInfomation = $referenceInfomations->first();
-        $dialog_node = 'node_1_1606031433273' . $text;
+        $dialog_node = 'node_10_1606035689190' . $text;
         // 会話dbに保存
         DB::table('conversations')->where('userid', $userId)
           ->update([
