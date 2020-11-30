@@ -186,7 +186,7 @@ class Watson
                 // メッセージ生成
                 $names = [];
                 $infos = DB::table('reference_informations')->distinct()->select('lecture_name')
-                    ->where('lecture_name', 'LIKE', $text)->get();
+                    ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
                 foreach ($infos as $info) {
                     $names[] = $info->lecture_name;
                 }
