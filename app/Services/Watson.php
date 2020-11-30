@@ -184,7 +184,7 @@ class Watson
                         'dialog_node' => $dialog_node,
                     ]);
                 // メッセージ生成
-                $names = DB::table('reference_informations')->distinct()->select('lecture_name')
+                $names = DB::table('reference_informations')->distinct()
                     ->where('lecture_name', 'LIKE', $text)->pluck('lecture_name');
                 // foreach ($referenceInfomations as $referenceInfomation) {
                 //     $names[] = $referenceInfomation->lecture_name;
