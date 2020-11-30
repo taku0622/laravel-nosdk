@@ -130,7 +130,7 @@ class Watson
         $count = count($referenceInfomations);
         error_log(count($referenceInfomations2));
         $count2 = count($referenceInfomations2);
-        if (($count == $count2) && ($count2 != 1) && ($count2 != 0)) { // 一つあるだけ["創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題"]
+        if (($count == $count2) && ($count != 1) && ($count != 0)) { // 一つあるだけ["創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題"]
             $dialog_node = 'node_10_1606035689190' . $text;
             // 会話dbに保存
             DB::table('conversations')->where('userid', $userId)
