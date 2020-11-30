@@ -137,31 +137,31 @@ class Watson
         $count = count($referenceInfomations);
         error_log(count($referenceInfomations2));
         $count2 = count($referenceInfomations2);
-        // if (($count == $count2) && ($count2 == 1)) { // 一つあるだけ["創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題"]
-        //     $dialog_node = 'node_10_1606035689190' . $text;
-        //     // 会話dbに保存
-        //     DB::table('conversations')->where('userid', $userId)
-        //         ->update([
-        //             'conversation_id' => $conversation_id,
-        //             'dialog_node' => $dialog_node,
-        //         ]);
-        //     // メッセージ生成
-        //     $names = [];
-        //     foreach ($referenceInfomations as $referenceInfomation) {
-        //         $names[] = $referenceInfomation->teacher_name;
-        //     }
-        //     // names配列切り取り限度13(line quick reply)
-        //     $names13 = array_slice($names, 0, 13);
-        //     $message = [
-        //         "to" => [$userId],
-        //         "type" => "text",
-        //         "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
-        //         "quickReply" => [
-        //             "texts" => $names13
-        //         ]
-        //     ];
-        //     return $message;
-        // }
+        if (($count == $count2) && ($count2 != 1)) { // 一つあるだけ["創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題"]
+            $dialog_node = 'node_10_1606035689190' . $text;
+            // 会話dbに保存
+            DB::table('conversations')->where('userid', $userId)
+                ->update([
+                    'conversation_id' => $conversation_id,
+                    'dialog_node' => $dialog_node,
+                ]);
+            // メッセージ生成
+            $names = [];
+            foreach ($referenceInfomations as $referenceInfomation) {
+                $names[] = $referenceInfomation->teacher_name;
+            }
+            // names配列切り取り限度13(line quick reply)
+            $names13 = array_slice($names, 0, 13);
+            $message = [
+                "to" => [$userId],
+                "type" => "text",
+                "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
+                "quickReply" => [
+                    "texts" => $names13
+                ]
+            ];
+            return $message;
+        }
         // ない  
         if ($referenceInfomations->isEmpty()) {
             $dialog_node = 'root';
