@@ -131,8 +131,36 @@ class Watson
         // $textで参考書検索
         $referenceInfomations = DB::table('reference_informations')
             ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
+        $referenceInfomations2 = DB::table('reference_informations')
+            ->where('lecture_name', 'LIKE', $text)->get();
         error_log(count($referenceInfomations));
         $count = count($referenceInfomations);
+        $count2 = count($referenceInfomations2);
+        if ($count == $count2) { // 一つあるだけ["創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題"]
+            $dialog_node = 'node_10_1606035689190' . $text;
+            // 会話dbに保存
+            DB::table('conversations')->where('userid', $userId)
+                ->update([
+                    'conversation_id' => $conversation_id,
+                    'dialog_node' => $dialog_node,
+                ]);
+            // メッセージ生成
+            $names = [];
+            foreach ($referenceInfomations as $referenceInfomation) {
+                $names[] = $referenceInfomation->teacher_name;
+            }
+            // names配列切り取り限度13(line quick reply)
+            $names13 = array_slice($names, 0, 13);
+            $message = [
+                "to" => [$userId],
+                "type" => "text",
+                "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
+                "quickReply" => [
+                    "texts" => $names13
+                ]
+            ];
+            return $message;
+        }
         // ない  
         if ($referenceInfomations->isEmpty()) {
             $dialog_node = 'root';
@@ -183,51 +211,26 @@ class Watson
                     ->where('lecture_name', 'LIKE', $text)->get();
                 error_log(count($referenceInfomations));
                 $count = count($referenceInfomations);
-                if ($count == 1) { //一つあるだけ["コンピュータサイエンス応用実験Ⅰ[A]"など
-                    $referenceInfomation = $referenceInfomations->first();
-                    $dialog_node = 'root';
-                    // 会話dbに保存
-                    DB::table('conversations')->where('userid', $userId)
-                        ->update([
-                            'conversation_id' => $conversation_id,
-                            'dialog_node' => $dialog_node,
-                        ]);
-                    error_log($referenceInfomation->reference_name);
-                    // メッセージ生成
-                    $message = [
-                        "to" => [$userId],
-                        "type" => "text",
-                        "text" => $referenceInfomation->reference_name,
-                        "quickReply" => [
-                            "texts" => NULL
-                        ]
-                    ];
-                    return $message;
-                } else { // 一つあるだけ["創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題","創成課題"]
-                    $dialog_node = 'node_10_1606035689190' . $text;
-                    // 会話dbに保存
-                    DB::table('conversations')->where('userid', $userId)
-                        ->update([
-                            'conversation_id' => $conversation_id,
-                            'dialog_node' => $dialog_node,
-                        ]);
-                    // メッセージ生成
-                    $names = [];
-                    foreach ($referenceInfomations as $referenceInfomation) {
-                        $names[] = $referenceInfomation->teacher_name;
-                    }
-                    // names配列切り取り限度13(line quick reply)
-                    $names13 = array_slice($names, 0, 13);
-                    $message = [
-                        "to" => [$userId],
-                        "type" => "text",
-                        "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
-                        "quickReply" => [
-                            "texts" => $names13
-                        ]
-                    ];
-                    return $message;
-                }
+                //一つあるだけ["コンピュータサイエンス応用実験Ⅰ[A]"など
+                $referenceInfomation = $referenceInfomations->first();
+                $dialog_node = 'root';
+                // 会話dbに保存
+                DB::table('conversations')->where('userid', $userId)
+                    ->update([
+                        'conversation_id' => $conversation_id,
+                        'dialog_node' => $dialog_node,
+                    ]);
+                error_log($referenceInfomation->reference_name);
+                // メッセージ生成
+                $message = [
+                    "to" => [$userId],
+                    "type" => "text",
+                    "text" => $referenceInfomation->reference_name,
+                    "quickReply" => [
+                        "texts" => NULL
+                    ]
+                ];
+                return $message;
             }
         }
     }
