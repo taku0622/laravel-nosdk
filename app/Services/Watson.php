@@ -24,13 +24,6 @@ class Watson
                 $message = $this->serchReference1($userId, $text, $conversation_id);
                 return $message;
             }
-            // 講義確定
-            // if (mb_substr($dialog_node, 0, 21) == "node_1_1606031433273") {
-            //   error_log($text); // 講義名
-            //   // $lecture_name = mb_substr($dialog_node, 21);
-            //   $message = $this->serchReference2($userId, $text, $conversation_id);
-            //   return $message;
-            // }
             // 講師確定
             if (mb_substr($dialog_node, 0, 21) == "node_10_1606035689190") {
                 $lecture_name = mb_substr($dialog_node, 21);
@@ -236,83 +229,6 @@ class Watson
         }
     }
 
-    // 参考書サーチ2
-    // public function serchReference2($userId, $text, $conversation_id)
-    // {
-    //   // $textで参考書検索
-    //   $referenceInfomations = DB::table('reference_informations')
-    //     ->where('lecture_name', $text)->get();
-    //   // ない  
-    //   if ($referenceInfomations->isEmpty()) {
-    //     $dialog_node = 'root';
-    //     // 会話dbに保存
-    //     DB::table('conversations')->where('userid', $userId)
-    //       ->update([
-    //         'conversation_id' => $conversation_id,
-    //         'dialog_node' => $dialog_node,
-    //       ]);
-    //     // メッセージ生成
-    //     $message = [
-    //       "to" => [$userId],
-    //       "type" => "text",
-    //       "text" => "講義が見つかりませんでした。\nすみませんが、「質問」からやり直してください",
-    //       "quickReply" => [
-    //         "texts" => NULL
-    //       ]
-    //     ];
-    //     return $message;
-    //   } else {
-    //     error_log(count($referenceInfomations));
-    //     $count = count($referenceInfomations);
-    //     if ($count > 1) { // 複数
-    //       $dialog_node = 'node_1_1606031433273' . $text;
-    //       // 会話dbに保存
-    //       DB::table('conversations')->where('userid', $userId)
-    //         ->update([
-    //           'conversation_id' => $conversation_id,
-    //           'dialog_node' => $dialog_node,
-    //         ]);
-    //       // メッセージ生成
-    //       $names = [];
-    //       foreach ($referenceInfomations as $referenceInfomation) {
-    //         $names[] = $referenceInfomation->teacher_name;
-    //       }
-    //       // names配列切り取り限度13(line quick reply)
-    //       $names13 = array_slice($names, 0, 13);
-    //       $message = [
-    //         "to" => [$userId],
-    //         "type" => "text",
-    //         "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
-    //         "quickReply" => [
-    //           "texts" => $names13
-    //         ]
-    //       ];
-    //       return $message;
-    //     } else {
-    //       // 一つある
-    //       $referenceInfomation = $referenceInfomations->first();
-    //       $dialog_node = 'root';
-    //       // 会話dbに保存
-    //       DB::table('conversations')->where('userid', $userId)
-    //         ->update([
-    //           'conversation_id' => $conversation_id,
-    //           'dialog_node' => $dialog_node,
-    //         ]);
-    //       error_log($referenceInfomation->reference_name);
-    //       // メッセージ生成
-    //       $message = [
-    //         "to" => [$userId],
-    //         "type" => "text",
-    //         "text" => $referenceInfomation->reference_name,
-    //         "quickReply" => [
-    //           "texts" => NULL
-    //         ]
-    //       ];
-    //       return $message;
-    //     }
-    //   }
-    // }
-
     // 参考書サーチ3
     public function serchReference3($userId, $text, $conversation_id, $lecture_name)
     {
@@ -320,7 +236,7 @@ class Watson
         $referenceInfomations = DB::table('reference_informations')
             ->where([
                 ['lecture_name', $lecture_name],
-                ['teacher_name', $text]
+                ['teacher_name', 'LIKE', '%' . $text . '%']
             ])->get();
         $dialog_node = 'root';
         // ない
