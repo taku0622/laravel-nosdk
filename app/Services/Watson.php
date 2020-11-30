@@ -184,11 +184,12 @@ class Watson
                         'dialog_node' => $dialog_node,
                     ]);
                 // メッセージ生成
-                $names = DB::table('reference_informations')->distinct()
-                    ->where('lecture_name', 'LIKE', $text)->pluck('lecture_name');
-                // foreach ($referenceInfomations as $referenceInfomation) {
-                //     $names[] = $referenceInfomation->lecture_name;
-                // }
+                $names = [];
+                $infos = DB::table('reference_informations')->distinct()
+                    ->where('lecture_name', 'LIKE', $text)->get();
+                foreach ($infos as $info) {
+                    $names[] = $info->lecture_name;
+                }
                 // names配列切り取り限度13(line quick reply)
                 $names13 = array_slice($names, 0, 13);
                 $message = [
