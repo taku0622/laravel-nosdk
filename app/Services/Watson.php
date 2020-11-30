@@ -29,7 +29,7 @@ class Watson
                 $lecture_name = mb_substr($dialog_node, 21);
                 error_log($text); //講師
                 error_log($lecture_name); //講義名
-                $message = $this->serchReference3($userId, $text, $conversation_id, $lecture_name);
+                $message = $this->serchReference2($userId, $text, $conversation_id, $lecture_name);
                 return $message;
             }
             #######################################################################
@@ -184,10 +184,11 @@ class Watson
                         'dialog_node' => $dialog_node,
                     ]);
                 // メッセージ生成
-                $names = [];
-                foreach ($referenceInfomations as $referenceInfomation) {
-                    $names[] = $referenceInfomation->lecture_name;
-                }
+                $names = DB::table('reference_informations')->distinct()->select('lecture_name')
+                    ->where('lecture_name', 'LIKE', $text)->pluck('lecture_name');
+                // foreach ($referenceInfomations as $referenceInfomation) {
+                //     $names[] = $referenceInfomation->lecture_name;
+                // }
                 // names配列切り取り限度13(line quick reply)
                 $names13 = array_slice($names, 0, 13);
                 $message = [
@@ -229,8 +230,8 @@ class Watson
         }
     }
 
-    // 参考書サーチ3
-    public function serchReference3($userId, $text, $conversation_id, $lecture_name)
+    // 参考書サーチ2
+    public function serchReference2($userId, $text, $conversation_id, $lecture_name)
     {
         // $textで講師検索
         $referenceInfomations = DB::table('reference_informations')
