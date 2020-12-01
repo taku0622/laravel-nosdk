@@ -177,6 +177,33 @@ class Watson
         } else { // あいまい、["プログラミング実験 [AG]","プログラミング実験 [BT]","プログラミング実験 [AM]","コンピュータサイエンス応用実験I [A]","コンピュータサイエンス応用実験I [B]","コンピュータサイエンス応用実験I [C]","プログラミング実験 [BF]"]
             // 卒業課題Ⅰと卒業課題Ⅰ（後期）違い
             if (DB::table('reference_informations')->where('lecture_name', $text)->exists()) {
+                if ($count == 1) {
+                    // $textで参考書検索
+                    $referenceInfomations = DB::table('reference_informations')
+                        ->where('lecture_name', $text)->get();
+                    error_log(count($referenceInfomations));
+                    $count = count($referenceInfomations);
+                    //一つあるだけ["コンピュータサイエンス応用実験Ⅰ[A]"など
+                    $referenceInfomation = $referenceInfomations->first();
+                    $dialog_node = 'root';
+                    // 会話dbに保存
+                    DB::table('conversations')->where('userid', $userId)
+                        ->update([
+                            'conversation_id' => $conversation_id,
+                            'dialog_node' => $dialog_node,
+                        ]);
+                    error_log($referenceInfomation->reference_name);
+                    // メッセージ生成
+                    $message = [
+                        "to" => [$userId],
+                        "type" => "text",
+                        "text" => $referenceInfomation->reference_name,
+                        "quickReply" => [
+                            "texts" => NULL
+                        ]
+                    ];
+                    return $message;
+                }
                 $dialog_node = 'node_10_1606035689190' . $text;
                 // 会話dbに保存
                 DB::table('conversations')->where('userid', $userId)
