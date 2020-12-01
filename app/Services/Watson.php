@@ -227,7 +227,8 @@ class Watson
                     ]
                 ];
                 return $message;
-            } else {
+            }
+            if ($count == 1) {
                 // $textで参考書検索
                 $referenceInfomations = DB::table('reference_informations')
                     ->where('lecture_name', $text)->get();
