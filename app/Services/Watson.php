@@ -125,7 +125,7 @@ class Watson
         $referenceInfomations = DB::table('reference_informations')
             ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
         $referenceInfomations2 = DB::table('reference_informations')
-            ->where('lecture_name', 'LIKE', $text)->get();
+            ->where('lecture_name', $text)->get();
         error_log(count($referenceInfomations));
         $count = count($referenceInfomations);
         error_log(count($referenceInfomations2));
@@ -175,6 +175,32 @@ class Watson
             ];
             return $message;
         } else { // あいまい、["プログラミング実験 [AG]","プログラミング実験 [BT]","プログラミング実験 [AM]","コンピュータサイエンス応用実験I [A]","コンピュータサイエンス応用実験I [B]","コンピュータサイエンス応用実験I [C]","プログラミング実験 [BF]"]
+            // 卒業課題Ⅰと卒業課題Ⅰ（後期）違い
+            if (DB::table('reference_informations')->where('lecture_name', $text)->exists()) {
+                $dialog_node = 'node_10_1606035689190' . $text;
+                // 会話dbに保存
+                DB::table('conversations')->where('userid', $userId)
+                    ->update([
+                        'conversation_id' => $conversation_id,
+                        'dialog_node' => $dialog_node,
+                    ]);
+                // メッセージ生成
+                $names = [];
+                foreach ($referenceInfomations as $referenceInfomation) {
+                    $names[] = $referenceInfomation->teacher_name;
+                }
+                // names配列切り取り限度13(line quick reply)
+                $names13 = array_slice($names, 0, 13);
+                $message = [
+                    "to" => [$userId],
+                    "type" => "text",
+                    "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
+                    "quickReply" => [
+                        "texts" => $names13
+                    ]
+                ];
+                return $message;
+            }
             if ($count > 1) { // 複数
                 $dialog_node = 'node_1_1606031433273';
                 // 会話dbに保存
