@@ -230,7 +230,7 @@ class Watson
             } else {
                 // $textで参考書検索
                 $referenceInfomations = DB::table('reference_informations')
-                    ->where('lecture_name', 'LIKE', $text)->get();
+                    ->where('lecture_name', $text)->get();
                 error_log(count($referenceInfomations));
                 $count = count($referenceInfomations);
                 //一つあるだけ["コンピュータサイエンス応用実験Ⅰ[A]"など
