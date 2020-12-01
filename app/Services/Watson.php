@@ -123,9 +123,9 @@ class Watson
     {
         // $textで参考書検索
         $referenceInfomations = DB::table('reference_informations')
-            ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
-        $referenceInfomations2 = DB::table('reference_informations')
             ->where('lecture_name', $text)->get();
+        $referenceInfomations2 = DB::table('reference_informations')
+            ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
         error_log(count($referenceInfomations));
         $count = count($referenceInfomations);
         error_log(count($referenceInfomations2));
