@@ -117,6 +117,7 @@ class PushInfo
     ###################################################################################################################
     public function pusnIinformations($idList)
     {
+        $count = count($idList);
         $allMessages = [];
         // 全生徒のuser_id $allStudentsId[]
         // [重要1,重要2,重要3]
@@ -127,7 +128,7 @@ class PushInfo
         error_log(json_encode($idList));
         $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
             ->whereIn('informations.id', $idList)->where('tags.important', true)
-            ->orderBy('informations.posted_date', 'desc')->limit(10)->get();
+            ->orderBy('informations.posted_date', 'desc')->limit($count)->get();
         if (($infomations->isEmpty()) || ($allStudentId == [])) {
             //何もしない
             error_log("何もしない");
@@ -167,11 +168,11 @@ class PushInfo
                 $contents = [];
                 if ($student->department == "all_department") {
                     $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
-                        ->whereIn('informations.id', $idList)->orderBy('posted_date', 'desc')->limit(10)->get();
+                        ->whereIn('informations.id', $idList)->orderBy('posted_date', 'desc')->limit($count)->get();
                     error_log("パターン全学部");
                 } else {
                     $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
-                        ->whereIn('informations.id', $idList)->where('tags.all_department', true)->orWhere($student->department, true)->orderBy('posted_date', 'desc')->limit(10)->get();
+                        ->whereIn('informations.id', $idList)->where('tags.all_department', true)->orWhere($student->department, true)->orderBy('posted_date', 'desc')->limit($count)->get();
                     error_log("パターン各学部");
                     error_log($infomations->count());
                 }
