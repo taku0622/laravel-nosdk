@@ -118,6 +118,7 @@ class PushInfo
     public function pusnIinformations($idList)
     {
         $count = count($idList);
+        $count = $count >= 10 ? 10 : $count;
         $allMessages = [];
         // 全生徒のuser_id $allStudentsId[]
         // [重要1,重要2,重要3]
