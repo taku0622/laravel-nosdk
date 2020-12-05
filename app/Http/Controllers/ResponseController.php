@@ -117,13 +117,14 @@ class ResponseController extends Controller
             foreach ($uriList as $uri) {
                 #########################################
                 error_log("ここまで");
-                $infomation = DB::table('informations')->where('uri', $uri)->orderBy('posted_date', 'desc')->first();
+                $information = DB::table('informations')->where('uri', $uri)->orderBy('posted_date', 'desc')->first();
+                error_log($information->title);
                 #########################################
-                $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+                $content = $information->content == ''  ? '「詳細」を押してご確認ください。' : $information->content;
                 $content = [
-                    'title' => mb_substr($infomation->title, 0, 40),
+                    'title' => mb_substr($information->title, 0, 40),
                     'content' => mb_substr($content, 0, 60),
-                    'uri' => $infomation->uri,
+                    'uri' => $information->uri,
                     'label' => '詳細'
                 ];
                 $contents[] = $content;
