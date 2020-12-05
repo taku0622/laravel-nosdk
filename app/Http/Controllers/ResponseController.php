@@ -102,11 +102,11 @@ class ResponseController extends Controller
     }
     public function importantInfo($userId, $text): array
     {
-        $infomations = DB::table('informations')->distinct()->select('url')
+        $infomations = DB::table('informations')->distinct()->select('informations.url')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)
             ->orderBy('posted_date', 'desc')->limit(10)->get();
-        error_log(json_decode($infomations, true));
+        // error_log(json_decode($infomations, true));
         if ($infomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
