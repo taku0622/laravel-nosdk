@@ -117,7 +117,7 @@ class ResponseController extends Controller
             foreach ($infomations as $infomation) {
                 #########################################
                 error_log("ここまで");
-                $infomation = DB::table('informations')->where('uri', $infomation)->first();
+                // $infomation = DB::table('informations')->where('uri', $infomation)->first();
                 #########################################
                 $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
                 $content = [
