@@ -106,6 +106,11 @@ class ResponseController extends Controller
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)
             ->orderBy('posted_date', 'desc')->limit(10)->get();
+        $infomations = DB::table('informations')->distinct()->select('uri') // uriで重複を消す(※更新など)更新されたデータだけを抽出
+            ->join('tags', 'informations.id', '=', 'tags.information_id')
+            ->where('important', true)
+            ->orderBy('posted_date', 'desc')->limit(10)->toSql();
+        error_log($infomations);
         if ($infomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
