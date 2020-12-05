@@ -102,7 +102,7 @@ class ResponseController extends Controller
     }
     public function importantInfo($userId, $text): array
     {
-        $infomations = DB::table('informations')
+        $infomations = DB::table('informations')->distinct()->select('url')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)
             ->orderBy('posted_date', 'desc')->limit(10)->get();
