@@ -102,7 +102,7 @@ class ResponseController extends Controller
     }
     public function importantInfo($userId, $text): array
     {
-        $infomations = DB::table('informations')->distinct()->select('uri')
+        $infomations = DB::table('informations')->distinct()->select('uri') // uriで重複を消す(※更新など)更新されたデータだけを抽出
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)
             ->orderBy('posted_date', 'desc')->limit(10)->get();
@@ -116,6 +116,7 @@ class ResponseController extends Controller
             $contents = [];
             foreach ($infomations as $infomation) {
                 #########################################
+                error_log("ここまで");
                 $infomation = DB::table('informations')->where('uri', $infomation)->first();
                 #########################################
                 $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
