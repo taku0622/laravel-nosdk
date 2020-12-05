@@ -101,17 +101,11 @@ class ResponseController extends Controller
         return $message;
     }
     public function importantInfo($userId, $text): array
-    {
-        // $infomations = DB::table('informations')->distinct()->select('uri') // uriで重複を消す(※更新など)更新されたデータだけを抽出
-        //     ->join('tags', 'informations.id', '=', 'tags.information_id')
-        //     ->where('important', true)
-        //     ->orderBy('posted_date', 'desc')->limit(10)->get();
-        $infomations = DB::table('informations') // uriで重複を消す(※更新など)更新されたデータだけを抽出
+    { // uriで重複を消す(※更新など)更新されたデータだけを抽出
+        $infomations = DB::table('informations')->distinct()->select('uri')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)
-            ->orderBy('posted_date', 'desc')->limit(10)->toSql();
-        $data = json_decode($infomations, true);
-        error_log(json_encode($data, JSON_UNESCAPED_UNICODE));
+            ->orderBy('posted_date', 'desc')->limit(10)->get();
         if ($infomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
