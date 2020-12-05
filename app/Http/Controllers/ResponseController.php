@@ -63,17 +63,18 @@ class ResponseController extends Controller
         $department = $student->department;
         // 学部を設定していなかったら全表示
         if ($student->department == 'all_department') {
-            $infomations = DB::table('informations')
+            $uriList = DB::table('informations')->select('informations.uri')
                 ->join('tags', 'informations.id', '=', 'tags.information_id')
-                ->whereNull('important')
-                ->orderBy('posted_date', 'desc')->limit(10)->get();
+                ->whereNull('important')->groupBy('informations.uri')
+                ->orderByRaw('max(informations.posted_date) desc')->limit(10)->get();
         } else {
-            $infomations = DB::table('informations')
+            $uriList = DB::table('informations')->select('informations.uri')
                 ->join('tags', 'informations.id', '=', 'tags.information_id')->whereNull('important')
                 ->orWhere('tags.all_department', true)->where($department, true)
-                ->orderBy('posted_date', 'desc')->limit(10)->get();
+                ->groupBy('informations.uri')
+                ->orderByRaw('max(informations.posted_date) desc')->limit(10)->get();
         }
-        if ($infomations->isEmpty()) {
+        if ($uriList->isEmpty()) {
             $message = [
                 "to" => [$userId],
                 "type" => "text",
@@ -81,12 +82,13 @@ class ResponseController extends Controller
             ];
         } else {
             $contents = [];
-            foreach ($infomations as $infomation) {
-                $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
+            foreach ($uriList as $uri) {
+                $information = DB::table('informations')->where('uri', $uri->uri)->orderBy('posted_date', 'desc')->first();
+                $content = $information->content == ''  ? '「詳細」を押してご確認ください。' : $information->content;
                 $content = [
-                    'title' => mb_substr($infomation->title, 0, 40),
+                    'title' => mb_substr($information->title, 0, 40),
                     'content' => mb_substr($content, 0, 60),
-                    'uri' => $infomation->uri,
+                    'uri' => $information->uri,
                     'label' => '詳細'
                 ];
                 $contents[] = $content;
@@ -116,9 +118,9 @@ class ResponseController extends Controller
             $contents = [];
             foreach ($uriList as $uri) {
                 #########################################
-                error_log($uri->uri);
+                // error_log($uri->uri);
                 $information = DB::table('informations')->where('uri', $uri->uri)->orderBy('posted_date', 'desc')->first();
-                error_log($information->title);
+                // error_log($information->title);
                 #########################################
                 $content = $information->content == ''  ? '「詳細」を押してご確認ください。' : $information->content;
                 $content = [
