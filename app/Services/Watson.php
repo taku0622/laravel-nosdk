@@ -255,6 +255,35 @@ class Watson
                 ];
                 return $message;
             }
+            ##################################################################
+            if ($count == 1 && $count2 == 0) { // マネジメントアカと入れたときなど
+                $dialog_node = 'node_1_1606031433273';
+                // 会話dbに保存
+                DB::table('conversations')->where('userid', $userId)
+                    ->update([
+                        'conversation_id' => $conversation_id,
+                        'dialog_node' => $dialog_node,
+                    ]);
+                // メッセージ生成
+                $names = [];
+                $infos = DB::table('reference_informations')->distinct()->select('lecture_name')
+                    ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
+                foreach ($infos as $info) {
+                    $names[] = $info->lecture_name;
+                }
+                // names配列切り取り限度13(line quick reply)
+                $names13 = array_slice($names, 0, 13);
+                $message = [
+                    "to" => [$userId],
+                    "type" => "text",
+                    "text" => $count . "件見つかりました。\n講義を選択してください。\nクイックリプライになければ入力してください",
+                    "quickReply" => [
+                        "texts" => $names13
+                    ]
+                ];
+                return $message;
+            }
+            ##################################################################
             if ($count == 1) {
                 // $textで参考書検索
                 $referenceInfomations = DB::table('reference_informations')
