@@ -105,7 +105,7 @@ class ResponseController extends Controller
         $infomations = DB::table('informations')->select('informations.uri')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)->groupBy('informations.uri')
-            ->orderBy(DB::raw('max(informations.posted_date) desc'))->limit(10)->get();
+            ->orderByRaw('max(informations.posted_date) desc')->limit(10)->get();
         if ($infomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
