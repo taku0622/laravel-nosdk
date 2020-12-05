@@ -110,7 +110,8 @@ class ResponseController extends Controller
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)
             ->orderBy('posted_date', 'desc')->limit(10)->toSql();
-        error_log($infomations);
+        $data = json_decode($infomations, true);
+        error_log(json_encode($data, JSON_UNESCAPED_UNICODE));
         if ($infomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
