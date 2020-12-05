@@ -102,7 +102,7 @@ class ResponseController extends Controller
     }
     public function importantInfo($userId, $text): array
     { // uriで重複を消す(※更新など)更新されたデータだけを抽出
-        $infomations = DB::table('informations')->distinct('url')
+        $infomations = DB::table('informations')->distinct('uri')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)
             ->orderBy('posted_date', 'desc')->limit(10)->get();
