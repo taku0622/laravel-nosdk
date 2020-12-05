@@ -102,11 +102,10 @@ class ResponseController extends Controller
     }
     public function importantInfo($userId, $text): array
     {
-        $infomations = DB::table('informations')->distinct()->select('uri')->select('title', 'content')
+        $infomations = DB::table('informations')->distinct()->select('uri')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)
             ->orderBy('posted_date', 'desc')->limit(10)->get();
-        // error_log(json_decode($infomations, true));
         if ($infomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
@@ -116,6 +115,9 @@ class ResponseController extends Controller
         } else {
             $contents = [];
             foreach ($infomations as $infomation) {
+                #########################################
+                $infomation = DB::table('informations')->where('uri', $infomation)->first();
+                #########################################
                 $content = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
                 $content = [
                     'title' => mb_substr($infomation->title, 0, 40),
