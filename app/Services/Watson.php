@@ -268,8 +268,7 @@ class Watson
                         'dialog_node' => $dialog_node,
                     ]);
                 // メッセージ生成
-                $names = [];
-                $info = DB::table('reference_informations')->distinct()->select('lecture_name')
+                $info = DB::table('reference_informations')
                     ->where('lecture_name', 'LIKE', '%' . $text . '%')->first();
                 $message = [
                     "to" => [$userId],
