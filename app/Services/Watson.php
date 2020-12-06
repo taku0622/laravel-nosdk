@@ -295,7 +295,7 @@ class Watson
         // $textで講師検索
         $referenceInfomations = DB::table('reference_informations')
             ->where([
-                ['lecture_name', $lecture_name],
+                ['lecture_name', 'LIKE', '%' . $lecture_name . '%'],
                 ['teacher_name', 'LIKE', '%' . $text . '%']
             ])->get();
         $dialog_node = 'root';
