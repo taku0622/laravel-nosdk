@@ -141,7 +141,8 @@ class Watson
             // メッセージ生成
             $names = [];
             foreach ($referenceInfomations as $referenceInfomation) {
-                $names[] = $referenceInfomation->teacher_name;
+                // $names[] = $referenceInfomation->teacher_name;
+                $names[] = mb_substr($$referenceInfomation->teacher_name, 0, 20);
             }
             // names配列切り取り限度13(line quick reply)
             $names13 = array_slice($names, 0, 13);
@@ -214,7 +215,8 @@ class Watson
                 // メッセージ生成
                 $names = [];
                 foreach ($referenceInfomations as $referenceInfomation) {
-                    $names[] = $referenceInfomation->teacher_name;
+                    // $names[] = $referenceInfomation->teacher_name;
+                    $names[] = mb_substr($$referenceInfomation->teacher_name, 0, 20);
                 }
                 // names配列切り取り限度13(line quick reply)
                 $names13 = array_slice($names, 0, 13);
@@ -241,7 +243,8 @@ class Watson
                 $infos = DB::table('reference_informations')->distinct()->select('lecture_name')
                     ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
                 foreach ($infos as $info) {
-                    $names[] = $info->lecture_name;
+                    // $names[] = $info->lecture_name;
+                    $names[] = mb_substr($$info->teacher_name, 0, 20);
                 }
                 // names配列切り取り限度13(line quick reply)
                 $names13 = array_slice($names, 0, 13);
