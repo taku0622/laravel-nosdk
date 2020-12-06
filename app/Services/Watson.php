@@ -260,7 +260,7 @@ class Watson
             }
             ####################################################################################
             if ($count == 1 && $count2 == 0) { // 複数
-                $dialog_node = 'node_10_1606035689190' . $text;
+                $dialog_node = 'root';
                 // 会話dbに保存
                 DB::table('conversations')->where('userid', $userId)
                     ->update([
@@ -269,20 +269,14 @@ class Watson
                     ]);
                 // メッセージ生成
                 $names = [];
-                $infos = DB::table('reference_informations')->distinct()->select('lecture_name')
-                    ->where('lecture_name', 'LIKE', '%' . $text . '%')->get();
-                foreach ($infos as $info) {
-                    // $names[] = $info->lecture_name;
-                    $names[] = mb_substr($info->lecture_name, 0, 20);
-                }
-                // names配列切り取り限度13(line quick reply)
-                $names13 = array_slice($names, 0, 13);
+                $info = DB::table('reference_informations')->distinct()->select('lecture_name')
+                    ->where('lecture_name', 'LIKE', '%' . $text . '%')->first();
                 $message = [
                     "to" => [$userId],
                     "type" => "text",
-                    "text" => $count . "件見つかりました。\n講義を選択してください。\nクイックリプライになければ入力してください",
+                    "text" => $info->reference_name,
                     "quickReply" => [
-                        "texts" => $names13
+                        "texts" => NULL
                     ]
                 ];
                 return $message;
