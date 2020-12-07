@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class Watson
 {
-    public function watson($userId, $text): array
+    public function watson($userId, $text, $replyToken): array
     {
         $data = array('input' => array("text" => $text));
         // 前回までの会話のデータがデータベースに保存されていれば
@@ -21,7 +21,7 @@ class Watson
             $dialog_node = $lastConversationData["dialog_node"];
             // 講義確定orあいまい
             if ($dialog_node == "node_1_1606031433273") {
-                $message = $this->serchReference1($userId, $text, $conversation_id);
+                $message = $this->serchReference1($userId, $text, $conversation_id, $replyToken);
                 return $message;
             }
             // 講師確定
@@ -29,7 +29,7 @@ class Watson
                 $lecture_name = mb_substr($dialog_node, 21);
                 error_log($text); //講師
                 error_log($lecture_name); //講義名
-                $message = $this->serchReference2($userId, $text, $conversation_id, $lecture_name);
+                $message = $this->serchReference2($userId, $text, $conversation_id, $lecture_name, $replyToken);
                 return $message;
             }
             #######################################################################
@@ -77,6 +77,7 @@ class Watson
         }
         $message = [
             "to" => [$userId],
+            "replyToken" => $replyToken,
             "type" => "text",
             "text" => $replyArray[0],
             "quickReply" => [
@@ -119,7 +120,7 @@ class Watson
 
 
     // 参考書サーチ1
-    public function serchReference1($userId, $text, $conversation_id)
+    public function serchReference1($userId, $text, $conversation_id, $replyToken)
     {
         // $textで参考書検索
         $referenceInfomations = DB::table('reference_informations')
@@ -148,6 +149,7 @@ class Watson
             $names13 = array_slice($names, 0, 13);
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "text",
                 "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
                 "quickReply" => [
@@ -168,6 +170,7 @@ class Watson
             // メッセージ生成
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "text",
                 "text" => "講義が見つかりませんでした。\nすみませんが、「質問」からやり直してください",
                 "quickReply" => [
@@ -197,6 +200,7 @@ class Watson
                     // メッセージ生成
                     $message = [
                         "to" => [$userId],
+                        "replyToken" => $replyToken,
                         "type" => "text",
                         "text" => $referenceInfomation->reference_name,
                         "quickReply" => [
@@ -222,6 +226,7 @@ class Watson
                 $names13 = array_slice($names, 0, 13);
                 $message = [
                     "to" => [$userId],
+                    "replyToken" => $replyToken,
                     "type" => "text",
                     "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
                     "quickReply" => [
@@ -250,6 +255,7 @@ class Watson
                 $names13 = array_slice($names, 0, 13);
                 $message = [
                     "to" => [$userId],
+                    "replyToken" => $replyToken,
                     "type" => "text",
                     "text" => $count . "件見つかりました。\n講義を選択してください。\nクイックリプライになければ入力してください",
                     "quickReply" => [
@@ -272,6 +278,7 @@ class Watson
                     ->where('lecture_name', 'LIKE', '%' . $text . '%')->first();
                 $message = [
                     "to" => [$userId],
+                    "replyToken" => $replyToken,
                     "type" => "text",
                     "text" => $info->reference_name,
                     "quickReply" => [
@@ -300,6 +307,7 @@ class Watson
                 // メッセージ生成
                 $message = [
                     "to" => [$userId],
+                    "replyToken" => $replyToken,
                     "type" => "text",
                     "text" => $referenceInfomation->reference_name,
                     "quickReply" => [
@@ -312,7 +320,7 @@ class Watson
     }
 
     // 参考書サーチ2
-    public function serchReference2($userId, $text, $conversation_id, $lecture_name)
+    public function serchReference2($userId, $text, $conversation_id, $lecture_name, $replyToken)
     {
         // $textで講師検索
         $referenceInfomations = DB::table('reference_informations')
@@ -332,6 +340,7 @@ class Watson
             // メッセージ生成
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "text",
                 "text" => "講師が見つかりませんでした。\nすみませんが、「質問」からやり直してください",
                 "quickReply" => [
@@ -352,6 +361,7 @@ class Watson
             // メッセージ生成
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "text",
                 "text" => $referenceInfomation->reference_name,
                 "quickReply" => [

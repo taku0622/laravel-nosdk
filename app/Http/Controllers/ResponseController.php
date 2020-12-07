@@ -28,25 +28,25 @@ class ResponseController extends Controller
             $text = $event["text"];
             $replyToken = $event["replyToken"];
 
-            error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text . "replyToken: " . $replyToken);
+            error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text . "  replyToken: " . $replyToken);
 
             // 送信のデータの作成
             switch ($text) {
                 case "新着情報":
-                    $message = $this->newInfo($userId, $text);
+                    $message = $this->newInfo($userId, $text, $replyToken);
                     break;
                 case "重要情報":
-                    $message = $this->importantInfo($userId, $text);
+                    $message = $this->importantInfo($userId, $text, $replyToken);
                     break;
                 case "休講案内":
-                    $message = $this->cancelInfo($userId, $text);
+                    $message = $this->cancelInfo($userId, $text, $replyToken);
                     break;
                 case "イベント":
-                    $message = $this->eventInfo($userId, $text);
+                    $message = $this->eventInfo($userId, $text, $replyToken);
                     break;
                 default:
                     $watson = new Watson();
-                    $message = $watson->watson($userId, $text);
+                    $message = $watson->watson($userId, $text, $replyToken);
                     break;
             }
             $message = array($message);
@@ -57,7 +57,7 @@ class ResponseController extends Controller
         }
     }
 
-    public function newInfo($userId, $text): array
+    public function newInfo($userId, $text, $replyToken): array
     {
         // userIDから学部の特定
         $student = DB::table('students')->where('user_id', $userId)->first();
@@ -78,6 +78,7 @@ class ResponseController extends Controller
         if ($uriList->isEmpty()) {
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "text",
                 "text" => "あなたの学部の新着情報はありません",
             ];
@@ -96,6 +97,7 @@ class ResponseController extends Controller
             }
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "multiple",
                 "altText" =>  $text,
                 "contents" => $contents
@@ -103,7 +105,7 @@ class ResponseController extends Controller
         }
         return $message;
     }
-    public function importantInfo($userId, $text): array
+    public function importantInfo($userId, $text, $replyToken): array
     { // uriで重複を消す(※更新など)更新されたデータだけを抽出
         $uriList = DB::table('informations')->select('informations.uri')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
@@ -112,6 +114,7 @@ class ResponseController extends Controller
         if ($uriList->isEmpty()) {
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "text",
                 "text" => "あなたの学部の重要情報はありません",
             ];
@@ -134,6 +137,7 @@ class ResponseController extends Controller
             }
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "multiple",
                 "altText" =>  $text,
                 "contents" => $contents
@@ -142,7 +146,7 @@ class ResponseController extends Controller
         return $message;
     }
 
-    public function cancelInfo($userId, $text): array
+    public function cancelInfo($userId, $text, $replyToken): array
     {
         date_default_timezone_set('Asia/Tokyo');
         $today = date("Y-m-d");
@@ -165,6 +169,7 @@ class ResponseController extends Controller
         if ($cancelInfomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "text",
                 "text" => "あなたの学部の休講案内はありません",
             ];
@@ -184,6 +189,7 @@ class ResponseController extends Controller
             }
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "multiple",
                 "altText" =>  $text,
                 "contents" => $contents
@@ -216,13 +222,14 @@ class ResponseController extends Controller
         return $message;
     }
 
-    public function eventInfo($userId, $text): array
+    public function eventInfo($userId, $text, $replyToken): array
     {
         $eventInfomations = DB::table('event_informations')
             ->orderBy('posted_date', 'desc')->limit(10)->get();
         if ($eventInfomations->isEmpty()) {
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "text",
                 "text" => "イベントはありません",
             ];
@@ -240,6 +247,7 @@ class ResponseController extends Controller
             }
             $message = [
                 "to" => [$userId],
+                "replyToken" => $replyToken,
                 "type" => "multiple",
                 "altText" =>  $text,
                 "contents" => $contents
