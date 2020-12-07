@@ -57,6 +57,12 @@ class SettingController extends Controller
             case 'h0':
                 $department = 'hs';
                 break;
+            case 'M1':
+            case 'm1':
+            case 'M2':
+            case 'm2':
+            case 'M3':
+            case 'm3':
             case 'D1':
             case 'd1':
             case 'D2':
