@@ -26,8 +26,9 @@ class ResponseController extends Controller
                 return $message;
             }
             $text = $event["text"];
+            $replyToken = $event["replyToken"];
 
-            error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text);
+            error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text . "replyToken: " . $replyToken);
 
             // 送信のデータの作成
             switch ($text) {
