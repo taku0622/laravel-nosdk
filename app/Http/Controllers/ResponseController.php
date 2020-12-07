@@ -78,8 +78,8 @@ class ResponseController extends Controller
         if ($uriList->isEmpty()) {
             $message = [
                 "to" => [$userId],
-                "replyToken" => $replyToken,
                 "type" => "text",
+                "replyToken" => $replyToken,
                 "text" => "あなたの学部の新着情報はありません",
             ];
         } else {
@@ -98,6 +98,7 @@ class ResponseController extends Controller
             $message = [
                 "to" => [$userId],
                 "type" => "multiple",
+                "replyToken" => $replyToken,
                 "altText" =>  $text,
                 "contents" => $contents
             ];
