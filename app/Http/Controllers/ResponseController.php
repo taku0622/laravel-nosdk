@@ -97,7 +97,6 @@ class ResponseController extends Controller
             }
             $message = [
                 "to" => [$userId],
-                "replyToken" => $replyToken,
                 "type" => "multiple",
                 "altText" =>  $text,
                 "contents" => $contents
