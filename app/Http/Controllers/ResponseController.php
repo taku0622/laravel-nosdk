@@ -114,7 +114,7 @@ class ResponseController extends Controller
         $uriList = DB::table('informations')->select('informations.uri')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)->groupBy('informations.uri')
-            ->orderBy('informations.id', 'desc')->limit(10)->get();
+            ->orderByRaw('max(informations.id) desc')->limit(10)->get();
         if ($uriList->isEmpty()) {
             $message = [
                 "to" => [$userId],
