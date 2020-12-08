@@ -67,13 +67,22 @@ class ResponseController extends Controller
             $uriList = DB::table('informations')->select('informations.uri')
                 ->join('tags', 'informations.id', '=', 'tags.information_id')
                 ->whereNull('important')->groupBy('informations.uri')
-                ->orderByRaw('max(informations.id) desc')->limit(10)->get();
+                ->orderByRaw('max(informations.posted_date) desc')->limit(10)->get();
+            // $uriList = DB::table('informations')->select('informations.uri')
+            //     ->join('tags', 'informations.id', '=', 'tags.information_id')
+            //     ->whereNull('important')->groupBy('informations.uri')
+            //     ->orderByRaw('max(informations.id) desc')->limit(10)->get();
         } else {
             $uriList = DB::table('informations')->select('informations.uri')
                 ->join('tags', 'informations.id', '=', 'tags.information_id')->whereNull('important')
                 ->orWhere('tags.all_department', true)->where($department, true)
                 ->groupBy('informations.uri')
-                ->orderByRaw('max(informations.id) desc')->limit(10)->get();
+                ->orderByRaw('max(informations.posted_date) desc')->limit(10)->get();
+            // $uriList = DB::table('informations')->select('informations.uri')
+            //     ->join('tags', 'informations.id', '=', 'tags.information_id')->whereNull('important')
+            //     ->orWhere('tags.all_department', true)->where($department, true)
+            //     ->groupBy('informations.uri')
+            //     ->orderByRaw('max(informations.id) desc')->limit(10)->get();
         }
         if ($uriList->isEmpty()) {
             $message = [
@@ -107,14 +116,14 @@ class ResponseController extends Controller
     }
     public function importantInfo($userId, $text, $replyToken): array
     { // uriで重複を消す(※更新など)更新されたデータだけを抽出
-        // $uriList = DB::table('informations')->select('informations.uri')
-        //     ->join('tags', 'informations.id', '=', 'tags.information_id')
-        //     ->where('important', true)->groupBy('informations.uri')
-        //     ->orderByRaw('max(informations.posted_date) desc')->limit(10)->get();
         $uriList = DB::table('informations')->select('informations.uri')
             ->join('tags', 'informations.id', '=', 'tags.information_id')
             ->where('important', true)->groupBy('informations.uri')
-            ->orderByRaw('max(informations.id) desc')->limit(10)->get();
+            ->orderByRaw('max(informations.posted_date) desc')->limit(10)->get();
+        // $uriList = DB::table('informations')->select('informations.uri')
+        //     ->join('tags', 'informations.id', '=', 'tags.information_id')
+        //     ->where('important', true)->groupBy('informations.uri')
+        //     ->orderByRaw('max(informations.id) desc')->limit(10)->get();
         if ($uriList->isEmpty()) {
             $message = [
                 "to" => [$userId],
