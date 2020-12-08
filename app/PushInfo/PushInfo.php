@@ -127,9 +127,12 @@ class PushInfo
             ->where('push_new', false)->pluck('user_id');
         error_log(json_encode($allStudentId));
         error_log(json_encode($idList));
+        // $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
+        //     ->whereIn('informations.id', $idList)->where('tags.important', true)
+        //     ->orderBy('informations.posted_date', 'desc')->limit($count)->get();
         $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
             ->whereIn('informations.id', $idList)->where('tags.important', true)
-            ->orderBy('informations.posted_date', 'desc')->limit($count)->get();
+            ->orderBy('informations.id', 'desc')->limit($count)->get();
         if (($infomations->isEmpty()) || ($allStudentId == [])) {
             //何もしない
             error_log("何もしない");
@@ -168,12 +171,16 @@ class PushInfo
             foreach ($allStudents as $student) {
                 $contents = [];
                 if ($student->department == "all_department") {
+                    // $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
+                    //     ->whereIn('informations.id', $idList)->orderBy('posted_date', 'desc')->limit($count)->get();
                     $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
-                        ->whereIn('informations.id', $idList)->orderBy('posted_date', 'desc')->limit($count)->get();
+                        ->whereIn('informations.id', $idList)->orderBy('informations.id', 'desc')->limit($count)->get();
                     error_log("パターン全学部");
                 } else {
+                    // $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
+                    //     ->whereIn('informations.id', $idList)->where('tags.all_department', true)->orWhere($student->department, true)->orderBy('posted_date', 'desc')->limit($count)->get();
                     $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
-                        ->whereIn('informations.id', $idList)->where('tags.all_department', true)->orWhere($student->department, true)->orderBy('posted_date', 'desc')->limit($count)->get();
+                        ->whereIn('informations.id', $idList)->where('tags.all_department', true)->orWhere($student->department, true)->orderBy('informations.id', 'desc')->limit($count)->get();
                     error_log("パターン各学部");
                     error_log($infomations->count());
                 }
