@@ -32,7 +32,7 @@ class ResponseController extends Controller
             error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text . "  replyToken: " . $replyToken);
             // 分析
             $active = new Actives();
-            $active->responseActives($userId, $text);
+            $active->Actives([$userId], $text);
 
             // 送信のデータの作成
             switch ($text) {

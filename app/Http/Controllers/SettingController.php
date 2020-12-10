@@ -14,7 +14,7 @@ class SettingController extends Controller
     {
         // 分析
         $active = new Actives();
-        $active->responseActives($id, '設定');
+        $active->Actives([$id], '設定');
         error_log("設定画面の表示");
         // error_log("id: " . $id);
         $student = DB::table('students')->where('user_id', $id)->first();

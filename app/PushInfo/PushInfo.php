@@ -4,6 +4,9 @@ namespace App\PushInfo;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Actives\Actives;
+
+
 class PushInfo
 {
     // public function pusnImportant($idList)
