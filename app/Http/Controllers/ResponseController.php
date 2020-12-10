@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Services\Watson;
+use App\Actives\Actives;
 
 class ResponseController extends Controller
 {
@@ -29,6 +30,9 @@ class ResponseController extends Controller
             $replyToken = $event["replyToken"];
 
             error_log("userId: " . $userId . "  type: " . $type . "  text: " . $text . "  replyToken: " . $replyToken);
+            // 分析
+            $active = new Actives();
+            $active->responseActives($userId, $text);
 
             // 送信のデータの作成
             switch ($text) {
