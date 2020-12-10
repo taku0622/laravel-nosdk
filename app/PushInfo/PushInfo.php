@@ -130,6 +130,10 @@ class PushInfo
             ->where('push_new', false)->pluck('user_id');
         error_log(json_encode($allStudentId));
         error_log(json_encode($idList));
+        // 分析
+        $active = new Actives();
+        $active->Actives($idList, "push_important_count");
+
         // $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
         //     ->whereIn('informations.id', $idList)->where('tags.important', true)
         //     ->orderBy('informations.posted_date', 'desc')->limit($count)->get();
@@ -172,6 +176,10 @@ class PushInfo
             // なにもしない
         } else {
             foreach ($allStudents as $student) {
+                // 分析
+                $active = new Actives();
+                $active->Actives([$student->user_id], "push_new_count");
+
                 $contents = [];
                 if ($student->department == "all_department") {
                     // $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
@@ -251,6 +259,10 @@ class PushInfo
             exit;
         }
         foreach ($allStudents as $student) {
+            // 分析
+            $active = new Actives();
+            $active->Actives([$student->user_id], "push_cancel_count");
+
             error_log($student->department);
             $contents = [];
             $department = $student->department;

@@ -32,6 +32,18 @@ class Actives
             case "設定":
                 $column = 'setting_count';
                 break;
+            case "push_important_count":
+                $column = 'push_important_count';
+                break;
+            case "push_new_count":
+                $column = 'push_new_count';
+                break;
+            case "push_cancel_count":
+                $column = 'push_cancel_count';
+                break;
+            case "push_event_count":
+                $column = 'push_event_count';
+                break;
             default:
                 $column = 'other_count';
                 break;
