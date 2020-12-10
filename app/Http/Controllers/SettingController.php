@@ -6,10 +6,15 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Actives\Actives;
+
 class SettingController extends Controller
 {
     public function index($id) // 設定画面の表示
     {
+        // 分析
+        $active = new Actives();
+        $active->responseActives($id, '設定');
         error_log("設定画面の表示");
         // error_log("id: " . $id);
         $student = DB::table('students')->where('user_id', $id)->first();
