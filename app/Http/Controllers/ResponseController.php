@@ -230,6 +230,7 @@ class ResponseController extends Controller
                     'push_event' => TRUE,
                 ]
             );
+            error_log("ここまで");
             DB::table('actives')->insert(
                 [
                     'user_id' => $userId,
