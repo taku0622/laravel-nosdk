@@ -130,9 +130,8 @@ class PushInfo
             ->where('push_new', false)->pluck('user_id');
         error_log(json_encode($allStudentId));
         error_log(json_encode($idList));
-        // 分析
-        $active = new Actives();
-        $active->Actives($allStudentId, "push_important_count");
+        // 分析配列
+        $pushImportantUserId = $allStudentId;
 
         // $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
         //     ->whereIn('informations.id', $idList)->where('tags.important', true)
@@ -175,10 +174,10 @@ class PushInfo
         if ($allStudents->isEmpty()) {
             // なにもしない
         } else {
+            $pushNewUserId = [];
             foreach ($allStudents as $student) {
-                // 分析
-                $active = new Actives();
-                $active->Actives([$student->user_id], "push_new_count");
+                // 分析配列
+                $pushNewUserId[] = $student->user_id;
 
                 $contents = [];
                 if ($student->department == "all_department") {
@@ -247,6 +246,11 @@ class PushInfo
         error_log(json_encode($data, JSON_UNESCAPED_UNICODE));
         $context = stream_context_create($options);
         $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
+
+        //分析
+        $active = new Actives();
+        $active->Actives($pushImportantUserId, "push_important_count");
+        $active->Actives($pushNewUserId, "push_new_count");
     }
     ############################################################################################################
     public function pushCancel($idList)
