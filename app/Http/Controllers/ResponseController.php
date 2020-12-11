@@ -218,6 +218,7 @@ class ResponseController extends Controller
     public function followEvent($userId)
     {
         // データがない場合
+        date_default_timezone_set('Asia/Tokyo');
         if (DB::table('students')->where('user_id', $userId)->doesntExist()) {
             DB::table('students')->insert(
                 [
