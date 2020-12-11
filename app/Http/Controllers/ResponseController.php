@@ -234,6 +234,24 @@ class ResponseController extends Controller
                     'push_event' => TRUE,
                 ]
             );
+            DB::table('actives')->insert(
+                [
+                    'user_id' => $userId,
+                    'question_count' => 0,
+                    'important_count' => 0,
+                    'new_count' => 0,
+                    'canel_count' => 0,
+                    'event_count' => 0,
+                    'setting_count' => 0,
+                    'other_count' => 0,
+                    'push_important_count' => 0,
+                    'push_new_count ' => 0,
+                    'push_cancel_count' => 0,
+                    'push_event_count' => 0,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]
+            );
         }
         $message = "followed";
         return $message;

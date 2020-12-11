@@ -51,30 +51,8 @@ class Actives
         foreach ($idList as $userId) {
             // データがあるか
             error_log("userId: " . $userId . "  text: " . $text);
-            if (DB::table('actives')->where('user_id', $userId)->exists()) {
-                DB::table('actives')->where('user_id', $userId)
-                    ->increment($column, 1, ['updated_at' => date('Y-m-d H:i:s')]);
-            } else { //ない時
-                DB::table('actives')->insert(
-                    [
-                        'user_id' => $userId,
-                        'question_count' => 0,
-                        'important_count' => 0,
-                        'new_count' => 0,
-                        'canel_count' => 0,
-                        'event_count' => 0,
-                        'setting_count' => 0,
-                        'other_count' => 0,
-                        'push_important_count' => 0,
-                        'push_new_count ' => 0,
-                        'push_cancel_count' => 0,
-                        'push_event_count' => 0,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    ]
-                );
-                DB::table('actives')->where('user_id', $userId)->increment($column);
-            }
+            DB::table('actives')->where('user_id', $userId)
+                ->increment($column, 1, ['updated_at' => date('Y-m-d H:i:s')]);
         }
     }
 }

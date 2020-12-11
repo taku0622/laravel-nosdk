@@ -249,6 +249,8 @@ class PushInfo
 
         //分析
         $active = new Actives();
+        error_log("pushImportantUserId: " .  $pushImportantUserId);
+        error_log("pushNewUserId: " .  $pushNewUserId);
         $active->Actives($pushImportantUserId, "push_important_count");
         $active->Actives($pushNewUserId, "push_new_count");
     }
@@ -318,6 +320,7 @@ class PushInfo
         $context = stream_context_create($options);
         $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
         // 分析
+        error_log("pushCancelUserId: " .  $pushCancelUserId);
         $active = new Actives();
         $active->Actives($pushCancelUserId, "push_cancel_count");
     }
