@@ -241,7 +241,7 @@ class ResponseController extends Controller
                     'setting_count' => 0,
                     'other_count' => 0,
                     'push_important_count' => 0,
-                    'push_new_count ' => 0,
+                    'push_new_count' => 0,
                     'push_cancel_count' => 0,
                     'push_event_count' => 0,
                     'created_at' => date('Y-m-d H:i:s'),
