@@ -262,11 +262,11 @@ class PushInfo
         if ($allStudents->isEmpty()) {
             exit;
         }
-        foreach ($allStudents as $student) {
-            // 分析
-            $active = new Actives();
-            $active->Actives([$student->user_id], "push_cancel_count");
+        $pushCancelUserId = [];
 
+        foreach ($allStudents as $student) {
+            // 分析配列            
+            $pushCancelUserId[] = $student->user_id;
             error_log($student->department);
             $contents = [];
             $department = $student->department;
@@ -317,5 +317,8 @@ class PushInfo
         error_log(json_encode($data, JSON_UNESCAPED_UNICODE));
         $context = stream_context_create($options);
         $response = file_get_contents('https://tut-line-bot-test.glitch.me/push', false, $context);
+        // 分析
+        $active = new Actives();
+        $active->Actives($pushCancelUserId, "push_cancel_count");
     }
 }
