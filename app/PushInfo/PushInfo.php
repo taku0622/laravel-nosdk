@@ -132,7 +132,7 @@ class PushInfo
         error_log(json_encode($idList));
         // 分析
         $active = new Actives();
-        $active->Actives($idList, "push_important_count");
+        $active->Actives($allStudentId, "push_important_count");
 
         // $infomations = DB::table('informations')->join('tags', 'informations.id', '=', 'tags.information_id')
         //     ->whereIn('informations.id', $idList)->where('tags.important', true)
