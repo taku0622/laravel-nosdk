@@ -146,7 +146,7 @@ class PushInfo
             error_log("ここまで");
             foreach ($infomations as $infomation) {
                 $title4digit = mb_substr($infomation->title, 0, 4);
-                $title = $title4digit != "【イベント】"  ? "【イベント】" . $infomation->title : $infomation->title;
+                $title = $title4digit != "【重要】"  ? "【重要】" . $infomation->title : $infomation->title;
                 $text = $infomation->content == ''  ? '「詳細」を押してご確認ください。' : $infomation->content;
                 $content = [
                     'title' => mb_substr($title, 0, 40),
@@ -160,7 +160,7 @@ class PushInfo
             $message = [
                 "to" => $allStudentId,
                 "type" => "multiple",
-                "altText" =>  "イベント",
+                "altText" =>  "重要情報",
                 "contents" => $contents
             ];
             error_log(json_encode($message), JSON_UNESCAPED_UNICODE);
