@@ -250,12 +250,12 @@ class PushInfo
         //分析
         if ($pushImportantUserId != []) {
             $active = new Actives();
-            json_encode($pushImportantUserId);
+            error_log(json_encode($pushImportantUserId));
             $active->Actives($pushImportantUserId, "push_important_count");
         }
         if ($pushNewUserId != []) {
             $active = new Actives();
-            json_encode($pushNewUserId);
+            error_log(json_encode($pushNewUserId));
             $active->Actives($pushNewUserId, "push_new_count");
         }
     }
@@ -327,7 +327,7 @@ class PushInfo
         // 分析
         error_log("pushCancelUserId: " .  $pushCancelUserId);
         if ($pushCancelUserId != []) {
-            json_encode($pushCancelUserId);
+            error_log(json_encode($pushCancelUserId));
             $active = new Actives();
             $active->Actives($pushCancelUserId, "push_cancel_count");
         }
