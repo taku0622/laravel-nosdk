@@ -125,7 +125,7 @@ class Watson
         #################################################################
         if ($text == '質問') {
             error_log("質問に戻ります。");
-            $dialog_node = 'root';
+            $dialog_node = 'ようこそ';
             // 会話dbに保存
             DB::table('conversations')->where('userid', $userId)
                 ->update([
@@ -349,7 +349,7 @@ class Watson
         #################################################################
         if ($text == '質問') {
             error_log("質問に戻ります。");
-            $dialog_node = 'root';
+            $dialog_node = 'ようこそ';
             // 会話dbに保存
             DB::table('conversations')->where('userid', $userId)
                 ->update([
