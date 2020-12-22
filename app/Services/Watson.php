@@ -151,7 +151,7 @@ class Watson
                 "to" => [$userId],
                 "replyToken" => $replyToken,
                 "type" => "text",
-                "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
+                "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください。",
                 "quickReply" => [
                     "texts" => $names13
                 ]
@@ -172,7 +172,7 @@ class Watson
                 "to" => [$userId],
                 "replyToken" => $replyToken,
                 "type" => "text",
-                "text" => "講義が見つかりませんでした。\nすみませんが、「質問」からやり直してください",
+                "text" => "講義が見つかりませんでした。\nすみませんが、「質問」からやり直してください。",
                 "quickReply" => [
                     "texts" => NULL
                 ]
@@ -228,7 +228,7 @@ class Watson
                     "to" => [$userId],
                     "replyToken" => $replyToken,
                     "type" => "text",
-                    "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください",
+                    "text" => $count . "件見つかりました。\n講師の名前を入力してください。\nクイックリプライになければ入力してください。",
                     "quickReply" => [
                         "texts" => $names13
                     ]
@@ -257,7 +257,7 @@ class Watson
                     "to" => [$userId],
                     "replyToken" => $replyToken,
                     "type" => "text",
-                    "text" => $count . "件見つかりました。\n講義を選択してください。\nクイックリプライになければ入力してください",
+                    "text" => $count . "件見つかりました。\n講義を選択してください。\nクイックリプライになければ入力してください。",
                     "quickReply" => [
                         "texts" => $names13
                     ]
@@ -342,7 +342,7 @@ class Watson
                 "to" => [$userId],
                 "replyToken" => $replyToken,
                 "type" => "text",
-                "text" => "講師が見つかりませんでした。\nすみませんが、「質問」からやり直してください",
+                "text" => "講師が見つかりませんでした。\nすみませんが、「質問」からやり直してください。",
                 "quickReply" => [
                     "texts" => NULL
                 ]
