@@ -346,6 +346,30 @@ class Watson
     // 参考書サーチ2
     public function serchReference2($userId, $text, $conversation_id, $lecture_name, $replyToken)
     {
+        #################################################################
+        if ($text == '質問') {
+            error_log("質問に戻ります。");
+            $dialog_node = 'root';
+            // 会話dbに保存
+            DB::table('conversations')->where('userid', $userId)
+                ->update([
+                    'conversation_id' => $conversation_id,
+                    'dialog_node' => $dialog_node,
+                ]);
+            // メッセージ生成
+            $texts = ["履修登録", "証明書発行", "参考書", "施設利用案内", "バス時刻表"];
+            $message = [
+                "to" => [$userId],
+                "replyToken" => $replyToken,
+                "type" => "text",
+                "text" => "質問に戻ります。",
+                "quickReply" => [
+                    "texts" => $texts
+                ]
+            ];
+            return $message;
+        }
+        #################################################################
         // $textで講師検索
         $referenceInfomations = DB::table('reference_informations')
             ->where([
