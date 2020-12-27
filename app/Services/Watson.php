@@ -55,6 +55,17 @@ class Watson
                 ];
                 return $message;
             }
+            date_default_timezone_set('Asia/Tokyo');
+            if ($text != '質問') {
+                DB::table('questions')->insert(
+                    [
+                        'user_id' => $userId,
+                        'text' => $text,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]
+                );
+            }
             #################################################################
             #######################################################################
             // 前回までの会話のデータをパラメータに追加
