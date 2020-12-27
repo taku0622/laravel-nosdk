@@ -208,7 +208,7 @@ class Watson
         }
         // ない  
         if ($referenceInfomations->isEmpty()) {
-            $dialog_node = 'root';
+            $dialog_node = 'ようこそ';
             // 会話dbに保存
             DB::table('conversations')->where('userid', $userId)
                 ->update([
@@ -216,13 +216,14 @@ class Watson
                     'dialog_node' => $dialog_node,
                 ]);
             // メッセージ生成
+            $texts = ["履修登録", "証明書発行", "参考書", "施設利用案内", "バス時刻表"];
             $message = [
                 "to" => [$userId],
                 "replyToken" => $replyToken,
                 "type" => "text",
-                "text" => "講義が見つかりませんでした。\nすみませんが、「質問」からやり直してください。",
+                "text" => "講義が見つかりませんでした。\n質問に戻ります。",
                 "quickReply" => [
-                    "texts" => NULL
+                    "texts" => $texts
                 ]
             ];
             return $message;
@@ -404,19 +405,21 @@ class Watson
         // ない
         if ($referenceInfomations->isEmpty()) {
             // 会話dbに保存
+            $dialog_node = 'ようこそ';
             DB::table('conversations')->where('userid', $userId)
                 ->update([
                     'conversation_id' => $conversation_id,
                     'dialog_node' => $dialog_node,
                 ]);
             // メッセージ生成
+            $texts = ["履修登録", "証明書発行", "参考書", "施設利用案内", "バス時刻表"];
             $message = [
                 "to" => [$userId],
                 "replyToken" => $replyToken,
                 "type" => "text",
-                "text" => "講師が見つかりませんでした。\nすみませんが、「質問」からやり直してください。",
+                "text" => "講師が見つかりませんでした。\n質問に戻ります。",
                 "quickReply" => [
-                    "texts" => NULL
+                    "texts" => $texts
                 ]
             ];
             return $message;
