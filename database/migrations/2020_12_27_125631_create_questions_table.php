@@ -16,7 +16,7 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->text('user_id');
             $table->text('text');
-            $table->timestamps('created_at');
+            $table->timestamps();
         });
     }
 
