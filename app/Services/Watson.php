@@ -32,6 +32,30 @@ class Watson
                 $message = $this->serchReference2($userId, $text, $conversation_id, $lecture_name, $replyToken);
                 return $message;
             }
+            #################################################################
+            if ($text == '質問') {
+                error_log("質問に戻ります。");
+                $dialog_node = 'ようこそ';
+                // 会話dbに保存
+                DB::table('conversations')->where('userid', $userId)
+                    ->update([
+                        'conversation_id' => $conversation_id,
+                        'dialog_node' => $dialog_node,
+                    ]);
+                // メッセージ生成
+                $texts = ["履修登録", "証明書発行", "参考書", "施設利用案内", "バス時刻表"];
+                $message = [
+                    "to" => [$userId],
+                    "replyToken" => $replyToken,
+                    "type" => "text",
+                    "text" => "質問を入力してください。",
+                    "quickReply" => [
+                        "texts" => $texts
+                    ]
+                ];
+                return $message;
+            }
+            #################################################################
             #######################################################################
             // 前回までの会話のデータをパラメータに追加
             $data["context"] = array(
